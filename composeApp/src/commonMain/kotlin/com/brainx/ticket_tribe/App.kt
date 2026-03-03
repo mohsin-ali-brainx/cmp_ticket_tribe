@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.brainx.ticket_tribe.presentation.navigation.AppNavHostGraph
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
+import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 
 
 @Composable
@@ -19,7 +20,7 @@ fun App() {
         val navController = rememberNavController()
 
         Scaffold(
-            Modifier.background(color = MaterialTheme.colorScheme.background)
+            Modifier.background(color = LocalAppTheme.current.background.backgroundColor)
         ) {
             AppNavHostGraph(navController = navController)
         }

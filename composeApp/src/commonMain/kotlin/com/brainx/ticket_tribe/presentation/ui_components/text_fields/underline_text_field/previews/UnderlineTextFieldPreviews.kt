@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.ic_search
 import tickettribecmp.composeapp.generated.resources.search
-import tickettribecmp.composeapp.generated.resources.search_movies
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
@@ -32,7 +31,7 @@ private val PreviewPadding = 16.dp
 private val labelSearch: StringResource = Res.string.search
 
 @OptIn(ExperimentalResourceApi::class)
-private val labelSearchMovies: StringResource = Res.string.search_movies
+private val labelSearchMovies: StringResource = Res.string.search
 
 // endregion
 

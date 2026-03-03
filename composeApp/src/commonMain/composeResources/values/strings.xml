@@ -1,9 +1,265 @@
 <resources>
-    <string name="app_name">Movie App</string>
-    <string name="search_movies">Search Movies...</string>
-    <string name="search">Search</string>
-    <string name="play_video">Play Video</string>
+    <string name="app_name">Ticket Tribe</string>
+
+    <!-- onboarding screen -->
+    <string name="log_in">Log In</string>
+    <string name="onboarding_text">Collect, Share, and Relive Your Favorite Events in Style!</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_successfully">Logged-In Successfully!</string>
+    <string name="sign_up_successfully">Account created and verified successfully!</string>
+    <string name="logout">Logout</string>
+    <string name="logout_msg">Are you sure you want to Logout from this application?</string>
+    <string name="logout_">Log Out</string>
+
+    <!-- sign up screen -->
+    <string name="sign_up_heading">Sign Up to start using Ticket Tribe!</string>
+    <string name="sign_in_with_google">Continue with Google</string>
+    <string name="sign_in_with_apple">Continue with Apple</string>
+    <string name="or">OR</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="email">Email</string>
+    <string name="email_id">Email ID</string>
+    <string name="set_password">Set Password</string>
+    <string name="password">Password</string>
+    <string name="create_new_password">Create New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_desc">Please set a new password!</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="country_code">Country Code</string>
+    <string name="select_a_country">Select a Country</string>
+    <string name="search__">Search..</string>
+    <string name="search">Search</string>
+    <string name="already_have_an_account">Already have an Account? </string>
+    <string name="next">Next</string>
+    <string name="please_enter_valid_email">Please enter a valid email address</string>
+    <string name="email_contain_space">Spaces are not allowed at the Start &amp; End!</string>
+    <string name="please_enter_valid_password">Password must contain at least 8 characters, one uppercase, one number, and one special character.</string>
+    <string name="please_enter_valid_name">Please enter a valid name</string>
+    <string name="social_login_error">Error occurred while login</string>
+    <string name="required_field">Required Field</string>
+    <string name="location_is_required">Location is required</string>
+    <string name="email_already_exist">Email already exist</string>
+    <string name="please_enter_valid_phone">Please enter valid phone number</string>
+    <string name="password_no_spaces">Spaces are not allowed in Password!</string>
+    <string name="new_password_must_be_different">Your new password must be different from your current password.</string>
+
+    <string name="weak">Weak, Password must contain at least 8 characters, one uppercase, one number, and one special character.</string>
+    <string name="medium">Medium</string>
+    <string name="strong">Strong</string>
+    <string name="match_password">Password matched</string>
+
+    <!-- login screen -->
+    <string name="login_sub_heading">Welcome back to Ticket Tribe!</string>
+    <string name="dont_have_account">Don`t have an Account? </string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <!-- setup profile -->
+    <string name="sign_up_to_start">Sign Up to start using Ticket Tribe!</string>
+    <string name="add_profile_image">Add Profile Image</string>
+    <string name="user_name">Username</string>
+    <string name="user_name_cannot_be_empty">Required Field</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="agree_terms">I agree to Terms and Conditions</string>
+    <string name="please_select_profile_picture">Please select a profile picture</string>
+    <string name="error_picking_image">Error picking image</string>
+    <string name="error_capturing_image">Error capturing image</string>
+    <string name="take_new_photo">Take a new photo</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+
+    <string name="valid_username">Username can only contain letters, numbers, underscores, and periods.</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="search_locations">Search location...</string>
+    <string name="search_location">Search Location</string>
+    <string name="want_to_use_current_location">Want to use your current location?</string>
+    <string name="use_current_location">Use Current Location</string>
+    <string name="add_location">Add Location</string>
+    <string name="user_name_error">This username \'%1$s\' is not available!</string>
+
+    <!-- email verify screen -->
+    <string name="verify_otp">Verify OTP</string>
+    <string name="email_authentication">Email Authentication</string>
+    <string name="did_not_recieve_code">Didn\'t receive OTP?</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="request_code">Request OTP in</string>
+    <string name="incorrect_otp">Incorrect OTP! entered. Kindly verify and input the correct code.</string>
+
+    <string name="sent_otp_message">We\'ve sent an OTP to your email address %1$s. Please enter the OTP to complete your account verification.</string>
+    <string name="sent_reset_password_otp_message">We\'ve sent an OTP to your email address %1$s. Please enter the OTP to proceed with your password reset.</string>
+    <string name="incorrect_otp_message">Incorrect OTP! entered. Kindly verify and input the correct code.</string>
+    <string name="otp_sent_successfully">OTP sent successfully! Please check your registered email.</string>
+
+    <!-- account created screen -->
+    <string name="welcome_to_ticket_tribe">Welcome to Ticket Tribe</string>
+    <string name="account_verified">Your Account has been verified and successfully created!</string>
+    <string name="continue_to_setup_account">Continue to setup account</string>
+    <string name="skip_for_now">Skip for Now</string>
+
+    <!-- forgot password screen -->
+    <string name="forgot_password_">Forgot Password</string>
+    <string name="submit">Submit</string>
+    <string name="enter_email">Enter your email to receive an OTP to reset your password!</string>
+    <string name="email_not_register">The email you entered is not registered. Please sign up to create a new account or use a registered email to reset password.</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password_does_not_match">Password does not match</string>
+    <string name="reset_password_desc">Please set a new password!</string>
+
+    <string name="set_password_desc">Sign Up to start using Ticket Tribe!</string>
+    <string name="set_password_desc2">Set password for Ticket Tribe account</string>
+    <string name="set_password_later">Set password later! </string>
+    <string name="skip_now">Skip now</string>
+    <string name="set_password_google_info">Since you signed up with Google, we recommend setting a password for an additional way to access your Ticket Tribe account without relying on Google.</string>
+    <string name="set_password_apple_info">Since you signed up with Apple, we recommend setting a password for an additional way to access your Ticket Tribe account without relying on Apple.</string>
+
+    <string name="location_permission_denied">Location Permission Required</string>
+    <string name="location_permission_message">Please grant location permission to access the map and select your location.</string>
+    <string name="grant_location_permission">Allow Location</string>
+    <string name="unable_to_access_current_location">Unable to fetch your current location. Please enable location access.</string>
+    <string name="no_location_selected">No location is selected!</string>
+
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="location_permission_permanently_denied">Location permission is permanently denied. Please enable it from app settings.</string>
+
+    <!-- navigation -->
+    <string name="home">Home</string>
+    <string name="tickets">Tickets</string>
+    <string name="add_new_post">Add New Post</string>
+    <string name="community">Community</string>
+    <string name="my_profile">My Profile</string>
+    <string name="profile">Profile</string>
+    <string name="my_tickets">My Tickets</string>
+    <string name="favourites">Favourites</string>
+    <string name="rewards">Rewards</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="your_offers">Your Offers</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="collections">Collections</string>
+
+    <!-- profile section -->
+    <string name="posts">Posts</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="suggested">Suggested</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings">Settings</string>
+    <string name="view_all">View All</string>
+    <string name="view_more">View More</string>
+    <string name="image_not_found">Image not found</string>
+    <string name="my_communities">My Communities</string>
+    <string name="new_group">New Group</string>
+    <string name="fav_event">Favorite Events</string>
+    <string name="save">Save</string>
+    <string name="location">Location</string>
+    <string name="interests">Interests</string>
+    <string name="modify">Modify</string>
+    <string name="followers_can_see_fav_event">Followers can see favorite events</string>
+    <string name="notification">Notifications</string>
+    <string name="session_expired">SessionExpired</string>
+    <string name="location_updated">Location is updated successfully</string>
+    <string name="lets_explore">Let\'s Explore</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="for_you">For You</string>
+    <string name="view_ticket">View Ticket</string>
+    <string name="see_who_is_attending">See who is attending</string>
+    <string name="popular_events">Popular Events</string>
+    <string name="artists">Artists</string>
+    <string name="book">Book</string>
+    <string name="browse_by_category">Browse by Category</string>
+    <string name="password_changed">Password updated successfully, Please login with your new password.</string>
+    <string name="profile_details">Profile Details</string>
+    <string name="communities">Communities</string>
+    <string name="follow">Follow</string>
+
+    <!-- event details -->
+    <string name="event_details">Event Details</string>
+    <string name="book_tickets">Book Tickets</string>
+    <string name="about_event">About Event</string>
+    <string name="read_more">Read More</string>
+    <string name="show_less">   Show Less</string>
+    <string name="general_admission">General Admission</string>
+    <string name="clear_view">Clear View</string>
+    <string name="mobile_transfer">Mobile Transfer</string>
+    <string name="you_will_be_seated_together">You\'ll be seated together</string>
+    <string name="fan_protect">FanProtect</string>
+    <string name="protect_details">We back every order so you can buy &amp; sell tickets with 100% confidence</string>
+    <string name="ticket_network_desc">All tickets are authenticated through TicketNetwork, ensuring security and trust.</string>
+    <string name="paste_code">Paste Code?</string>
+
+    <string name="paste_code_msg">Do you want to paste \'%1$s\' this code?</string>
+
+    <!-- favorites section -->
+    <string name="favorites">favorites</string>
+    <string name="select_fav_category">Select at least 3 or more of your </string>
+    <string name="from_each_category"> from each category</string>
+    <string name="skip">Skip</string>
+    <string name="selected">Selected</string>
+    <string name="select">Select</string>
+    <string name="all">All</string>
+    <string name="empty_events">No Events Available</string>
+    <string name="empty_artist">No Artists Available</string>
+
+    <!-- error messages -->
+    <string name="error_loading_events">Error loading events</string>
+    <string name="error_loading_new_events">Unable to load more events</string>
+    <string name="tap_to_retry">Tap to retry</string>
+    <string name="error_loading">Error loading data</string>
+
+    <!-- time related -->
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="weekend">This Weekend</string>
+
+    <!-- event types -->
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
+    <string name="events">Events</string>
+    <string name="no_results_found">No results found</string>
+    <string name="artist">Artist</string>
+    <string name="popular_personalities">Popular Personalities</string>
+    <string name="all_artists">All Artists</string>
+    <string name="all_events">All Events</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow_back">Follow back</string>
+    <string name="suggestion_recent">Suggestion/Recent</string>
+    <string name="recent">Recent</string>
+    <string name="remove_follower">Remove Follower</string>
+    <string name="remove_follower_desc">If you remove a user they will not notified about it</string>
+    <string name="remove">Remove</string>
+    <string name="unfollow_profile">Unfollow Profile</string>
+    <string name="unfollow_profile_desc">You will no longer be able to see anything they post</string>
+    <string name="remove_suggested_user">Remove Suggested User</string>
+    <string name="remove_suggested_user_des">This user will be removed from the suggestion</string>
+    <string name="no_suggestion_at_moment">No suggestions at the moment</string>
+    <string name="no_followers">You have no followers yet</string>
+    <string name="no_following">You are not following anyone yet</string>
+    <string name="no_fav_event_added">No favorites added yet</string>
+    <string name="featured_icons">Featured Icons</string>
+    <string name="no_result_found_try_different">No results found. Try a \ndifferent search</string>
+    <string name="start_exploring">Start Exploring</string>
+
+    <!-- filters -->
+    <string name="filters">Filters</string>
+    <string name="date">Date</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="select_date">Select Date</string>
+    <string name="price_range">Price Range</string>
+    <string name="min_price">Min Price</string>
+    <string name="max_price">Max Price</string>
+    <string name="apply">Apply</string>
+    <string name="select_month">Select Month</string>
+    <string name="select_year">Select Year</string>
+    <string name="done">Done</string>
+    <string name="to">To</string>
+    <string name="from">From</string>
+    <string name="custom">Custom</string>
+    <string name="clear_filter">Clear Filter</string>
 
 
 
