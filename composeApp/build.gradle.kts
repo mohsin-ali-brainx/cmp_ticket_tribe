@@ -1,6 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.gradle.api.GradleException
 import java.util.Properties
 
 val localProperties = Properties()
@@ -101,11 +99,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.brainx.cmp_base"
+    namespace = "com.brainx.ticket_tribe"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.brainx.cmp_base"
+        applicationId = "com.brainx.ticket_tribe"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

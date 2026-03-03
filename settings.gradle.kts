@@ -1,4 +1,4 @@
-rootProject.name = "BaseCMP"
+rootProject.name = "TicketTribeCMP"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
