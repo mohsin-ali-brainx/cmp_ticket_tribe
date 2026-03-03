@@ -1,0 +1,38 @@
+rootProject.name = "BaseCMP"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+pluginManagement {
+    repositories {
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
+    }
+}
+
+include(":composeApp")
+include(":shared:core:domain")
+include(":shared:core:datasource")
+include(":shared:utilsExtensions")
+include(":shared:ktorNetwork")
+include(":shared:localDatastore")
+include(":shared:roomDatabase")
+include(":shared:core:bootstrapDI")
