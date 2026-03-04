@@ -6,27 +6,29 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.brainx.domain.pref_manager.DatastorePrefManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-internal class DatastorePreferenceManager (
+internal class DatastorePrefManagerImp (
     private val datastorePreference: DataStore<Preferences>
-){
+): DatastorePrefManager {
+
     private enum class SPKeys(val key:String){
         IS_LOGIN("is_login"),
         IS_FIRST_TIME_INSTALLED("is_first_time_installed"),
         ACCESS_TOKEN("access_token"),
         REFRESH_TOKEN("refresh_token")
     }
-    
-    private companion object{
-        private val IS_LOGIN_PREF_KEY = booleanPreferencesKey(SPKeys.IS_LOGIN.key)
-        private val IS_FIRST_TIME_INSTALLED_PREF_KEY = booleanPreferencesKey(SPKeys.IS_FIRST_TIME_INSTALLED.key)
-        private val ACCESS_TOKEN_PREF_KEY = stringPreferencesKey(SPKeys.ACCESS_TOKEN.key)
-        private val REFRESH_TOKEN_PREF_KEY = stringPreferencesKey(SPKeys.REFRESH_TOKEN.key)
+
+    private companion object Companion {
+        private val IS_LOGIN_PREF_KEY = booleanPreferencesKey(DatastorePrefManagerImp.SPKeys.IS_LOGIN.key)
+        private val IS_FIRST_TIME_INSTALLED_PREF_KEY = booleanPreferencesKey(DatastorePrefManagerImp.SPKeys.IS_FIRST_TIME_INSTALLED.key)
+        private val ACCESS_TOKEN_PREF_KEY = stringPreferencesKey(DatastorePrefManagerImp.SPKeys.ACCESS_TOKEN.key)
+        private val REFRESH_TOKEN_PREF_KEY = stringPreferencesKey(DatastorePrefManagerImp.SPKeys.REFRESH_TOKEN.key)
     }
 
-    suspend fun setIsLogin(value:Boolean) : Boolean{
+    override suspend fun setIsLogin(value: Boolean) : Boolean {
         return try {
             datastorePreference.edit { preferences ->
                 preferences[IS_LOGIN_PREF_KEY] = value
@@ -37,15 +39,11 @@ internal class DatastorePreferenceManager (
         }
     }
 
-    suspend fun getIsLogin() =  datastorePreference.data.map { preferences->
+    override suspend fun getIsLogin() = datastorePreference.data.map { preferences->
         preferences[IS_LOGIN_PREF_KEY]
     }.first() ?: false
 
-    suspend fun getIsFirstTimeInstalled() =  datastorePreference.data.map { preferences->
-             preferences[IS_FIRST_TIME_INSTALLED_PREF_KEY]
-    }.first() ?: false
-
-    suspend fun setIsFirstTimeInstalled(value:Boolean) : Boolean{
+    override suspend fun setIsFirstTimeInstalled(value: Boolean): Boolean {
         return try {
             datastorePreference.edit { preferences ->
                 preferences[IS_FIRST_TIME_INSTALLED_PREF_KEY] = value
@@ -56,13 +54,17 @@ internal class DatastorePreferenceManager (
         }
     }
 
-    suspend fun getAccessToken(): String? {
+    override suspend fun getIsFirstTimeInstalled() = datastorePreference.data.map { preferences->
+        preferences[IS_FIRST_TIME_INSTALLED_PREF_KEY]
+    }.first() ?: false
+
+    override suspend fun getAccessToken(): String? {
         return datastorePreference.data.map { preferences ->
             preferences[ACCESS_TOKEN_PREF_KEY]
         }.first()
     }
 
-    suspend fun setAccessToken(value: String?): Boolean {
+    override suspend fun setAccessToken(value: String?): Boolean {
         return try {
             datastorePreference.edit { preferences ->
                 if (value.isNullOrBlank()) preferences.remove(ACCESS_TOKEN_PREF_KEY)
@@ -74,13 +76,13 @@ internal class DatastorePreferenceManager (
         }
     }
 
-    suspend fun getRefreshToken(): String? {
+    override suspend fun getRefreshToken(): String? {
         return datastorePreference.data.map { preferences ->
             preferences[REFRESH_TOKEN_PREF_KEY]
         }.first()
     }
 
-    suspend fun setRefreshToken(value: String?): Boolean {
+    override suspend fun setRefreshToken(value: String?): Boolean {
         return try {
             datastorePreference.edit { preferences ->
                 if (value.isNullOrBlank()) preferences.remove(REFRESH_TOKEN_PREF_KEY)
@@ -92,11 +94,12 @@ internal class DatastorePreferenceManager (
         }
     }
 
-    suspend fun clearSession() {
-        datastorePreference.edit { preferences -> 
+    override suspend fun clearSession() {
+        datastorePreference.edit { preferences ->
             preferences.remove(IS_LOGIN_PREF_KEY)
             preferences.remove(ACCESS_TOKEN_PREF_KEY)
             preferences.remove(REFRESH_TOKEN_PREF_KEY)
         }.apply { }
     }
+
 }

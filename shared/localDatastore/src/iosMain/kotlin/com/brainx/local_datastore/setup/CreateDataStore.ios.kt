@@ -24,8 +24,7 @@ internal fun createDataStore(datastoreFileProvider: DatastoreFileProvider): Data
             create = false,
             error = null,
         )
-        check(
-            value = datastoreFileProvider.getDatastoreName().isNullOrBlank(),
+        require( !datastoreFileProvider.getDatastoreName().isNullOrBlank(),
             lazyMessage = {
                 "Datastore File name is null. Please provide a valid file name by implementing the interface DatastoreFileProvider and adding it to DI Module"
             }

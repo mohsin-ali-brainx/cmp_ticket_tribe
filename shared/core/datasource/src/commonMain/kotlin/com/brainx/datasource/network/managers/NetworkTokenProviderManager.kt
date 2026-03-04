@@ -1,14 +1,14 @@
 package com.brainx.datasource.network.managers
 
-import com.brainx.datasource.local_pref.DatastorePreferenceManager
 import com.brainx.datasource.network.ApiEndpoints
+import com.brainx.domain.pref_manager.DatastorePrefManager
 import com.brainx.ktor_network.core.interfaces.TokenProvider
 import com.brainx.utils_extensions.constants.ExtConstants
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class NetworkTokenProviderManager(
-    val datastorePreferenceManager: DatastorePreferenceManager
+    val datastorePreferenceManager: DatastorePrefManager
 ) : TokenProvider {
     override suspend fun getAccessTokenEndpoint(): String? = ApiEndpoints.Auth.REFRESH_TOKEN
 

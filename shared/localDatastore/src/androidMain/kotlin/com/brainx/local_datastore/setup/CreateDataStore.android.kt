@@ -8,12 +8,10 @@ import com.brainx.local_datastore.provider.DatastoreFileProvider
 
 internal fun createDataStore(context: Context,datastoreProvider: DatastoreFileProvider): DataStore<Preferences> {
     return createDataStore {
-        check(
-            value = datastoreProvider.getDatastoreName().isNullOrBlank(),
-            lazyMessage = {
-                "Datastore File name is NullOrBlank. Please provide a valid file name by implementing the interface DatastoreFileProvider and adding it to DI Module"
-            }
-        )
+
+        require(!datastoreProvider.getDatastoreName().isNullOrBlank()) {
+            "Datastore File name is NullOrBlank. Please provide a valid file name by implementing the interface DatastoreFileProvider and adding it to DI Module"
+        }
         context.filesDir.resolve(
             datastoreProvider.getDatastoreName()?:""
         ).absolutePath

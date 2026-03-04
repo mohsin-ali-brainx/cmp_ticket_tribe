@@ -209,9 +209,9 @@ fun CustomTextField(
         .then(
             when {
                 hasBorder && containerShape != null && borderBrush != null ->
-                    Modifier.border(BorderStroke(borderWidth!!, borderBrush), containerShape)
+                    Modifier.border(BorderStroke(borderWidth, borderBrush), containerShape)
                 hasBorder && containerShape != null && borderColor != null ->
-                    Modifier.border(borderWidth!!, borderColor, containerShape)
+                    Modifier.border(borderWidth, borderColor, containerShape)
                 else -> Modifier
             }
         )

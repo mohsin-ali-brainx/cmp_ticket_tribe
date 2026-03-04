@@ -6,80 +6,80 @@ import androidx.compose.ui.graphics.Color
 // region — Dark palette
 @Immutable
 private class DarkButtonColors : ButtonColors {
-    override val primaryColor = Color(0xFFE0E0E0)
-    override val primaryBorderColor = Color(0xFF2B2B2B)
-    override val secondaryColor = Color(0xFF2B2B2B)
-    override val secondaryBorderColor = Color(0xFFE0E0E0)
-    override val disable = Color(0xFF5C5C5C)
-    override val primaryBlackTextColor = Color(0xFFE0E0E0)
-    override val secondaryWhiteTextColor = Color(0xFF1A1A1A)
+    override val primaryColor = Color(0xFF2B2B2B)
+    override val primaryBorderColor = Color(0xFFFFFFFF)
+    override val secondaryColor = Color(0xFFFFFFFF)
+    override val secondaryBorderColor = Color(0xFF2B2B2B)
+    override val disable = Color(0xFFBBBBBB)
+    override val primaryBlackTextColor = Color(0xFF2B2B2B)
+    override val secondaryWhiteTextColor = Color(0xFFFFFFFF)
 }
 
 @Immutable
 private class DarkTextViewColors : TextViewColors {
-    override val primaryBlackTextColor = Color(0xFFE8E8E8)
-    override val secondaryGreyTextColor = Color(0xFFB0B0B0)
-    override val tertiaryWhiteTextColor = Color(0xFF1A1A1A)
-    override val greenTextColor = Color(0xFF4ADE80)
-    override val redTextColor = Color(0xFFFF6B8A)
-    override val blueTextColor = Color(0xFF6C9CFB)
+    override val primaryBlackTextColor = Color(0xFF2B2B2B)
+    override val secondaryGreyTextColor = Color(0xFF7E7E7E)
+    override val tertiaryWhiteTextColor = Color(0xFFFFFFFF)
+    override val greenTextColor = Color(0xFF0F9303)
+    override val redTextColor = Color(0xFFFF2C5E)
+    override val blueTextColor = Color(0xFF004EE8)
 }
 
 @Immutable
 private class DarkEditTextColors : EditTextColors {
-    override val whiteColor = Color(0xFF1A1A1A)
-    override val primaryBlackTextColor = Color(0xFFE8E8E8)
-    override val secondaryGreyTextColor = Color(0xFFB0B0B0)
-    override val tertiaryWhiteTextColor = Color(0xFF1A1A1A)
-    override val redTextColor = Color(0xFFFF6B8A)
-    override val greenTextColor = Color(0xFF4ADE80)
-    override val hintTextColor = Color(0xFF6E6E6E)
-    override val disableColor = Color(0xFF5C5C5C)
+    override val whiteColor = Color(0xFFFFFFFF)
+    override val primaryBlackTextColor = Color(0xFF2B2B2B)
+    override val secondaryGreyTextColor = Color(0xFF7E7E7E)
+    override val tertiaryWhiteTextColor = Color(0xFFFFFFFF)
+    override val redTextColor = Color(0xFFFF2C5E)
+    override val greenTextColor = Color(0xFF0F9303)
+    override val hintTextColor = Color(0xFF8C8C8C)
+    override val disableColor = Color(0xFFBBBBBB)
 }
 
 @Immutable
 private class DarkDividerColors : DividerColors {
-    override val dividerColor = Color(0xFF4A5258)
-    override val dividerColor2 = Color(0xFF3A3A3A)
-    override val dividerColor3 = Color(0xFF5A5A5A)
-    override val dividerColor4 = Color(0xFF404040)
-    override val dividerColor5 = Color(0xFF454545)
-    override val dividerColor6 = Color(0xFF4A4A4A)
+    override val dividerColor = Color(0xFF3A4145)
+    override val dividerColor2 = Color(0xFFE8E8E8)
+    override val dividerColor3 = Color(0xFFA9A9A9)
+    override val dividerColor4 = Color(0xFFE6E6E6)
+    override val dividerColor5 = Color(0xFFDBDBDB)
+    override val dividerColor6 = Color(0xFFD6D6D6)
 }
 
 @Immutable
 private class DarkBackgroundColors : BackgroundColors {
-    override val whiteColor = Color(0xFF1A1A1A)
-    override val backgroundColor = Color(0xFF0D0D0D)
-    override val backgroundColor2 = Color(0xFF2A2A2A)
-    override val backgroundColor3 = Color(0xFF252525)
-    override val backgroundColor4 = Color(0xFF232323)
-    override val backgroundColor5 = Color(0xFF262626)
-    override val backgroundColor6 = Color(0xFF3A3A3A)
-    override val backgroundColor7 = Color(0xFF2E2E2E)
-    override val blueColor = Color(0xFF4A7CFF)
+    override val whiteColor = Color(0xFFFFFFFF)
+    override val backgroundColor = Color(0xFF2B2B2B)
+    override val backgroundColor2 = Color(0xFFEBEBEB)
+    override val backgroundColor3 = Color(0xFFF8F8F8)
+    override val backgroundColor4 = Color(0xFFF6F6F6)
+    override val backgroundColor5 = Color(0xFFF9F9F9)
+    override val backgroundColor6 = Color(0xFFD9D9D9)
+    override val backgroundColor7 = Color(0xFFF1F1F1)
+    override val blueColor = Color(0xFF004EE8)
     override val lightBlueColor = Color(0xFF6C9CFB)
-    override val greyGradientColor1 = Color(0xFF2A4A8A)
-    override val greyGradientColor2 = Color(0xFF1A2A5A)
-    override val counterGradientColor = listOf(Color(0xFF1E2530), Color(0xFF252D3A))
-    override val bottomSheetColor = Color(0xFF1E2326)
-    override val greenColor = Color(0xFF22C55E)
+    override val greyGradientColor1 = Color(0xFF004EE8)
+    override val greyGradientColor2 = Color(0xFF002C82)
+    override val counterGradientColor = listOf(Color(0xFFFBFCFF), Color(0xFFEFF5FF))
+    override val bottomSheetColor = Color(0xFF262C2F)
+    override val greenColor = Color(0xFF1BB13F)
     override val onboardingGradient: List<Color> get() = listOf(greyGradientColor2, greyGradientColor1)
 }
 
 @Immutable
 private class DarkIconColors : IconColors {
-    override val greyIconColor = Color(0xFFB0B0B0)
-    override val greyIconColor2 = Color(0xFF8A8A8A)
+    override val greyIconColor = Color(0xFF7E7E7E)
+    override val greyIconColor2 = Color(0xFF494949)
 }
 
 @Immutable
 private class DarkBorderColors : BorderColors {
-    override val borderWhiteColor = Color(0xFF4A4A4A)
-    override val borderColor = Color(0xFFE0E0E0)
-    override val borderColor2 = Color(0xFF4A4A4A)
-    override val borderColor3 = Color(0xFF484848)
-    override val borderColor4 = Color(0xFF454545)
+    override val borderWhiteColor = Color(0xFFFFFFFF)
+    override val borderColor = Color(0xFF2B2B2B)
+    override val borderColor2 = Color(0xFFD6D6D6)
+    override val borderColor3 = Color(0xFFD8D8D8)
+    override val borderColor4 = Color(0xFFD9D9D9)
 }
 
 @Immutable

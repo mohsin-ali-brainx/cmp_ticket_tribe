@@ -9,10 +9,10 @@ import org.koin.dsl.module
 
 internal val appConfigModule = module {
     single {
-        DatastoreFileProviderImp()
+        DatastoreFileProviderImp() as DatastoreFileProvider
     }.bind<DatastoreFileProvider>()
 
     single {
-        RoomDatabaseProviderImp()
+        RoomDatabaseProviderImp() as RoomDatabaseProvider
     }.bind<RoomDatabaseProvider>()
 }

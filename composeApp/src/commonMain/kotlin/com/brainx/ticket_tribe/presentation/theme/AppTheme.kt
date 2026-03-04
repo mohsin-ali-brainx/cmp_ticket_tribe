@@ -20,7 +20,7 @@ fun AppTheme(
         LocalAppTheme provides appColorTheme
     ){
         MaterialTheme(
-            typography = InterTypography(),
+            typography = appTypography(),
             content = content
         )
     }

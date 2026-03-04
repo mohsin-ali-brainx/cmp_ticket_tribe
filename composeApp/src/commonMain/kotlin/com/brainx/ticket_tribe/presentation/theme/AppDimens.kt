@@ -16,6 +16,11 @@ sealed interface AppDimens{
         val padding8 = 8.0.dp
         val padding12 = 12.0.dp
         val padding16 = 16.0.dp
+        val padding20 = 20.0.dp
+        val padding32 = 32.0.dp
+
+        val padding36 = 36.0.dp
+
     }
 
     data object Radius: AppDimens {
