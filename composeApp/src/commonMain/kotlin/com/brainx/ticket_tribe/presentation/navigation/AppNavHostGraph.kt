@@ -25,45 +25,7 @@ fun AppNavHostGraph(
         startDestination = AppRoutes.Splash
     ) {
         splashNavGraph(navController)
-    }
-}
-
-private fun NavGraphBuilder.splashNavGraph(navController: NavHostController){
-    navigation<AppRoutes.Splash>(
-        startDestination = SplashRoutes.Splash,
-    ) {
-        horizontallyAnimatedComposable<SplashRoutes.Splash>{
-            SplashScreen(
-                onNavigate = {
-                    navController.safeNavToNextScreen(it, shouldClearTop = true)
-
-                }
-            )
-        }
-        horizontallyAnimatedComposable<SplashRoutes.Onboarding>{
-            val viewModel = koinViewModel<OnboardingViewModel>()
-            val scope = rememberCoroutineScope()
-            OnboardingScreen(
-                uiEvents = viewModel.eventFlow,
-                onIntent = {
-                    viewModel.onIntent(it)
-                },
-                onNavigate = { route, shouldClearBackStack ->
-                    navController.safeNavToNextScreen(route, shouldClearBackStack)
-                },
-                onNavigateSequentially = { firstRoute, secondRoute, shouldClearBackStack ->
-                    scope.launch {
-                        navController.navigateSequentially(
-                            firstRoute = firstRoute,
-                            secondRoute = secondRoute,
-                            shouldClearBackStack = shouldClearBackStack
-                        )
-                    }
-                },
-                onBackPress = {
-                    navController.popBackStack()
-                })
-        }
+        authNavGraph(navController)
     }
 }
 

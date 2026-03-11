@@ -1,0 +1,134 @@
+package com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.states.FormValidityState
+import com.brainx.ticket_tribe.presentation.theme.AppTheme
+import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
+import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.utils_extensions.constants.ExtConstants
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.email
+import tickettribecmp.composeapp.generated.resources.password
+
+@Composable
+fun EmailTextField(
+    modifier: Modifier,
+    emailText: String,
+    focusManager: FocusManager,
+    onValueChange: (String) -> Unit,
+) {
+
+    var emailErrorState by remember { mutableStateOf(FormValidityState(true, errorText = CustomTextToDisplay.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    CustomBasicUnderlineTextField(
+        text = emailText,
+        modifier = modifier
+            .onFocusChanged {
+                if (!it.hasFocus) {
+                    emailErrorState = EmailValidator().invoke(email = emailText, ignoreEmpty = true)
+                }
+            }
+            .onFocusEvent {
+
+            },
+        onValueChange = {
+            emailErrorState = FormValidityState(true, CustomTextToDisplay.StringText(text = ExtConstants.StringConstants.EMPTY))
+            onValueChange(it)
+        },
+        isValid = emailErrorState.isValid,
+        supportText = emailErrorState.errorText,
+        singleLine = true,
+        label = Res.string.email,
+        keyboardType = KeyboardType.Email,
+        imeAction = ImeAction.Next,
+        keyboardActions = KeyboardActions(
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }
+        )
+    )
+}
+
+@Composable
+fun LoginPasswordTextField(
+    modifier: Modifier,
+    passwordText: String,
+    focusManager: FocusManager,
+    keyboardController: SoftwareKeyboardController?,
+    onValueChange: (String) -> Unit,
+) {
+
+    CustomBasicUnderlineTextField(
+        text = passwordText,
+        modifier = modifier.fillMaxWidth()
+            .onFocusChanged {
+
+            }
+            .onFocusEvent {
+            },
+        onValueChange = {
+            onValueChange(it)
+        },
+        singleLine = true,
+        label = Res.string.password,
+        keyboardType = KeyboardType.Password,
+        imeAction = ImeAction.Done,
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus(force = true)
+            }
+        )
+    )
+}
+
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun EmailTextFieldPreview(){
+    AppTheme { EmailTextField(
+        emailText = "john@mailinator.com",
+        modifier = Modifier.fillMaxWidth(),
+        focusManager =  LocalFocusManager.current,
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun LoginPasswordTextFieldPreview(){
+    AppTheme { LoginPasswordTextField(
+        passwordText = "password@123",
+        modifier = Modifier.fillMaxWidth(),
+        focusManager =  LocalFocusManager.current,
+        keyboardController = LocalSoftwareKeyboardController.current,
+        onValueChange = {
+
+        }
+    )
+    }
+}

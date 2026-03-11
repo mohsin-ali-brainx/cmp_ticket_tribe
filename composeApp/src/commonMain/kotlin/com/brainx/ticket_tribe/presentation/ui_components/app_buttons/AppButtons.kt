@@ -7,18 +7,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
+import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.button.CustomButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultFullWidthButtonModifier
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.log_in
 
 @Composable
 fun PrimaryBlackButton(
     modifier: Modifier = Modifier,
     buttonText: CustomTextToDisplay.StringResourceText,
     isEnable:Boolean=true,
-    borderColor: Color = LocalAppTheme.current.button.primaryBorderColor,
     leadingIcon: (@Composable() () -> Unit)? = null,
     trailingIcon: (@Composable() () -> Unit)? = null,
     onClickAction: () -> Unit
@@ -32,7 +36,7 @@ fun PrimaryBlackButton(
         buttonColor = if (isButtonEnable) appTheme.button.primaryColor else appTheme.button.disable,
         fontSize = AppDimens.Fonts.font18,
         fontWeight = FontWeight.W400,
-        borderColor = borderColor,
+        borderColor = LocalAppTheme.current.button.primaryBorderColor,
         borderWidth = AppDimens.Button.borderWidthHalf,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
@@ -57,11 +61,39 @@ fun SecondaryWhiteButton(
         buttonText = buttonText,
         textColor = appTheme.button.primaryBlackTextColor,
         borderColor = appTheme.button.secondaryBorderColor,
-        buttonColor = appTheme.button.secondaryColor,
+        buttonColor = if (isButtonEnable) appTheme.button.secondaryColor else appTheme.button.disable ,
         fontSize = AppDimens.Fonts.font18,
         fontWeight = FontWeight.W400,
+        borderWidth = AppDimens.Button.borderWidthHalf,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
+        isClickable = isButtonEnable,
         onClickAction = onClickAction
     )
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF000000, heightDp = 100, widthDp = 400)
+@Composable
+fun PrimaryButtonPreview(){
+    AppTheme {
+        PrimaryBlackButton(
+            buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+            onClickAction = {
+
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, heightDp = 100, widthDp = 400)
+@Composable
+fun SecondaryButtonPreview(){
+    AppTheme {
+        SecondaryWhiteButton(
+            buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+            onClickAction = {
+
+            }
+        )
+    }
 }

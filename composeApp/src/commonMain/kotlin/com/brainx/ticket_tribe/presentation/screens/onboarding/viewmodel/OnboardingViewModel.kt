@@ -35,7 +35,6 @@ class OnboardingViewModel(
             is OnboardingUiIntents.ButtonIntents.OnLogInButtonIntent->{
                 emitUIEvents(OnboardingUiEvents.Navigate.MoveToLogin)
             }
-            else->Unit
         }
     }
 }

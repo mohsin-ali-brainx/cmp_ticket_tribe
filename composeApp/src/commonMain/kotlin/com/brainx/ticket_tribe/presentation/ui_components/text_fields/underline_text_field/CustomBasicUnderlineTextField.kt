@@ -252,7 +252,7 @@ fun CustomBasicUnderlineTextField(
                         end = AppDimens.Padding.zero
                     ),
                     label = {
-                        Text(text = stringResource(label), fontWeight = FontWeight.W400, style = labelStyle)
+                        Text(text = stringResource(label), fontWeight = FontWeight.W200, style = labelStyle)
                     },
                     leadingIcon = leadingContent,
                     trailingIcon = trailingContent,

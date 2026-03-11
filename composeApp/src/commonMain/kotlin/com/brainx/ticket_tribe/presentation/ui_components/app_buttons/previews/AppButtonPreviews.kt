@@ -126,7 +126,6 @@ private fun Preview_PrimaryBlackButton_Border_Icons() {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
                 buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
-                borderColor = Color(0xFF1E88E5),
                 leadingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),

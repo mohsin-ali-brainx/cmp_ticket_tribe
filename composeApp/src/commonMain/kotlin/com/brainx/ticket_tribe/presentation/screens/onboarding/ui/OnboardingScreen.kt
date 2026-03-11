@@ -32,6 +32,7 @@ import com.brainx.ticket_tribe.presentation.ui_components.image.modifiers.onboar
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
+import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
 import com.brainx.utils_extensions.constants.ExtConstants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -120,7 +121,7 @@ private fun OnboardingContent(
     val localTheme = LocalAppTheme.current
 
     Column(
-        modifier = Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding(),
+        modifier = Modifier.fillMaxSize().customNavigationBarsPadding(),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -142,7 +143,6 @@ private fun OnboardingContent(
         PrimaryBlackButton(
             modifier = buttonModifier,
             buttonText = CustomTextToDisplay.StringResourceText(Res.string.log_in),
-            borderColor = localTheme.button.primaryBorderColor
         ){
             onIntent(OnboardingUiIntents.ButtonIntents.OnLogInButtonIntent)
         }
@@ -156,7 +156,7 @@ private fun OnboardingContent(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun previewOnboarding(){
+private fun PreviewOnboarding(){
     AppTheme {
         OnboardingScreenContent(){
 
