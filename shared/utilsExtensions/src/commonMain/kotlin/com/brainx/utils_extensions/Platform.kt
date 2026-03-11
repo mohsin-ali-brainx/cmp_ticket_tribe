@@ -1,3 +1,10 @@
 package com.brainx.utils_extensions
 
-expect fun platform(): String
+interface Platform {
+    val name: String
+    val isAndroid:Boolean
+    val isIOS:Boolean
+    val platform:String
+}
+
+expect fun getPlatform(): Platform

@@ -23,6 +23,7 @@ fun PrimaryBlackButton(
     modifier: Modifier = Modifier,
     buttonText: CustomTextToDisplay.StringResourceText,
     isEnable:Boolean=true,
+    isLoading:Boolean=false,
     leadingIcon: (@Composable() () -> Unit)? = null,
     trailingIcon: (@Composable() () -> Unit)? = null,
     onClickAction: () -> Unit
@@ -41,7 +42,8 @@ fun PrimaryBlackButton(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         isClickable = isButtonEnable,
-        onClickAction = onClickAction
+        onClickAction = onClickAction,
+        showLoader = isLoading
     )
 }
 @Composable
@@ -49,6 +51,7 @@ fun SecondaryWhiteButton(
     modifier: Modifier = Modifier,
     buttonText:CustomTextToDisplay.StringResourceText,
     isEnable:Boolean=true,
+    isLoading:Boolean=false,
     leadingIcon: (@Composable() () -> Unit)? = null,
     trailingIcon: (@Composable() () -> Unit)? = null,
     onClickAction: () -> Unit
@@ -68,7 +71,8 @@ fun SecondaryWhiteButton(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         isClickable = isButtonEnable,
-        onClickAction = onClickAction
+        onClickAction = onClickAction,
+        showLoader = isLoading
     )
 }
 

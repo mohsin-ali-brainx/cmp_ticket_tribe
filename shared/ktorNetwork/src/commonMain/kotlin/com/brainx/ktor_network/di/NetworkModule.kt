@@ -9,9 +9,6 @@ import org.koin.dsl.module
 
 internal val ktorNetworkModule = module {
 
-//    single { MovieAuthInterceptor(apiKey = get(qualifier = named(ApiKeysModuleEnums.API_KEY.type)),) }
-
-
     single<HttpClient>(named(NetworkModuleEnums.REFRESH_TOKEN_CLIENT.type)) {
         RefreshTokenHttpClient(
             engine = get()
@@ -25,12 +22,5 @@ internal val ktorNetworkModule = module {
             refreshClient = get(qualifier = named(NetworkModuleEnums.REFRESH_TOKEN_CLIENT.type)),
             ).createKtorHttpClient()
     }
-
-//    single<HttpClient>() {
-//        KtorHttpClient(
-//            engine = get(),
-//            authInterceptor = get(),
-//        ).createKtorHttpClient()
-//    }
 
 }

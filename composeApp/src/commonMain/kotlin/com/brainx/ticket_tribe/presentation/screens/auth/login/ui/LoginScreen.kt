@@ -211,7 +211,7 @@ fun LoginScreenContent(
             )
 
             val isFormValid = remember(dataState.isFormButtonValid) { dataState.isFormButtonValid }
-
+            val isLoading = remember(dataState.isLoginLoading) { dataState.isLoginLoading }
             PrimaryBlackButton(
                 modifier = Modifier.constrainAs(loginBtn) {
                     bottom.linkTo(parent.bottom, margin = AppDimens.Padding.padding8)
@@ -222,7 +222,8 @@ fun LoginScreenContent(
                     )
                 },
                 buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
-                isEnable = isFormValid
+                isEnable = isFormValid,
+                isLoading = isLoading
             ) {
                 onIntent(LoginUiIntents.ButtonIntents.OnLoginButtonIntent)
             }

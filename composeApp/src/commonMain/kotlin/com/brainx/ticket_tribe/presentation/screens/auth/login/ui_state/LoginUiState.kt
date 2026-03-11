@@ -9,5 +9,6 @@ data class LoginUiState(
     val passwordText:String= ExtConstants.StringConstants.EMPTY,
     val isFormButtonValid:Boolean=false,
     val isEmailValid: Pair<Boolean,StringResource>? = null,
-    val isPasswordValid: Pair<Boolean,StringResource>? = null
-    )
+    val isPasswordValid: Pair<Boolean,StringResource>? = null,
+    val isLoginLoading:Boolean=false
+)

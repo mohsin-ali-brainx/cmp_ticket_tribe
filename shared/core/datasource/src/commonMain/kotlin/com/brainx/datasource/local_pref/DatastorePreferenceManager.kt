@@ -7,11 +7,13 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.brainx.domain.pref_manager.DatastorePrefManager
+import com.brainx.datasource.security.SecureValueCipher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class DatastorePrefManagerImp (
-    private val datastorePreference: DataStore<Preferences>
+    private val datastorePreference: DataStore<Preferences>,
+    private val secureValueCipher: SecureValueCipher
 ): DatastorePrefManager {
 
     private enum class SPKeys(val key:String){
@@ -60,7 +62,9 @@ internal class DatastorePrefManagerImp (
 
     override suspend fun getAccessToken(): String? {
         return datastorePreference.data.map { preferences ->
-            preferences[ACCESS_TOKEN_PREF_KEY]
+            preferences[ACCESS_TOKEN_PREF_KEY]?.let { stored ->
+                runCatching { secureValueCipher.decrypt(stored) }.getOrDefault(stored)
+            }
         }.first()
     }
 
@@ -68,7 +72,7 @@ internal class DatastorePrefManagerImp (
         return try {
             datastorePreference.edit { preferences ->
                 if (value.isNullOrBlank()) preferences.remove(ACCESS_TOKEN_PREF_KEY)
-                else preferences[ACCESS_TOKEN_PREF_KEY] = value
+                else preferences[ACCESS_TOKEN_PREF_KEY] = secureValueCipher.encrypt(value)
             }
             true
         } catch (e: Exception) {
@@ -78,7 +82,9 @@ internal class DatastorePrefManagerImp (
 
     override suspend fun getRefreshToken(): String? {
         return datastorePreference.data.map { preferences ->
-            preferences[REFRESH_TOKEN_PREF_KEY]
+            preferences[REFRESH_TOKEN_PREF_KEY]?.let { stored ->
+                runCatching { secureValueCipher.decrypt(stored) }.getOrDefault(stored)
+            }
         }.first()
     }
 
@@ -86,7 +92,7 @@ internal class DatastorePrefManagerImp (
         return try {
             datastorePreference.edit { preferences ->
                 if (value.isNullOrBlank()) preferences.remove(REFRESH_TOKEN_PREF_KEY)
-                else preferences[REFRESH_TOKEN_PREF_KEY] = value
+                else preferences[REFRESH_TOKEN_PREF_KEY] = secureValueCipher.encrypt(value)
             }
             true
         } catch (e: Exception) {
