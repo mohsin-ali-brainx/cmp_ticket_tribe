@@ -1,7 +1,10 @@
 package com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,16 +21,21 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.brainx.ticket_tribe.presentation.theme.AppDimens
+import org.jetbrains.compose.resources.painterResource
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.email
+import tickettribecmp.composeapp.generated.resources.password
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.states.FormValidityState
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.utils_extensions.constants.ExtConstants
-import tickettribecmp.composeapp.generated.resources.Res
-import tickettribecmp.composeapp.generated.resources.email
-import tickettribecmp.composeapp.generated.resources.password
+import tickettribecmp.composeapp.generated.resources.ic_hide_password
+import tickettribecmp.composeapp.generated.resources.ic_show_password
 
 @Composable
 fun EmailTextField(
@@ -74,8 +82,10 @@ fun LoginPasswordTextField(
     passwordText: String,
     focusManager: FocusManager,
     keyboardController: SoftwareKeyboardController?,
+    onDone:()->Unit,
     onValueChange: (String) -> Unit,
 ) {
+    var passwordVisible by remember { mutableStateOf(false) }
 
     CustomBasicUnderlineTextField(
         text = passwordText,
@@ -90,13 +100,27 @@ fun LoginPasswordTextField(
         },
         singleLine = true,
         label = Res.string.password,
-        keyboardType = KeyboardType.Password,
+        keyboardType = if (passwordVisible) KeyboardType.Text else KeyboardType.Password,
         imeAction = ImeAction.Done,
-        visualTransformation = PasswordVisualTransformation(),
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingContent = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+                modifier = Modifier.size(AppDimens.Icons.smallIconSize)
+            ) {
+                Image(
+                    painter = painterResource(
+                        if (passwordVisible) Res.drawable.ic_hide_password else Res.drawable.ic_show_password
+                    ),
+                    contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                )
+            }
+        },
         keyboardActions = KeyboardActions(
             onDone = {
                 keyboardController?.hide()
                 focusManager.clearFocus(force = true)
+                onDone()
             }
         )
     )
@@ -126,6 +150,9 @@ private fun LoginPasswordTextFieldPreview(){
         modifier = Modifier.fillMaxWidth(),
         focusManager =  LocalFocusManager.current,
         keyboardController = LocalSoftwareKeyboardController.current,
+        onDone = {
+
+        },
         onValueChange = {
 
         }

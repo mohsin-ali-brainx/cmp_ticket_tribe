@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val ioDispatcher: CoroutineDispatcher,
-    private val localDataStore: DatastorePrefManager,
+    private val datastore: DatastorePrefManager,
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
@@ -61,23 +61,30 @@ class LoginViewModel(
                 email = state.value.emailText.trimExtraSpaces(),
                 password = state.value.passwordText.trimExtraSpaces()
             ).onStart {
+                if(state.value.isLoginLoading) return@onStart
                 _state.update { it.copy(isLoginLoading = true) }
             }.onCompletion {
+                if(!state.value.isLoginLoading) return@onCompletion
                 _state.update { it.copy(isLoginLoading = false) }
             }.onEach { result ->
                 when (result) {
                         is Resource.Success -> {
                             val responseResultData = result.data
+                            val token = datastore.getAccessToken()
+
                             print("LoginViewModel: success: $responseResultData")
+                            print("LoginViewModel: token: $token")
+
                         }
 
                         is Resource.Error -> {
-                            _state.update { it.copy(isLoginLoading = false) }
+//                            _state.update { it.copy(isLoginLoading = false) }
                             print("LoginViewModel: error: ${result.message}")
 
                         }
 
                         is Resource.Loading -> {
+                            if(state.value.isLoginLoading==result.isLoading) return@onEach
                             _state.update { it.copy(isLoginLoading = result.isLoading) }
                         }
                     }

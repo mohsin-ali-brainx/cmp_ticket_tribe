@@ -36,6 +36,7 @@ import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_state.LoginUiS
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.button.SSOButton
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthDescriptionText
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthTitleText
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.MoveToAuth
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.EmailTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.LoginPasswordTextField
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
@@ -175,6 +176,9 @@ fun LoginScreenContent(
                 passwordText = passwordText,
                 focusManager = focusManager,
                 keyboardController = keyboardController,
+                onDone = {
+                    onIntent(LoginUiIntents.ButtonIntents.OnLoginButtonIntent)
+                },
                 onValueChange = {
                     onIntent(LoginUiIntents.TextFieldsIntent.OnPasswordTextUpdate(password = it))
                 }
@@ -198,7 +202,7 @@ fun LoginScreenContent(
                 textAlign = TextAlign.Right
             )
 
-            MoveToSignUpView(
+            MoveToAuth(
                 modifier = Modifier.constrainAs(signUp) {
                     bottom.linkTo(loginBtn.top, margin = AppDimens.Padding.padding16)
                     linkTo(
@@ -207,7 +211,10 @@ fun LoginScreenContent(
                         bias = ExtConstants.FloatConstants.ZERO
                     )
                 },
-                onIntent = onIntent
+                text = arrayOf(Res.string.dont_have_account,Res.string.sign_up),
+                onClick = {
+
+                }
             )
 
             val isFormValid = remember(dataState.isFormButtonValid) { dataState.isFormButtonValid }
@@ -231,29 +238,6 @@ fun LoginScreenContent(
         }
     }
 
-}
-
-@Composable
-private fun MoveToSignUpView(modifier: Modifier, onIntent: (LoginUiIntents) -> Unit) {
-    val theme = LocalAppTheme.current
-
-    val annotatedString = buildAnnotatedString {
-        append(stringResource(Res.string.dont_have_account))
-        withStyle(style = SpanStyle(theme.textView.blueTextColor)) {
-            append(stringResource(Res.string.sign_up))
-        }
-    }
-    CustomText(
-        modifier = modifier.then(Modifier.fillMaxWidth())
-            .clickableSingleWithoutRipple {
-                onIntent(LoginUiIntents.ButtonIntents.OnSignUpButtonIntent)
-            },
-        text = CustomTextToDisplay.AnnotatedStringText(text = annotatedString),
-        fontSize = AppDimens.Fonts.font14,
-        fontWeight = FontWeight.W400,
-        color = theme.textView.secondaryGreyTextColor,
-        textAlign = TextAlign.Center
-    )
 }
 
 @Preview(showSystemUi = true)
