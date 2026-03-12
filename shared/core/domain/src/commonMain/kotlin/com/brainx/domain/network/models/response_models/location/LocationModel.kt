@@ -3,7 +3,7 @@ package com.brainx.domain.network.models.response_models.location
 import com.brainx.utils_extensions.constants.ExtConstants.StringConstants.EMPTY
 import kotlinx.serialization.Serializable
 
-@Serializable
+
 data class LocationModel(
 
     val coordinates: CoordinatesModel = CoordinatesModel(),

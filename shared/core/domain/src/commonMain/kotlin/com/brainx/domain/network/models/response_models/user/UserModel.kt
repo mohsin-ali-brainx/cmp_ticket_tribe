@@ -7,7 +7,7 @@ import com.brainx.utils_extensions.constants.ExtConstants.StringConstants.EMPTY
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
-@Serializable
+
 data class UserModel(
     val id: String = EMPTY,
     val firstName: String = EMPTY,
@@ -30,5 +30,4 @@ data class UserModel(
 )
 
 @JvmInline
-@Serializable
 value class Interest(val interest: String)

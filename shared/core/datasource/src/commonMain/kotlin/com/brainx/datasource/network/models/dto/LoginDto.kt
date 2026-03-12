@@ -1,4 +1,4 @@
-package com.brainx.domain.network.dto
+package com.brainx.datasource.network.models.dto
 
 import com.brainx.utils_extensions.getPlatform
 import kotlinx.serialization.SerialName

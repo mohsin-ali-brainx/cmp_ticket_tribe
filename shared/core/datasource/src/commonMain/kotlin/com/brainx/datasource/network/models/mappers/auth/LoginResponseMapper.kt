@@ -3,7 +3,7 @@ package com.brainx.datasource.network.models.mappers.auth
 import com.brainx.datasource.network.models.response_models.auth.LoginResponse
 import com.brainx.datasource.network.models.response_models.location.LocationResponse
 import com.brainx.datasource.network.models.response_models.user.UserResponse
-import com.brainx.domain.network.models.response_models.auth.LoginResponseModel
+import com.brainx.domain.network.models.response_models.auth.LoginModel
 import com.brainx.domain.network.models.response_models.auth.Suggestions
 import com.brainx.domain.network.models.response_models.location.CoordinatesModel
 import com.brainx.domain.network.models.response_models.location.LocationModel
@@ -15,14 +15,14 @@ import com.brainx.utils_extensions.extensions.orEmpty
 import com.brainx.utils_extensions.extensions.orFalse
 import com.brainx.utils_extensions.extensions.orZero
 
-fun LoginResponse.toMapper() = LoginResponseModel(
+fun LoginResponse.toLoginModel() = LoginModel(
     access = access ,
     refresh = refresh ,
-    user = user?.toMapper(),
+    user = user?.toUserModel(),
     suggestions = suggestions?.map { Suggestions(it) }
 )
 
-fun UserResponse.toMapper() = UserModel(
+fun UserResponse.toUserModel() = UserModel(
     id = id.orEmpty(),
     firstName = firstName.orEmpty(),
     lastName = lastName.orEmpty(),
@@ -37,14 +37,14 @@ fun UserResponse.toMapper() = UserModel(
     notifications = notifications.orFalse(),
     showFavoritesToFollowers = showFavoritesToFollowers.orFalse(),
     gender = Gender.entries.find { it.key==gender } as Gender,
-    location = location.toMapper(),
+    location = location.toLocationModel(),
     phoneNumber = phoneNumber.orEmpty(),
     countryCode = countryCode.orEmpty(),
     authProvider = AuthProvider.entries.find { it.key==authProvider } as AuthProvider,
 
 )
 
-fun LocationResponse?.toMapper() = LocationModel(
+fun LocationResponse?.toLocationModel() = LocationModel(
     placeId = this?.placeId.orEmpty(),
     displayName = this?.displayName.orEmpty(),
     city = this?.city.orEmpty(),

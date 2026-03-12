@@ -1,6 +1,5 @@
 package com.brainx.domain.use_cases
 
-import com.brainx.domain.network.dto.LoginDto
 import com.brainx.domain.network.models.response_models.user.UserModel
 import com.brainx.domain.network.repository.AuthRepository
 import com.brainx.domain.network.result_state.NetworkResultState
@@ -17,7 +16,7 @@ class LoginUseCase(
     val datastore: DatastorePrefManager
 ) {
     operator fun invoke(email: String,password: String) : Flow<Resource<UserModel>>{
-        val response = authRepository.login(LoginDto(email = email, password = password))
+        val response = authRepository.login(email = email, password = password)
         return response.map { resultState ->
             when(resultState){
                 is NetworkResultState.Success->{
