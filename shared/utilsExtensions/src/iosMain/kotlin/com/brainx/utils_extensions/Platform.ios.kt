@@ -10,3 +10,7 @@ class IOSPlatform: Platform {
 
 }
 actual fun getPlatform(): Platform = IOSPlatform()
+
+actual fun platformLog(tag: String, message: String) {
+    platform.Foundation.NSLog("[$tag] $message")
+}

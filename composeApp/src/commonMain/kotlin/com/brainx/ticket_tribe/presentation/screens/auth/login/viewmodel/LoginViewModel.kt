@@ -10,6 +10,7 @@ import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginU
 import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_state.LoginUiState
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.utils_extensions.extensions.trimExtraSpaces
+import com.brainx.utils_extensions.platformLog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,10 +72,8 @@ class LoginViewModel(
                         is Resource.Success -> {
                             val responseResultData = result.data
                             val token = datastore.getAccessToken()
-
-                            print("LoginViewModel: success: $responseResultData")
-                            print("LoginViewModel: token: $token")
-
+                            platformLog("LoginViewModel","success: $responseResultData")
+                            platformLog("LoginViewModel", "token: $token")
                         }
 
                         is Resource.Error -> {

@@ -1,6 +1,5 @@
 package com.brainx.datasource.local_pref
 
-
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -11,23 +10,23 @@ import com.brainx.datasource.security.SecureValueCipher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-internal class DatastorePrefManagerImp (
+internal class DatastorePrefManagerImp(
     private val datastorePreference: DataStore<Preferences>,
     private val secureValueCipher: SecureValueCipher
-): DatastorePrefManager {
+) : DatastorePrefManager {
 
-    private enum class SPKeys(val key:String){
+    private enum class SPKeys(val key: String) {
         IS_LOGIN("is_login"),
         IS_FIRST_TIME_INSTALLED("is_first_time_installed"),
         ACCESS_TOKEN("access_token"),
         REFRESH_TOKEN("refresh_token")
     }
 
-    private companion object Companion {
-        private val IS_LOGIN_PREF_KEY = booleanPreferencesKey(DatastorePrefManagerImp.SPKeys.IS_LOGIN.key)
-        private val IS_FIRST_TIME_INSTALLED_PREF_KEY = booleanPreferencesKey(DatastorePrefManagerImp.SPKeys.IS_FIRST_TIME_INSTALLED.key)
-        private val ACCESS_TOKEN_PREF_KEY = stringPreferencesKey(DatastorePrefManagerImp.SPKeys.ACCESS_TOKEN.key)
-        private val REFRESH_TOKEN_PREF_KEY = stringPreferencesKey(DatastorePrefManagerImp.SPKeys.REFRESH_TOKEN.key)
+    private companion object {
+        private val IS_LOGIN_PREF_KEY = booleanPreferencesKey(SPKeys.IS_LOGIN.key)
+        private val IS_FIRST_TIME_INSTALLED_PREF_KEY = booleanPreferencesKey(SPKeys.IS_FIRST_TIME_INSTALLED.key)
+        private val ACCESS_TOKEN_PREF_KEY = stringPreferencesKey(SPKeys.ACCESS_TOKEN.key)
+        private val REFRESH_TOKEN_PREF_KEY = stringPreferencesKey(SPKeys.REFRESH_TOKEN.key)
     }
 
     override suspend fun setIsLogin(value: Boolean) : Boolean {

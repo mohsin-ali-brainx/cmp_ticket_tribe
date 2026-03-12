@@ -1,6 +1,7 @@
 package com.brainx.utils_extensions
 
 import android.os.Build
+import android.util.Log
 
 class AndroidPlatform : Platform {
     override val name: String = "Android ${Build.VERSION.SDK_INT}"
@@ -10,3 +11,7 @@ class AndroidPlatform : Platform {
 
 }
 actual fun getPlatform(): Platform = AndroidPlatform()
+
+actual fun platformLog(tag: String, message: String) {
+    Log.d(tag, message)
+}

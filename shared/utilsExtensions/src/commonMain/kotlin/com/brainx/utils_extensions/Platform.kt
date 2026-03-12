@@ -8,3 +8,9 @@ interface Platform {
 }
 
 expect fun getPlatform(): Platform
+
+/**
+ * Platform-specific logging. Use this instead of println() for logs that should appear
+ * in Android Logcat and Xcode/Console.app on iOS.
+ */
+expect fun platformLog(tag: String, message: String)
