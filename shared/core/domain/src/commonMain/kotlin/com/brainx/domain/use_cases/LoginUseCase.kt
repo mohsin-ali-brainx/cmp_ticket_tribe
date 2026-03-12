@@ -1,5 +1,6 @@
 package com.brainx.domain.use_cases
 
+import com.brainx.domain.db.repository.LocalDbUserRepository
 import com.brainx.domain.network.models.response_models.user.UserModel
 import com.brainx.domain.network.repository.AuthRepository
 import com.brainx.domain.network.result_state.NetworkResultState
@@ -13,16 +14,23 @@ import kotlinx.coroutines.flow.onStart
 
 class LoginUseCase(
     val authRepository: AuthRepository,
-    val datastore: DatastorePrefManager
+    val datastore: DatastorePrefManager,
+    val userDbRepository: LocalDbUserRepository
 ) {
-    operator fun invoke(email: String,password: String) : Flow<Resource<UserModel>>{
+    operator fun invoke(email: String,password: String) : Flow<Resource<Boolean>>{
         val response = authRepository.login(email = email, password = password)
         return response.map { resultState ->
             when(resultState){
                 is NetworkResultState.Success->{
                     val data = resultState.data
                     setLoginSettings(access =data?.access, refresh =  data?.refresh, isLogin = true)
-                    Resource.Success(data?.user)
+                    data?.user?.let {
+                        userDbRepository.apply {
+                            deleteAllUsers()
+                            insertUser(it)
+                        }
+                    }
+                    Resource.Success(true)
                 }
                 is NetworkResultState.Error -> {
                     setLoginSettings(access =null, refresh =  null, isLogin = false)

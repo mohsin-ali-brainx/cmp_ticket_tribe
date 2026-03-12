@@ -2,6 +2,7 @@ package com.brainx.ticket_tribe.presentation.screens.auth.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.brainx.domain.db.repository.LocalDbUserRepository
 import com.brainx.domain.pref_manager.DatastorePrefManager
 import com.brainx.domain.use_cases.LoginUseCase
 import com.brainx.domain.utils.resource_state.Resource
@@ -10,11 +11,14 @@ import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginU
 import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_state.LoginUiState
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.utils_extensions.extensions.trimExtraSpaces
+import com.brainx.utils_extensions.navigation.toJson
 import com.brainx.utils_extensions.platformLog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
@@ -28,7 +32,8 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val ioDispatcher: CoroutineDispatcher,
     private val datastore: DatastorePrefManager,
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val userDbUserRepository: LocalDbUserRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginUiState())
@@ -72,13 +77,15 @@ class LoginViewModel(
                         is Resource.Success -> {
                             val responseResultData = result.data
                             val token = datastore.getAccessToken()
+                            val user = userDbUserRepository.getCurrentUser().first()
                             platformLog("LoginViewModel","success: $responseResultData")
                             platformLog("LoginViewModel", "token: $token")
+                            platformLog("LoginViewModel", "user: ${user.toString()}")
+
                         }
 
                         is Resource.Error -> {
-//                            _state.update { it.copy(isLoginLoading = false) }
-                            print("LoginViewModel: error: ${result.message}")
+                            platformLog("LoginViewModel" ,"error: ${result.message}")
 
                         }
 
@@ -87,6 +94,9 @@ class LoginViewModel(
                             _state.update { it.copy(isLoginLoading = result.isLoading) }
                         }
                     }
+                }
+                .catch {
+                    platformLog("LoginViewModel","exception: ${it.message}")
                 }
                 .flowOn(ioDispatcher)
                 .launchIn(viewModelScope)

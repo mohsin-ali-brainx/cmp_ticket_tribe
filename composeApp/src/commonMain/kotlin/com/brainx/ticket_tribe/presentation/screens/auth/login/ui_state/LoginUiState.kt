@@ -5,8 +5,8 @@ import org.jetbrains.compose.resources.StringResource
 
 
 data class LoginUiState(
-    val emailText:String= ExtConstants.StringConstants.EMPTY,
-    val passwordText:String= ExtConstants.StringConstants.EMPTY,
+    val emailText:String= "john.doe@example.com",
+    val passwordText:String= "Password123",
     val isFormButtonValid:Boolean=false,
     val isEmailValid: Pair<Boolean,StringResource>? = null,
     val isPasswordValid: Pair<Boolean,StringResource>? = null,

@@ -18,6 +18,7 @@ val viewModelModule = module {
         LoginViewModel(
             get(named(CoroutineDispatcherModuleEnums.IO.dispatcherName)),
             get(),
+            get(),
             get()
         )
     }

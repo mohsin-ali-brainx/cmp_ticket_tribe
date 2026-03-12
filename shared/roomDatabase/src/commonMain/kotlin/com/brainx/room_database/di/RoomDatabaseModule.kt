@@ -1,5 +1,6 @@
 package com.brainx.room_database.di
 
+import com.brainx.room_database.repository.UserDbRepository
 import com.brainx.room_database.setup.AppDatabase
 import com.brainx.room_database.setup.DatabaseFactory
 import com.brainx.room_database.setup.createAppDatabase
@@ -14,8 +15,12 @@ private val roomDatabaseModule = module {
 }
 
 private val roomDaoModule = module {
-    single { get<AppDatabase>().movieDao() }
+    single { get<AppDatabase>().userDao() }
+}
+
+private val roomRepositoryModule = module {
+    single { UserDbRepository(get()) }
 }
 
 
-val provideRoomDatabaseModule = listOf( roomPlatformModule,roomDatabaseModule,roomDaoModule )
+val provideRoomDatabaseModule = listOf( roomPlatformModule,roomDatabaseModule,roomDaoModule,roomRepositoryModule )

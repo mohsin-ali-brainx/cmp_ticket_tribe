@@ -5,19 +5,19 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.brainx.room_database.database.dao.MovieDao
-import com.brainx.room_database.database.entity.Movie
+import com.brainx.room_database.database.dao.UserDao
+import com.brainx.room_database.database.entity.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
 @Database(
-    entities = [Movie::class],
+    entities = [UserEntity::class],
     version = 1,
     exportSchema = true
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 internal abstract class AppDatabase : RoomDatabase() {
-    abstract fun movieDao(): MovieDao
+    abstract fun userDao(): UserDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")

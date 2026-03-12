@@ -3,7 +3,6 @@ package com.brainx.room_database.setup
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.brainx.room_database.provider.RoomDatabaseProvider
-import com.brainx.room_database.utils.DatabaseConstants
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
@@ -18,7 +17,7 @@ internal actual class DatabaseFactory(
 
 
 private fun getDatabaseBuilder(databaseProvider: RoomDatabaseProvider): RoomDatabase.Builder<AppDatabase> {
-    check(databaseProvider.getDatabaseName().isNullOrBlank()){
+    check(!databaseProvider.getDatabaseName().isNullOrBlank()){
         "Database name is NullOrBlank. Please provide a valid database name by implementing the interface RoomDatabaseProvider and adding it to DI Module"
     }
     val dbFilePath = documentDirectory() + "/" + databaseProvider.getDatabaseName()

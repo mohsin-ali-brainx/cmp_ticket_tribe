@@ -7,7 +7,8 @@ internal val useCaseModule = module {
     single {
         LoginUseCase(
             authRepository = get(),
-            datastore = get()
+            datastore = get(),
+            userDbRepository = get()
         )
     }
 }

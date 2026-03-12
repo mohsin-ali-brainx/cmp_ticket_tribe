@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.brainx.room_database.provider.RoomDatabaseProvider
-import com.brainx.room_database.utils.DatabaseConstants
 
 internal actual class DatabaseFactory(
     private val context: Context,
@@ -14,7 +13,7 @@ internal actual class DatabaseFactory(
 }
 
 private fun getDatabaseBuilder(context: Context,databaseProvider: RoomDatabaseProvider): RoomDatabase.Builder<AppDatabase> {
-    check(databaseProvider.getDatabaseName().isNullOrBlank()){
+    check(!databaseProvider.getDatabaseName().isNullOrBlank()){
         "Database name is null. Please provide a valid database name by implementing the interface RoomDatabaseProvider and adding it to DI Module"
     }
     val dbFile = context.applicationContext.getDatabasePath(databaseProvider.getDatabaseName())
