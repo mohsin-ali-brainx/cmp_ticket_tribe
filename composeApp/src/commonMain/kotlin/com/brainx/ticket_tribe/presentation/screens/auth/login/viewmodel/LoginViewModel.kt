@@ -78,6 +78,8 @@ class LoginViewModel(
                             val responseResultData = result.data
                             val token = datastore.getAccessToken()
                             val user = userDbUserRepository.getCurrentUser().first()
+                            emitUIEvents(LoginUiEvents.UIPrompts.ShowToastMessage("Login Success"))
+
                             platformLog("LoginViewModel","success: $responseResultData")
                             platformLog("LoginViewModel", "token: $token")
                             platformLog("LoginViewModel", "user: ${user.toString()}")
@@ -85,6 +87,8 @@ class LoginViewModel(
                         }
 
                         is Resource.Error -> {
+                            emitUIEvents(LoginUiEvents.UIPrompts.ShowToastMessage("error: ${result.message}"))
+
                             platformLog("LoginViewModel" ,"error: ${result.message}")
 
                         }
@@ -96,6 +100,8 @@ class LoginViewModel(
                     }
                 }
                 .catch {
+                    emitUIEvents(LoginUiEvents.UIPrompts.ShowToastMessage("exception: ${it.message}"))
+
                     platformLog("LoginViewModel","exception: ${it.message}")
                 }
                 .flowOn(ioDispatcher)

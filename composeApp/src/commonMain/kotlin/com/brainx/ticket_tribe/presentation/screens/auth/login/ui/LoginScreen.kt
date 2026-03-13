@@ -46,6 +46,9 @@ import com.brainx.ticket_tribe.presentation.theme.colors.PlatformColors
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.utils_extensions.ToastDurationType
+import com.brainx.utils_extensions.ToastManager
+import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
 import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
 import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWithoutRipple
 import com.brainx.utils_extensions.constants.ExtConstants
@@ -66,10 +69,23 @@ fun LoginScreen(
     onIntent: (LoginUiIntents) -> Unit,
 ) {
     val state by dataState.collectAsStateWithLifecycle()
+//    val toastManager = rememberToastManager()
+
+    val toastManager by remember { mutableStateOf(ToastManager()) }
+
     val theme = LocalAppTheme.current
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+
+    ConsumeUIEffects(uiEvents){event, scope ->
+        when (event) {
+            is LoginUiEvents.UIPrompts.ShowToastMessage -> {
+                toastManager.showToast(message = event.message, ToastDurationType.SHORT)
+            }
+            else -> Unit
+        }
+    }
 
     LoginScreenContent(state, onIntent = {
         when(it){
