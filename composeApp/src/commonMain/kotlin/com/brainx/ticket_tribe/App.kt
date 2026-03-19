@@ -28,6 +28,7 @@ fun App() {
             top= ExtConstants.IntegerConstants.ZERO,
             right=ExtConstants.IntegerConstants.ZERO,
             bottom=ExtConstants.IntegerConstants.ZERO),
+            containerColor =  LocalAppTheme.current.background.backgroundColor
         ) {
             AppNavHostGraph(navController = navController)
         }

@@ -20,7 +20,7 @@ fun NavGraphBuilder.splashNavGraph(navController: NavHostController){
         horizontallyAnimatedComposable<SplashRoutes.Splash>{
             SplashScreen(
                 onNavigate = {
-                    navController.safeNavToNextScreen(it, shouldClearTop = true)
+                    navController.safeNavToNextScreen(it, shouldClearBackStack = true)
 
                 }
             )

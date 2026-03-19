@@ -34,6 +34,7 @@ import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.utils_extensions.constants.ExtConstants
+import org.jetbrains.compose.resources.StringResource
 import tickettribecmp.composeapp.generated.resources.ic_hide_password
 import tickettribecmp.composeapp.generated.resources.ic_show_password
 
@@ -82,7 +83,7 @@ fun LoginPasswordTextField(
     passwordText: String,
     focusManager: FocusManager,
     keyboardController: SoftwareKeyboardController?,
-    onDone:()->Unit,
+    onDone:()->Unit={},
     onValueChange: (String) -> Unit,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
@@ -117,12 +118,61 @@ fun LoginPasswordTextField(
             }
         },
         keyboardActions = KeyboardActions(
+            onNext={
+                focusManager.moveFocus(FocusDirection.Down)
+            },
             onDone = {
                 keyboardController?.hide()
                 focusManager.clearFocus(force = true)
                 onDone()
             }
         )
+    )
+}
+
+@Composable
+fun SignupPasswordTextField(
+    modifier: Modifier,
+    label: StringResource = Res.string.password,
+    passwordText: String,
+    focusManager: FocusManager,
+    keyboardController: SoftwareKeyboardController?,
+    imeAction: ImeAction=ImeAction.Done,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    CustomBasicUnderlineTextField(
+        text = passwordText,
+        modifier = modifier.fillMaxWidth()
+            .onFocusChanged {
+
+            }
+            .onFocusEvent {
+            },
+        onValueChange = {
+            onValueChange(it)
+        },
+        singleLine = true,
+        label = label,
+        keyboardType = if (passwordVisible) KeyboardType.Text else KeyboardType.Password,
+        imeAction = imeAction,
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingContent = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+                modifier = Modifier.size(AppDimens.Icons.smallIconSize)
+            ) {
+                Image(
+                    painter = painterResource(
+                        if (passwordVisible) Res.drawable.ic_hide_password else Res.drawable.ic_show_password
+                    ),
+                    contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                )
+            }
+        },
+        keyboardActions = onKeyboardActions
     )
 }
 
