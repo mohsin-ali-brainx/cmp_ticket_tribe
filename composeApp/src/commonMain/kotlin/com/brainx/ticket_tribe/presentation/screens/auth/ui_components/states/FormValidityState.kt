@@ -6,5 +6,5 @@ import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 @Immutable
 data class FormValidityState(
     val isValid:Boolean,
-    val errorText: UiText
+    val errorText: UiText,
 )

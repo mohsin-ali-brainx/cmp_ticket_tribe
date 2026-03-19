@@ -30,13 +30,17 @@ import tickettribecmp.composeapp.generated.resources.email
 import tickettribecmp.composeapp.generated.resources.password
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.states.FormValidityState
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
+import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
+import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.ticket_tribe.utils.validators.PasswordValidator
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.StringResource
 import tickettribecmp.composeapp.generated.resources.ic_hide_password
 import tickettribecmp.composeapp.generated.resources.ic_show_password
+import tickettribecmp.composeapp.generated.resources.password_does_not_match
 
 @Composable
 fun EmailTextField(
@@ -131,29 +135,97 @@ fun LoginPasswordTextField(
 }
 
 @Composable
-fun SignupPasswordTextField(
+fun PasswordTextField(
     modifier: Modifier,
     label: StringResource = Res.string.password,
     passwordText: String,
-    focusManager: FocusManager,
-    keyboardController: SoftwareKeyboardController?,
     imeAction: ImeAction=ImeAction.Done,
     onKeyboardActions: KeyboardActions=KeyboardActions.Default,
     onValueChange: (String) -> Unit,
 ) {
+    val theme = LocalAppTheme.current
     var passwordVisible by remember { mutableStateOf(false) }
+
+    var passwordErrorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
 
     CustomBasicUnderlineTextField(
         text = passwordText,
         modifier = modifier.fillMaxWidth()
             .onFocusChanged {
-
+                if (!it.hasFocus) {
+                    passwordErrorState = PasswordValidator().invoke(password = passwordText, ignoreEmpty = true)
+                }
             }
             .onFocusEvent {
             },
         onValueChange = {
+            passwordErrorState = if(it.isBlank()) FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            else PasswordValidator().invoke(password = passwordText, ignoreEmpty = true)
             onValueChange(it)
         },
+        isValid = passwordErrorState.isValid,
+        showSuccess = !passwordText.isBlank() && passwordErrorState.isValid,
+        successIndicatorColor = if (passwordText.isBlank() || !passwordErrorState.isValid) null else theme.editText.greenTextColor,
+        supportText = if (passwordText.isBlank()) null else passwordErrorState.errorText,
+        supportTextColor = if(passwordErrorState.isValid)  theme.editText.greenTextColor else theme.editText.redTextColor,
+        singleLine = true,
+        label = label,
+        keyboardType = if (passwordVisible) KeyboardType.Text else KeyboardType.Password,
+        imeAction = imeAction,
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingContent = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+                modifier = Modifier.size(AppDimens.Icons.smallIconSize)
+            ) {
+                Image(
+                    painter = painterResource(
+                        if (passwordVisible) Res.drawable.ic_hide_password else Res.drawable.ic_show_password
+                    ),
+                    contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                )
+            }
+        },
+        keyboardActions = onKeyboardActions
+    )
+}
+
+@Composable
+fun ConfirmPasswordTextField(
+    modifier: Modifier,
+    label: StringResource = Res.string.password,
+    confirmPasswordText: String,
+    passwordText:String,
+    imeAction: ImeAction=ImeAction.Done,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+    val theme = LocalAppTheme.current
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    var passwordErrorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    CustomBasicUnderlineTextField(
+        text = confirmPasswordText,
+        modifier = modifier.fillMaxWidth()
+            .onFocusChanged {
+                if (!it.hasFocus) {
+                    passwordErrorState = ConfirmPasswordValidator().invoke(confirmPassword = confirmPasswordText, password = passwordText, ignoreEmpty = true)
+                }
+            }
+            .onFocusEvent {
+            },
+        onValueChange = {
+            passwordErrorState =
+                if (it.isBlank()) FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+                else ConfirmPasswordValidator().invoke(confirmPassword = it, password = passwordText, ignoreEmpty = true)
+            onValueChange(it)
+        },
+        isValid = passwordErrorState.isValid,
+        showSuccess = !confirmPasswordText.isBlank() && passwordErrorState.isValid,
+        successIndicatorColor = if (confirmPasswordText.isBlank() || !passwordErrorState.isValid) null else theme.editText.greenTextColor,
+        supportText = if (confirmPasswordText.isBlank()) null else passwordErrorState.errorText,
+        supportTextColor = if(passwordErrorState.isValid)  theme.editText.greenTextColor else theme.editText.redTextColor,
         singleLine = true,
         label = label,
         keyboardType = if (passwordVisible) KeyboardType.Text else KeyboardType.Password,
@@ -203,6 +275,60 @@ private fun LoginPasswordTextFieldPreview(){
         onDone = {
 
         },
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun PasswordTextFieldWithErrorPreview(){
+    AppTheme { PasswordTextField(
+        passwordText = "d",
+        modifier = Modifier.fillMaxWidth(),
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun PasswordTextFieldPreview(){
+    AppTheme { PasswordTextField(
+        passwordText = "Password@123",
+        modifier = Modifier.fillMaxWidth(),
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun ConfirmPasswordTextFieldWithErrorPreview(){
+    AppTheme { ConfirmPasswordTextField(
+        passwordText = "",
+        confirmPasswordText = "d",
+        modifier = Modifier.fillMaxWidth(),
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun ConfirmPasswordTextFieldPreview(){
+    AppTheme {  ConfirmPasswordTextField(
+        passwordText = "Pass@1234",
+        confirmPasswordText = "Pass@1234",
+        modifier = Modifier.fillMaxWidth(),
         onValueChange = {
 
         }

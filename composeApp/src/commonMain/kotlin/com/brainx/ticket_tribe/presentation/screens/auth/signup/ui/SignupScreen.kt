@@ -41,8 +41,9 @@ import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.button.SS
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthDescriptionText
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthTitleText
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.MoveToAuth
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.ConfirmPasswordTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.EmailTextField
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SignupPasswordTextField
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.PasswordTextField
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
@@ -60,7 +61,6 @@ import kotlinx.coroutines.flow.StateFlow
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.already_have_an_account
 import tickettribecmp.composeapp.generated.resources.confirm_password
-import tickettribecmp.composeapp.generated.resources.dont_have_account
 import tickettribecmp.composeapp.generated.resources.first_name
 import tickettribecmp.composeapp.generated.resources.last_name
 import tickettribecmp.composeapp.generated.resources.log_in
@@ -262,13 +262,11 @@ private fun SignupScreenContent(
             )
 
             val passwordText = remember(dataState.passwordText) { dataState.passwordText }
-            SignupPasswordTextField(
+            PasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(password) {
                     top.linkTo(email.bottom, margin = AppDimens.Padding.padding20)
                 },
                 passwordText = passwordText,
-                focusManager = focusManager,
-                keyboardController=keyboardController,
                 imeAction = ImeAction.Next,
                 onKeyboardActions = KeyboardActions(
                     onNext = {
@@ -281,15 +279,14 @@ private fun SignupScreenContent(
             )
 
 
-            val confirmPasswordText = remember(dataState.passwordText) { dataState.passwordText }
-            SignupPasswordTextField(
+            val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
+            ConfirmPasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(confirmPassword) {
                     top.linkTo(password.bottom, margin = AppDimens.Padding.padding20)
                 },
                 label = Res.string.confirm_password,
-                passwordText = confirmPasswordText,
-                focusManager = focusManager,
-                keyboardController = keyboardController,
+                passwordText = passwordText,
+                confirmPasswordText = confirmPasswordText,
                 imeAction = ImeAction.Done,
                 onKeyboardActions = KeyboardActions(
                     onDone = {
