@@ -18,7 +18,7 @@ import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.SecondaryWhiteButton
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.painterResource
 import tickettribecmp.composeapp.generated.resources.Res
@@ -38,7 +38,7 @@ fun SSOButton(
         horizontalAlignment = Alignment.CenterHorizontally) {
         SecondaryWhiteButton(
             modifier = modifier.fillMaxWidth(),
-            buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.sign_in_with_google),
+            buttonText = UiText.StringResourceText(text = Res.string.sign_in_with_google),
             leadingIcon = {
                 Image(
                     modifier = Modifier.wrapContentSize().padding(horizontal = AppDimens.Padding.textPadding4),
@@ -49,7 +49,7 @@ fun SSOButton(
         if (getPlatform().isIOS){
             SecondaryWhiteButton(
                 modifier = modifier.padding(top = AppDimens.Padding.padding8).fillMaxWidth(),
-                buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.sign_in_with_apple),
+                buttonText = UiText.StringResourceText(text = Res.string.sign_in_with_apple),
                 leadingIcon = {
                     Image(
                         modifier = Modifier.size(AppDimens.Icons.mediumIconSize).padding(horizontal = AppDimens.Padding.textPadding4),
@@ -60,7 +60,7 @@ fun SSOButton(
         }
 
         CustomText(modifier=Modifier.padding(top = AppDimens.Padding.padding24),
-            text = CustomTextToDisplay.StringResourceText(Res.string.or),
+            text = UiText.StringResourceText(Res.string.or),
             fontSize = AppDimens.Fonts.font12,
             fontWeight = FontWeight.W400
         )

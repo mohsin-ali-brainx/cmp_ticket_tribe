@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,12 +28,11 @@ import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBla
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.SecondaryWhiteButton
 import com.brainx.ticket_tribe.presentation.ui_components.image.modifiers.onboardingLogoModifier
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
 import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
 import com.brainx.utils_extensions.constants.ExtConstants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.ic_logo
@@ -133,7 +130,7 @@ private fun OnboardingContent(
 
         CustomText(
             modifier = Modifier.padding(horizontal =  AppDimens.Padding.padding36, vertical = AppDimens.Padding.padding20).fillMaxWidth(),
-            text = CustomTextToDisplay.StringResourceText(text = Res.string.onboarding_text),
+            text = UiText.StringResourceText(text = Res.string.onboarding_text),
             color = localTheme.textView.tertiaryWhiteTextColor,
             fontSize = AppDimens.Fonts.font18,
             fontWeight = FontWeight.W200
@@ -142,13 +139,13 @@ private fun OnboardingContent(
         val buttonModifier = Modifier.padding(horizontal = AppDimens.Padding.padding16)
         PrimaryBlackButton(
             modifier = buttonModifier,
-            buttonText = CustomTextToDisplay.StringResourceText(Res.string.log_in),
+            buttonText = UiText.StringResourceText(Res.string.log_in),
         ){
             onIntent(OnboardingUiIntents.ButtonIntents.OnLogInButtonIntent)
         }
         SecondaryWhiteButton(
             modifier = buttonModifier.padding(vertical = AppDimens.Padding.padding12),
-            buttonText =CustomTextToDisplay.StringResourceText(Res.string.sign_up)){
+            buttonText =UiText.StringResourceText(Res.string.sign_up)){
             onIntent(OnboardingUiIntents.ButtonIntents.OnSignUpButtonIntent)
         }
     }

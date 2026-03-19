@@ -30,7 +30,7 @@ import tickettribecmp.composeapp.generated.resources.email
 import tickettribecmp.composeapp.generated.resources.password
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.states.FormValidityState
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.utils_extensions.constants.ExtConstants
@@ -45,7 +45,7 @@ fun EmailTextField(
     onValueChange: (String) -> Unit,
 ) {
 
-    var emailErrorState by remember { mutableStateOf(FormValidityState(true, errorText = CustomTextToDisplay.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+    var emailErrorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
 
     CustomBasicUnderlineTextField(
         text = emailText,
@@ -59,7 +59,7 @@ fun EmailTextField(
 
             },
         onValueChange = {
-            emailErrorState = FormValidityState(true, CustomTextToDisplay.StringText(text = ExtConstants.StringConstants.EMPTY))
+            emailErrorState = FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
             onValueChange(it)
         },
         isValid = emailErrorState.isValid,

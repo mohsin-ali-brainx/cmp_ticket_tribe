@@ -19,7 +19,7 @@ import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.button.CustomButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultFullWidthButtonModifier
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultWrapContentButtonModifier
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.painterResource
 
@@ -38,7 +38,7 @@ private fun Preview_CustomButton_WrapContent() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultWrapContentButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 onClickAction = { }
@@ -58,7 +58,7 @@ private fun Preview_CustomButton_FullWidth() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 onClickAction = { }
@@ -80,7 +80,7 @@ private fun Preview_CustomButton_CustomWidth() {
                 modifier = Modifier
                     .width(200.dp)
                     .height(AppDimens.Button.defaultButtonHeight),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 onClickAction = { }
@@ -104,7 +104,7 @@ private fun Preview_CustomButton_Default() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultWrapContentButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 onClickAction = { }
@@ -124,7 +124,7 @@ private fun Preview_CustomButton_Disabled() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultWrapContentButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 isClickable = false,
@@ -149,7 +149,7 @@ private fun Preview_CustomButton_LeadingIcon() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultWrapContentButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 leadingIcon = {
@@ -175,7 +175,7 @@ private fun Preview_CustomButton_TrailingIcon() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultWrapContentButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 trailingIcon = {
@@ -201,7 +201,7 @@ private fun Preview_CustomButton_LeadingTrailing_FullWidth() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 leadingIcon = {
@@ -233,7 +233,7 @@ private fun Preview_CustomButton_WithBorder() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 borderColor = Color(0xFF1E88E5),
@@ -259,7 +259,7 @@ private fun Preview_CustomButton_GradientBackground() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonBrush = Brush.horizontalGradient(
                     colors = listOf(
                         Color(0xFFE3F2FD),
@@ -285,7 +285,7 @@ private fun Preview_CustomButton_GradientBorder() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Search"),
+                buttonText = UiText.StringText("Search"),
                 buttonColor = Color.Transparent,
                 textColor = Color.Black,
                 borderBrush = Brush.horizontalGradient(
@@ -312,7 +312,7 @@ private fun Preview_CustomButton_GradientBackground_WithIcons() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonBrush = Brush.horizontalGradient(
                     colors = listOf(
                         Color(0xFFE3F2FD),
@@ -354,7 +354,7 @@ private fun Preview_CustomButton_CustomColor() {
         ) {
             CustomButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringText("Play Video"),
+                buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFF43A047),
                 textColor = Color.White,
                 onClickAction = { }

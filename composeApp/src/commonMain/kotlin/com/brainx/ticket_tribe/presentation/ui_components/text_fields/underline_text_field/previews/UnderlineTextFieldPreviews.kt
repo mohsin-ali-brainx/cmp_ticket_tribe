@@ -16,7 +16,7 @@ import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.ic_search
 import tickettribecmp.composeapp.generated.resources.search
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -89,7 +89,7 @@ private fun Preview_Underline_ValidWithHelper() {
             CustomBasicUnderlineTextField(
                 text = "Matrix",
                 label = labelSearchMovies,
-                supportText = CustomTextToDisplay.StringText("Type at least 3 characters"),
+                supportText = UiText.StringText("Type at least 3 characters"),
                 onValueChange = { }
             )
         }
@@ -109,7 +109,7 @@ private fun Preview_Underline_Error() {
                 text = "ab",
                 label = labelSearchMovies,
                 isValid = false,
-                supportText = CustomTextToDisplay.StringText("Minimum 3 characters required"),
+                supportText = UiText.StringText("Minimum 3 characters required"),
                 onValueChange = { }
             )
         }
@@ -128,7 +128,7 @@ private fun Preview_Underline_HelperCustomColor() {
             CustomBasicUnderlineTextField(
                 text = "Valid value",
                 label = labelSearchMovies,
-                supportText = CustomTextToDisplay.StringText("Looks good!"),
+                supportText = UiText.StringText("Looks good!"),
                 supportTextColor = Color(0xFF4CAF50),
                 onValueChange = { }
             )
@@ -240,7 +240,7 @@ private fun Preview_Underline_DarkTheme() {
             CustomBasicUnderlineTextField(
                 text = "",
                 label = labelSearchMovies,
-                supportText = CustomTextToDisplay.StringText("Helper text in dark theme"),
+                supportText = UiText.StringText("Helper text in dark theme"),
                 onValueChange = { }
             )
         }

@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.SecondaryWhiteButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultFullWidthButtonModifier
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
@@ -40,7 +39,7 @@ private fun Preview_PrimaryBlackButton_Enabled() {
         ) {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 onClickAction = { }
             )
         }
@@ -58,7 +57,7 @@ private fun Preview_PrimaryBlackButton_Disabled() {
         ) {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 isEnable = false,
                 onClickAction = { }
             )
@@ -77,7 +76,7 @@ private fun Preview_PrimaryBlackButton_LeadingIcon() {
         ) {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 leadingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),
@@ -101,7 +100,7 @@ private fun Preview_PrimaryBlackButton_TrailingIcon() {
         ) {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 trailingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),
@@ -125,7 +124,7 @@ private fun Preview_PrimaryBlackButton_Border_Icons() {
         ) {
             PrimaryBlackButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 leadingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),
@@ -159,7 +158,7 @@ private fun Preview_SecondaryWhiteButton_Enabled() {
         ) {
             SecondaryWhiteButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 onClickAction = { }
             )
         }
@@ -177,7 +176,7 @@ private fun Preview_SecondaryWhiteButton_Disabled() {
         ) {
             SecondaryWhiteButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 isEnable = false,
                 onClickAction = { }
             )
@@ -196,7 +195,7 @@ private fun Preview_SecondaryWhiteButton_LeadingIcon() {
         ) {
             SecondaryWhiteButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 leadingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),
@@ -220,7 +219,7 @@ private fun Preview_SecondaryWhiteButton_TrailingIcon() {
         ) {
             SecondaryWhiteButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 trailingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),
@@ -244,7 +243,7 @@ private fun Preview_SecondaryWhiteButton_LeadingTrailing() {
         ) {
             SecondaryWhiteButton(
                 modifier = Modifier.defaultFullWidthButtonModifier(),
-                buttonText = CustomTextToDisplay.StringResourceText(primaryButtonLabel),
+                buttonText = UiText.StringResourceText(primaryButtonLabel),
                 leadingIcon = {
                     Image(
                         painter = painterResource(Res.drawable.ic_search),

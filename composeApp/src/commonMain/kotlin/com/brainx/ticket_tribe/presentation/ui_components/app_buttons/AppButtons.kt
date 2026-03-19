@@ -5,23 +5,21 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.button.CustomButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultFullWidthButtonModifier
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.log_in
 
 @Composable
 fun PrimaryBlackButton(
     modifier: Modifier = Modifier,
-    buttonText: CustomTextToDisplay.StringResourceText,
+    buttonText: UiText.StringResourceText,
     isEnable:Boolean=true,
     isLoading:Boolean=false,
     leadingIcon: (@Composable() () -> Unit)? = null,
@@ -49,7 +47,7 @@ fun PrimaryBlackButton(
 @Composable
 fun SecondaryWhiteButton(
     modifier: Modifier = Modifier,
-    buttonText:CustomTextToDisplay.StringResourceText,
+    buttonText:UiText.StringResourceText,
     isEnable:Boolean=true,
     isLoading:Boolean=false,
     leadingIcon: (@Composable() () -> Unit)? = null,
@@ -81,7 +79,7 @@ fun SecondaryWhiteButton(
 fun PrimaryButtonPreview(){
     AppTheme {
         PrimaryBlackButton(
-            buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+            buttonText = UiText.StringResourceText(text = Res.string.log_in),
             onClickAction = {
 
             }
@@ -94,7 +92,7 @@ fun PrimaryButtonPreview(){
 fun SecondaryButtonPreview(){
     AppTheme {
         SecondaryWhiteButton(
-            buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+            buttonText = UiText.StringResourceText(text = Res.string.log_in),
             onClickAction = {
 
             }

@@ -22,11 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,10 +39,9 @@ import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_file
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
-import com.brainx.ticket_tribe.presentation.theme.colors.PlatformColors
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
@@ -54,7 +50,6 @@ import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWi
 import com.brainx.utils_extensions.constants.ExtConstants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import org.jetbrains.compose.resources.stringResource
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.dont_have_account
 import tickettribecmp.composeapp.generated.resources.forgot_password
@@ -139,7 +134,7 @@ fun LoginScreenContent(
             val (title, desc, sso, email, password, forgotPassword, signUp, loginBtn) = createRefs()
 
             AuthTitleText(
-                text = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+                text = UiText.StringResourceText(text = Res.string.log_in),
                 modifier = Modifier.constrainAs(title) {
                     top.linkTo(parent.top, margin = AppDimens.Padding.padding16)
                     linkTo(
@@ -151,7 +146,7 @@ fun LoginScreenContent(
             )
 
             AuthDescriptionText(
-                text = CustomTextToDisplay.StringResourceText(text = Res.string.welcome_to_ticket_tribe),
+                text = UiText.StringResourceText(text = Res.string.welcome_to_ticket_tribe),
                 modifier = Modifier.constrainAs(desc) {
                     top.linkTo(title.bottom, margin = AppDimens.Padding.padding12)
                     linkTo(
@@ -211,7 +206,7 @@ fun LoginScreenContent(
                         bottomMargin = AppDimens.Padding.padding12
                     )
                 }.wrapContentSize(),
-                text = CustomTextToDisplay.StringResourceText(text = Res.string.forgot_password),
+                text = UiText.StringResourceText(text = Res.string.forgot_password),
                 fontSize = AppDimens.Fonts.font16,
                 fontWeight = FontWeight.W400,
                 color = theme.textView.blueTextColor,
@@ -244,7 +239,7 @@ fun LoginScreenContent(
                         bias = ExtConstants.FloatConstants.ZERO
                     )
                 },
-                buttonText = CustomTextToDisplay.StringResourceText(text = Res.string.log_in),
+                buttonText = UiText.StringResourceText(text = Res.string.log_in),
                 isEnable = isFormValid,
                 isLoading = isLoading
             ) {

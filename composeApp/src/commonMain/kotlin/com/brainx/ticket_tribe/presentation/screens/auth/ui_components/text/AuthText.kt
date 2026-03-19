@@ -11,13 +11,13 @@ import androidx.compose.ui.text.withStyle
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWithoutRipple
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun AuthTitleText(modifier: Modifier,text:CustomTextToDisplay){
+fun AuthTitleText(modifier: Modifier,text:UiText){
     val theme = LocalAppTheme.current
     CustomText(
         modifier = modifier,
@@ -30,7 +30,7 @@ fun AuthTitleText(modifier: Modifier,text:CustomTextToDisplay){
 }
 
 @Composable
-fun AuthDescriptionText(modifier: Modifier,text:CustomTextToDisplay){
+fun AuthDescriptionText(modifier: Modifier,text:UiText){
     val theme = LocalAppTheme.current
     CustomText(
         modifier = modifier,
@@ -60,7 +60,7 @@ fun MoveToAuth(modifier: Modifier, vararg text: StringResource, onClick: () -> U
             .clickableSingleWithoutRipple {
                 onClick()
             },
-        text = CustomTextToDisplay.AnnotatedStringText(text = annotatedString),
+        text = UiText.AnnotatedStringText(text = annotatedString),
         fontSize = AppDimens.Fonts.font14,
         fontWeight = FontWeight.W400,
         color = theme.textView.secondaryGreyTextColor,

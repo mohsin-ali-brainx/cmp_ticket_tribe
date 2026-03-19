@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextSupportStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextLabelStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextStyle
@@ -56,7 +56,7 @@ fun CustomOutlineTextField(
     textFieldModifier: Modifier = Modifier.fillMaxWidth(),
     text: String,
     label: StringResource,
-    supportText: CustomTextToDisplay? = null,
+    supportText: UiText? = null,
     cursorBrush: Color = Color.Black,
     textStyle: TextStyle = defaultEditTextStyle(),
     labelStyle: TextStyle = defaultEditTextLabelStyle(),
@@ -194,9 +194,9 @@ fun CustomOutlineTextField(
         }
         if (supportText != null) {
             val showSupport = when (supportText) {
-                is CustomTextToDisplay.StringText -> supportText.text.isBlank().not()
-                is CustomTextToDisplay.StringResourceText -> stringResource(supportText.text).isBlank().not()
-                is CustomTextToDisplay.AnnotatedStringText -> supportText.text.isBlank().not()
+                is UiText.StringText -> supportText.text.isBlank().not()
+                is UiText.StringResourceText -> stringResource(supportText.text).isBlank().not()
+                is UiText.AnnotatedStringText -> supportText.text.isBlank().not()
             }
             if (showSupport) {
                 CustomText(

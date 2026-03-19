@@ -21,7 +21,7 @@ import androidx.compose.ui.geometry.Offset
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 
 private val PreviewPadding = 16.dp
 
@@ -34,7 +34,7 @@ private fun Preview_StringDefault() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Default center text"),
+                text = UiText.StringText("Default center text"),
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -48,7 +48,7 @@ private fun Preview_StringAlignStart() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Text aligned to start"),
+                text = UiText.StringText("Text aligned to start"),
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -63,7 +63,7 @@ private fun Preview_StringAlignEnd() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Text aligned to end"),
+                text = UiText.StringText("Text aligned to end"),
                 textAlign = TextAlign.End,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -78,7 +78,7 @@ private fun Preview_StringAlignJustify() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Justified text sample for longer content to show alignment."),
+                text = UiText.StringText("Justified text sample for longer content to show alignment."),
                 textAlign = TextAlign.Justify,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -98,7 +98,7 @@ private fun Preview_StringFontSize24() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Font size 24sp"),
+                text = UiText.StringText("Font size 24sp"),
                 fontSize = AppDimens.Fonts.font24,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -114,7 +114,7 @@ private fun Preview_StringFontStyleItalic() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Italic style text"),
+                text = UiText.StringText("Italic style text"),
                 fontStyle = FontStyle.Italic,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -133,7 +133,7 @@ private fun Preview_StringCustomColor() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Primary-colored text"),
+                text = UiText.StringText("Primary-colored text"),
                 color = MaterialTheme.colorScheme.primary
             )
         }
@@ -147,7 +147,7 @@ private fun Preview_StringSolidRed() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Solid red text"),
+                text = UiText.StringText("Solid red text"),
                 color = Color(0xFFE53935)
             )
         }
@@ -162,7 +162,7 @@ private fun Preview_StringUnderline() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Underlined text"),
+                text = UiText.StringText("Underlined text"),
                 textDecoration = TextDecoration.Underline,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -177,7 +177,7 @@ private fun Preview_StringLineThrough() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Strikethrough text"),
+                text = UiText.StringText("Strikethrough text"),
                 textDecoration = TextDecoration.LineThrough,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -192,7 +192,7 @@ private fun Preview_StringOverflowEllipsis() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("This is a long sentence that should be truncated with an ellipsis when it does not fit on one line."),
+                text = UiText.StringText("This is a long sentence that should be truncated with an ellipsis when it does not fit on one line."),
                 maxLines = 1,
                 textOverflow = TextOverflow.Ellipsis,
                 color = MaterialTheme.colorScheme.onSurface
@@ -208,7 +208,7 @@ private fun Preview_StringOverflowClip() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("This long text is clipped with no ellipsis."),
+                text = UiText.StringText("This long text is clipped with no ellipsis."),
                 maxLines = 1,
                 textOverflow = TextOverflow.Clip,
                 color = MaterialTheme.colorScheme.onSurface
@@ -228,7 +228,7 @@ private fun Preview_StringGradientHorizontal() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Horizontal gradient text"),
+                text = UiText.StringText("Horizontal gradient text"),
                 brush = Brush.horizontalGradient(
                     colors = listOf(Color(0xFFE53935), Color(0xFF1E88E5))
                 )
@@ -244,7 +244,7 @@ private fun Preview_StringGradientVertical() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Vertical gradient"),
+                text = UiText.StringText("Vertical gradient"),
                 fontSize = AppDimens.Fonts.font24,
                 brush = Brush.verticalGradient(
                     colors = listOf(Color(0xFF7B1FA2), Color(0xFF00BCD4))
@@ -261,7 +261,7 @@ private fun Preview_StringGradientLinear() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Diagonal gradient"),
+                text = UiText.StringText("Diagonal gradient"),
                 fontSize = AppDimens.Fonts.font18,
                 brush = Brush.linearGradient(
                     colors = listOf(
@@ -284,7 +284,7 @@ private fun Preview_StringGradientThreeColors() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("Rainbow-style gradient"),
+                text = UiText.StringText("Rainbow-style gradient"),
                 fontSize = AppDimens.Fonts.font24,
                 fontWeight = FontWeight.Bold,
                 brush = Brush.horizontalGradient(
@@ -311,7 +311,7 @@ private fun Preview_StringMultiline() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.StringText("First line of text.\nSecond line here.\nThird line for multiline preview."),
+                text = UiText.StringText("First line of text.\nSecond line here.\nThird line for multiline preview."),
                 minLines = 2,
                 maxLines = 5,
                 textAlign = TextAlign.Start,
@@ -339,7 +339,7 @@ private fun Preview_AnnotatedStringBold() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.AnnotatedStringText(annotated),
+                text = UiText.AnnotatedStringText(annotated),
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -360,7 +360,7 @@ private fun Preview_AnnotatedStringColored() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.AnnotatedStringText(annotated),
+                text = UiText.AnnotatedStringText(annotated),
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -385,7 +385,7 @@ private fun Preview_AnnotatedStringMixed() {
         Box(Modifier.fillMaxWidth().padding(PreviewPadding)) {
             CustomText(
                 modifier = Modifier.fillMaxWidth(),
-                text = CustomTextToDisplay.AnnotatedStringText(annotated),
+                text = UiText.AnnotatedStringText(annotated),
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

@@ -27,13 +27,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 
 @Composable
 fun CustomButton(
     modifier: Modifier = Modifier,
     textModifier:Modifier = Modifier.wrapContentSize(),
-    buttonText: CustomTextToDisplay,
+    buttonText: UiText,
     buttonColor: Color? = null,
     buttonBrush: Brush? = null,
     textColor: Color,

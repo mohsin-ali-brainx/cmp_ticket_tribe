@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextSupportStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextLabelStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextStyle
@@ -70,7 +70,7 @@ fun CustomBasicUnderlineTextField(
     textFieldModifier: Modifier = Modifier.fillMaxWidth(),
     text: String,
     label:StringResource,
-    supportText: CustomTextToDisplay?=null,
+    supportText: UiText?=null,
     cursorBrush: Color = Color.Black,
     textStyle: TextStyle = defaultEditTextStyle(),
     labelStyle: TextStyle = defaultEditTextLabelStyle(),
@@ -275,9 +275,9 @@ fun CustomBasicUnderlineTextField(
         )
         }
         if (supportText!=null){
-            if ((supportText is CustomTextToDisplay.StringText && supportText.text.isBlank() )
-                ||(supportText is CustomTextToDisplay.StringResourceText && stringResource(supportText.text).isBlank())
-                ||(supportText is CustomTextToDisplay.AnnotatedStringText && supportText.text.isBlank())
+            if ((supportText is UiText.StringText && supportText.text.isBlank() )
+                ||(supportText is UiText.StringResourceText && stringResource(supportText.text).isBlank())
+                ||(supportText is UiText.AnnotatedStringText && supportText.text.isBlank())
                 ) return
             CustomText(Modifier.padding(top = AppDimens.Padding.padding8),
                 text= supportText,
