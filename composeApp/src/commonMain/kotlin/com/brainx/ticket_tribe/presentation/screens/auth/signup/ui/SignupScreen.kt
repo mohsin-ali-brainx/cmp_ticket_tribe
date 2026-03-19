@@ -282,7 +282,13 @@ private fun SignupScreenContent(
             val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
             ConfirmPasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(confirmPassword) {
-                    top.linkTo(password.bottom, margin = AppDimens.Padding.padding20)
+                    linkTo(
+                        top = password.bottom,
+                        bottom = loginBtn.top,
+                        bias = ExtConstants.FloatConstants.ZERO,
+                        topMargin = AppDimens.Padding.padding20 ,
+                        bottomMargin = AppDimens.Padding.padding16
+                    )
                 },
                 label = Res.string.confirm_password,
                 passwordText = passwordText,

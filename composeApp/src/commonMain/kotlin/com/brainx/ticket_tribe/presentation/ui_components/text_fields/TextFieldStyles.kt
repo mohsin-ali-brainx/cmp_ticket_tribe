@@ -19,7 +19,7 @@ fun editTextStyle(
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
     textColor,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign)
@@ -31,7 +31,7 @@ fun defaultEditTextStyle(
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
     textColor,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign)
@@ -43,7 +43,7 @@ fun basicEditTextHintStyle(
     textAlign: TextAlign = TextAlign.Start
 ) = TextStyle(
     textColor,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign
@@ -55,7 +55,7 @@ fun defaultEditTextLabelStyle(
     textColor: Color = LocalAppTheme.current.editText.primaryBlackTextColor,
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign)
@@ -67,7 +67,7 @@ fun basicEditTextSupportStyle(
     textAlign: TextAlign = TextAlign.Start
 ) = TextStyle(
     textColor,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign

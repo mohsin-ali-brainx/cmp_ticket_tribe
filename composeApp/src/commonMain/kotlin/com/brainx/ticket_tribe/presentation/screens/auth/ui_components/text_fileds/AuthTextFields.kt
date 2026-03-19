@@ -160,7 +160,7 @@ fun PasswordTextField(
             },
         onValueChange = {
             passwordErrorState = if(it.isBlank()) FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
-            else PasswordValidator().invoke(password = passwordText, ignoreEmpty = true)
+            else PasswordValidator().invoke(password = it, ignoreEmpty = true)
             onValueChange(it)
         },
         isValid = passwordErrorState.isValid,
