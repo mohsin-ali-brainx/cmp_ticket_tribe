@@ -35,12 +35,13 @@ import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
 import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.ticket_tribe.utils.validators.NameValidator
 import com.brainx.ticket_tribe.utils.validators.PasswordValidator
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.StringResource
 import tickettribecmp.composeapp.generated.resources.ic_hide_password
 import tickettribecmp.composeapp.generated.resources.ic_show_password
-import tickettribecmp.composeapp.generated.resources.password_does_not_match
+import tickettribecmp.composeapp.generated.resources.please_enter_valid_name
 
 @Composable
 fun EmailTextField(
@@ -244,6 +245,66 @@ fun ConfirmPasswordTextField(
                 )
             }
         },
+        keyboardActions = onKeyboardActions
+    )
+}
+
+@Composable
+fun SimpleTextFieldWithErrorState(
+    modifier: Modifier,
+    text: String,
+    label: StringResource,
+    imeAction: ImeAction=ImeAction.Next,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+    var errorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    CustomBasicUnderlineTextField(
+        text = text,
+        modifier = modifier
+            .onFocusChanged {
+                if (!it.hasFocus) {
+                    errorState = NameValidator().invoke(text = text, errorMessage = Res.string.please_enter_valid_name ,ignoreEmpty = true)
+                }
+            }
+            .onFocusEvent {
+
+            },
+        onValueChange = {
+            errorState = FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            onValueChange(it)
+        },
+        isValid = errorState.isValid,
+        supportText = errorState.errorText,
+        singleLine = true,
+        label = label,
+        keyboardType = KeyboardType.Text,
+        imeAction = imeAction,
+        keyboardActions = onKeyboardActions
+    )
+}
+
+@Composable
+fun SimpleTextField(
+    modifier: Modifier,
+    text: String,
+    label: StringResource,
+    imeAction: ImeAction=ImeAction.Next,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+
+    CustomBasicUnderlineTextField(
+        text = text,
+        modifier = modifier,
+        onValueChange = {
+            onValueChange(it)
+        },
+        singleLine = true,
+        label = label,
+        keyboardType = KeyboardType.Text,
+        imeAction = imeAction,
         keyboardActions = onKeyboardActions
     )
 }

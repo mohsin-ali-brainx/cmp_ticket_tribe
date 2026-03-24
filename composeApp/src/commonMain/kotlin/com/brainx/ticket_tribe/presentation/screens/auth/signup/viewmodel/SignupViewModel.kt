@@ -7,7 +7,10 @@ import com.brainx.domain.pref_manager.DatastorePrefManager
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_events.SignupUiEvents
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_intents.SignupUiIntents
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_state.SignupUiState
+import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.ticket_tribe.utils.validators.NameValidator
+import com.brainx.ticket_tribe.utils.validators.PasswordValidator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,11 +50,9 @@ class SignupViewModel (
     ): Boolean {
         _state.value.apply {
             return EmailValidator().invoke(email ?: emailText).isValid
-                    && (firstName ?: firstNameText).isNotBlank()
-                    && (lastName ?: lastNameText).isNotBlank()
-                    && (password ?: passwordText).isNotBlank()
-                    && (confirmPassword ?: confirmPasswordText).isNotBlank()
-                    && passwordText == confirmPasswordText
+                    && NameValidator().invoke(text = firstName?:firstNameText,).isValid
+                    && PasswordValidator().invoke(password = password?:passwordText).isValid
+                    && ConfirmPasswordValidator().invoke(confirmPassword = confirmPassword?:confirmPasswordText, password = password?:passwordText).isValid
         }
     }
 

@@ -44,6 +44,8 @@ import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.Move
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.ConfirmPasswordTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.EmailTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.PasswordTextField
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextField
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextFieldWithErrorState
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
@@ -186,15 +188,9 @@ private fun SignupScreenContent(
 
             val firstNameText = remember(dataState.firstNameText) { dataState.firstNameText }
 
-            CustomBasicUnderlineTextField(
+            SimpleTextFieldWithErrorState(
                 text = firstNameText,
                 modifier = Modifier
-                    .onFocusChanged {
-
-                    }
-                    .onFocusEvent {
-
-                    }
                     .constrainAs(firstName){
                         top.linkTo(sso.bottom, margin = AppDimens.Padding.padding20)
                         start.linkTo(parent.start)
@@ -205,11 +201,9 @@ private fun SignupScreenContent(
                 onValueChange = {
                     onIntent(SignupUiIntents.TextFieldsIntent.OnFirstNameTextUpdate(firstName = it))
                 },
-                singleLine = true,
                 label = Res.string.first_name,
-                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next,
-                keyboardActions = KeyboardActions(
+                onKeyboardActions = KeyboardActions(
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Right)
                     }
@@ -218,15 +212,9 @@ private fun SignupScreenContent(
 
             val lastNameText = remember(dataState.lastNameText) { dataState.lastNameText }
 
-            CustomBasicUnderlineTextField(
+            SimpleTextField(
                 text = lastNameText,
                 modifier = Modifier
-                    .onFocusChanged {
-
-                    }
-                    .onFocusEvent {
-
-                    }
                     .constrainAs(lastName){
                         top.linkTo(sso.bottom, margin = AppDimens.Padding.padding20)
                         end.linkTo(parent.end)
@@ -237,11 +225,9 @@ private fun SignupScreenContent(
                 onValueChange = {
                     onIntent(SignupUiIntents.TextFieldsIntent.OnLastNameTextUpdate(lastName = it))
                 },
-                singleLine = true,
                 label = Res.string.last_name,
-                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next,
-                keyboardActions = KeyboardActions(
+                onKeyboardActions = KeyboardActions(
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }

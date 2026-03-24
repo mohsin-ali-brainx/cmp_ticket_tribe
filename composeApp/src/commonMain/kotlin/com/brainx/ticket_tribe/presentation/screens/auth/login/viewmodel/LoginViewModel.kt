@@ -10,8 +10,8 @@ import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_events.LoginUi
 import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginUiIntents
 import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_state.LoginUiState
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.ticket_tribe.utils.validators.NameValidator
 import com.brainx.utils_extensions.extensions.trimExtraSpaces
-import com.brainx.utils_extensions.navigation.toJson
 import com.brainx.utils_extensions.platformLog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
