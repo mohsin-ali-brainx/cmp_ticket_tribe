@@ -4,7 +4,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.brainx.utils_extensions.platformLog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -35,7 +34,7 @@ class EncryptedDataStore internal constructor(
     private val json: Json = EncryptedDataStoreDefaults.json
 ) {
 
-    companion object {
+    private companion object {
         private const val VALUE_PREFIX = "__enc_value_"
         private const val META_PREFIX = "__enc_meta_"
         private const val META_SUFFIX = "__"
