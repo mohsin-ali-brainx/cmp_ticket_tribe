@@ -13,7 +13,8 @@ class NameValidator{
     operator fun invoke(text:String, errorMessage: StringResource?=null, ignoreEmpty:Boolean=false): FormValidityState {
         text.apply {
             if (!ignoreEmpty && isBlank()) return FormValidityState(false, UiText.StringResourceText(errorMessage?:Res.string.required_field))
-            if (isNotBlank()) return FormValidityState(false,UiText.StringResourceText(errorMessage?:Res.string.required_field))
+            if (ignoreEmpty && isBlank()) return FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            if (trim().isBlank()) return FormValidityState(false,UiText.StringResourceText(errorMessage?:Res.string.required_field))
         }
         return FormValidityState(true,UiText.StringText(ExtConstants.StringConstants.EMPTY))
     }

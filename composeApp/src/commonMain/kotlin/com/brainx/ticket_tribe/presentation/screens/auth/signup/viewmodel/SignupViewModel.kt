@@ -41,19 +41,26 @@ class SignupViewModel (
         }
     }
 
-    private fun isFormButtonValid(
-        email: String? = null,
-        password: String? = null,
-        firstName:String?=null,
-        lastName:String?=null,
-        confirmPassword:String?=null
-    ): Boolean {
-        _state.value.apply {
-            return EmailValidator().invoke(email ?: emailText).isValid
-                    && NameValidator().invoke(text = firstName?:firstNameText,).isValid
-                    && PasswordValidator().invoke(password = password?:passwordText).isValid
-                    && ConfirmPasswordValidator().invoke(confirmPassword = confirmPassword?:confirmPasswordText, password = password?:passwordText).isValid
-        }
+    private fun isFormButtonValid(state: SignupUiState): Boolean {
+
+       return NameValidator().invoke(state.firstNameText).isValid
+                && NameValidator().invoke(state.lastNameText, ignoreEmpty = true).isValid
+                && EmailValidator().invoke(state.emailText).isValid
+                && PasswordValidator().invoke(state.passwordText).isValid
+                && ConfirmPasswordValidator().invoke(
+            password = state.passwordText,
+            confirmPassword = state.confirmPasswordText
+        ).isValid
+
+
+//        return EmailValidator().invoke(state.emailText).isValid
+//                && NameValidator().invoke(text = state.firstNameText).isValid
+//                && NameValidator().invoke(text = state.lastNameText).isValid
+//                && PasswordValidator().invoke(password = state.passwordText).isValid
+//                && ConfirmPasswordValidator().invoke(
+//                    password = state.passwordText,
+//                    confirmPassword = state.confirmPasswordText
+//                ).isValid
     }
 
     fun onIntent(intent: SignupUiIntents) {
@@ -63,43 +70,33 @@ class SignupViewModel (
             }
             is SignupUiIntents.TextFieldsIntent.OnFirstNameTextUpdate -> {
                 _state.update {
-                    it.copy(
-                        firstNameText = intent.firstName,
-                        isFormButtonValid = isFormButtonValid(firstName = intent.firstName)
-                    )
+                    val updated = it.copy(firstNameText = intent.firstName)
+                    updated.copy(isFormButtonValid = isFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnLastNameTextUpdate -> {
                 _state.update {
-                    it.copy(
-                        lastNameText = intent.lastName,
-                        isFormButtonValid = isFormButtonValid(lastName = intent.lastName)
-                    )
+                    val updated = it.copy(lastNameText = intent.lastName)
+                    updated.copy(isFormButtonValid = isFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnEmailTextUpdate -> {
                 _state.update {
-                    it.copy(
-                        emailText = intent.email,
-                        isFormButtonValid = isFormButtonValid(email = intent.email)
-                    )
+                    val updated = it.copy(emailText = intent.email)
+                    updated.copy(isFormButtonValid = isFormButtonValid(updated))
                 }
             }
 
             is SignupUiIntents.TextFieldsIntent.OnPasswordTextUpdate -> {
                 _state.update {
-                    it.copy(
-                        passwordText = intent.password,
-                        isFormButtonValid = isFormButtonValid(password = intent.password)
-                    )
+                    val updated = it.copy(passwordText = intent.password)
+                    updated.copy(isFormButtonValid = isFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnConfirmPasswordTextUpdate -> {
                 _state.update {
-                    it.copy(
-                        confirmPasswordText = intent.confirmPassword,
-                        isFormButtonValid = isFormButtonValid(confirmPassword = intent.confirmPassword)
-                    )
+                    val updated = it.copy(confirmPasswordText = intent.confirmPassword)
+                    updated.copy(isFormButtonValid = isFormButtonValid(updated))
                 }
             }
             else -> Unit

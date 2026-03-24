@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -205,6 +206,19 @@ fun ConfirmPasswordTextField(
     var passwordVisible by remember { mutableStateOf(false) }
 
     var passwordErrorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    LaunchedEffect(passwordText, confirmPasswordText) {
+        passwordErrorState =
+            if (confirmPasswordText.isBlank()) {
+                FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            } else {
+                ConfirmPasswordValidator().invoke(
+                    confirmPassword = confirmPasswordText,
+                    password = passwordText,
+                    ignoreEmpty = true
+                )
+            }
+    }
 
     CustomBasicUnderlineTextField(
         text = confirmPasswordText,
