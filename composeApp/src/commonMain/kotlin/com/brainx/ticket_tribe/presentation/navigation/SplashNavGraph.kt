@@ -34,7 +34,7 @@ fun NavGraphBuilder.splashNavGraph(navController: NavHostController){
                     viewModel.onIntent(it)
                 },
                 onNavigate = { route, shouldClearBackStack ->
-                    navController.safeNavToNextScreen(route, shouldClearBackStack)
+                    navController.safeNavToNextScreen(route, shouldClearBackStack = shouldClearBackStack)
                 },
                 onNavigateSequentially = { firstRoute, secondRoute, shouldClearBackStack ->
                     scope.launch {
