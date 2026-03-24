@@ -52,6 +52,10 @@ import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
+import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
+import com.brainx.ticket_tribe.utils.validators.EmailValidator
+import com.brainx.ticket_tribe.utils.validators.NameValidator
+import com.brainx.ticket_tribe.utils.validators.PasswordValidator
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
@@ -306,6 +310,7 @@ private fun SignupScreenContent(
             )
 
             val isFormValid = remember(dataState.isFormButtonValid) { dataState.isFormButtonValid }
+
             val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
             PrimaryBlackButton(
                 modifier = Modifier.constrainAs(nextBtn) {
