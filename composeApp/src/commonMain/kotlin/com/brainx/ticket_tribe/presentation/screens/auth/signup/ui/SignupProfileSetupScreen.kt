@@ -138,6 +138,15 @@ private fun SignupProfileSetupScreenContent(
         isKeyboardVisible = keyboardHeight > 0
     }
 
+    val userNameText = remember(dataState.userNameText) { dataState.userNameText }
+    val countryCodeText = remember(dataState.countryCode) { dataState.countryCode }
+    val phoneText = remember(dataState.phoneText) { dataState.phoneText }
+    val locationText = remember(dataState.locationText) { dataState.locationText }
+    val isTermsChecked = remember(dataState.isTermsChecked) { dataState.isTermsChecked }
+    val isFormValid = remember(dataState.isSignupProfileFormButtonValid) { dataState.isSignupProfileFormButtonValid }
+    val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
+
+
     Scaffold(
         modifier = Modifier
             .background(theme.background.whiteColor)
@@ -230,7 +239,6 @@ private fun SignupProfileSetupScreenContent(
             )
 
 
-            val userNameText = remember(dataState.userNameText) { dataState.userNameText }
 
             SimpleUserNameTextFieldWithErrorState(
                     text = userNameText,
@@ -251,7 +259,6 @@ private fun SignupProfileSetupScreenContent(
                     )
             )
 
-            val countryCodeText = remember(dataState.countryCode) { dataState.countryCode }
 
             SimpleNameTextFieldWithErrorState(
                 text = countryCodeText,
@@ -274,7 +281,6 @@ private fun SignupProfileSetupScreenContent(
                 )
             )
 
-            val phoneText = remember(dataState.phoneText) { dataState.phoneText }
 
             SimpleTextField(
                 text = phoneText,
@@ -298,7 +304,6 @@ private fun SignupProfileSetupScreenContent(
                 )
             )
 
-            val locationText = remember(dataState.locationText) { dataState.locationText }
 
             SimpleTextField(
                 text = locationText,
@@ -320,7 +325,6 @@ private fun SignupProfileSetupScreenContent(
                 trailingIcon = Res.drawable.ic_arrow,
             )
 
-            val isTermsChecked = remember(dataState.isTermsChecked) { dataState.isTermsChecked }
             CustomCheckbox(
                 checked = isTermsChecked,
                 label = UiText.StringResourceText(text = Res.string.agree_terms),
@@ -342,8 +346,6 @@ private fun SignupProfileSetupScreenContent(
 
             )
 
-            val isFormValid = remember(dataState.isSignupProfileFormButtonValid) { dataState.isSignupProfileFormButtonValid }
-            val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
 
             PrimaryBlackButton(
                 modifier = Modifier.constrainAs(signupBtn) {

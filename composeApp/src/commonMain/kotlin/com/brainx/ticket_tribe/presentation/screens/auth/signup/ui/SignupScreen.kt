@@ -131,6 +131,14 @@ private fun SignupScreenContent(
         isKeyboardVisible = keyboardHeight > 0
     }
 
+    val firstNameText = remember(dataState.firstNameText) { dataState.firstNameText }
+    val lastNameText = remember(dataState.lastNameText) { dataState.lastNameText }
+    val emailText = remember(dataState.emailText) { dataState.emailText }
+    val passwordText = remember(dataState.passwordText) { dataState.passwordText }
+    val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
+    val isFormValid = remember(dataState.isSignupFormButtonValid) { dataState.isSignupFormButtonValid }
+
+
     Scaffold(
         modifier = Modifier
             .background(theme.background.whiteColor)
@@ -186,7 +194,6 @@ private fun SignupScreenContent(
                 onAppleClickAction = {}
             )
 
-            val firstNameText = remember(dataState.firstNameText) { dataState.firstNameText }
 
             SimpleNameTextFieldWithErrorState(
                 text = firstNameText,
@@ -210,7 +217,6 @@ private fun SignupScreenContent(
                 )
             )
 
-            val lastNameText = remember(dataState.lastNameText) { dataState.lastNameText }
 
             SimpleTextField(
                 text = lastNameText,
@@ -234,7 +240,6 @@ private fun SignupScreenContent(
                 )
             )
 
-            val emailText = remember(dataState.emailText) { dataState.emailText }
 
             EmailTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(email) {
@@ -247,7 +252,6 @@ private fun SignupScreenContent(
                 },
             )
 
-            val passwordText = remember(dataState.passwordText) { dataState.passwordText }
             PasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(password) {
                     top.linkTo(email.bottom, margin = AppDimens.Padding.padding20)
@@ -265,7 +269,6 @@ private fun SignupScreenContent(
             )
 
 
-            val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
             ConfirmPasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(confirmPassword) {
                     linkTo(
@@ -305,7 +308,6 @@ private fun SignupScreenContent(
                 }
             )
 
-            val isFormValid = remember(dataState.isSignupFormButtonValid) { dataState.isSignupFormButtonValid }
 
             PrimaryBlackButton(
                 modifier = Modifier.constrainAs(nextBtn) {

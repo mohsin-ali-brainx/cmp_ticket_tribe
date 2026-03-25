@@ -118,6 +118,12 @@ private fun LoginScreenContent(
         isKeyboardVisible = keyboardHeight > 0
     }
 
+    val emailText = remember(dataState.emailText) { dataState.emailText }
+    val passwordText = remember(dataState.passwordText) { dataState.passwordText }
+    val isFormValid = remember(dataState.isFormButtonValid) { dataState.isFormButtonValid }
+    val isLoading = remember(dataState.isLoginLoading) { dataState.isLoginLoading }
+
+
     Scaffold(
         modifier = Modifier
             .background(theme.background.whiteColor)
@@ -171,7 +177,6 @@ private fun LoginScreenContent(
                 onAppleClickAction = {}
             )
 
-            val emailText = remember(dataState.emailText) { dataState.emailText }
 
             EmailTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(email) {
@@ -184,7 +189,6 @@ private fun LoginScreenContent(
                 },
             )
 
-            val passwordText = remember(dataState.passwordText) { dataState.passwordText }
 
             LoginPasswordTextField(
                 modifier = Modifier.fillMaxWidth().constrainAs(password) {
@@ -234,8 +238,7 @@ private fun LoginScreenContent(
                 }
             )
 
-            val isFormValid = remember(dataState.isFormButtonValid) { dataState.isFormButtonValid }
-            val isLoading = remember(dataState.isLoginLoading) { dataState.isLoginLoading }
+
             PrimaryBlackButton(
                 modifier = Modifier.constrainAs(loginBtn) {
                     bottom.linkTo(parent.bottom, margin = AppDimens.Padding.padding8)
