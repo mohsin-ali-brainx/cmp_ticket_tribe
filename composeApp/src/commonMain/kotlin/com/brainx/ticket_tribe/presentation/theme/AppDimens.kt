@@ -8,11 +8,13 @@ sealed interface AppDimens{
 
     data object Padding: AppDimens {
         val zero = 0.dp
+
         val textPadding4 = 4.0.dp
 
         val iconPadding = 8.0.dp
-
+        val padding2 = 2.0.dp
         val padding4 = 4.0.dp
+        val padding6 = 6.0.dp
         val padding8 = 8.0.dp
         val padding12 = 12.0.dp
         val padding16 = 16.0.dp
@@ -69,7 +71,7 @@ sealed interface AppDimens{
     }
 
     data object EditText: AppDimens {
-        val defaultTextFieldHeight = 60.0.dp
+        val defaultTextFieldHeight = 50.0.dp
         val smallTextFieldHeight = 35.0.dp
         val defaultCommentTextFieldHeight = 150.0.dp
         val defaultMultiTextFieldHeight = 140.0.dp
@@ -147,6 +149,8 @@ sealed interface AppDimens{
         val dividerHeight2 = 2.0.dp
         val dividerHeight = 5.0.dp
         val dividerWidth = 50.0.dp
+        val dividerWidth1 = 1.0.dp
+
     }
 
 

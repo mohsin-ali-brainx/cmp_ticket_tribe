@@ -1,6 +1,9 @@
 package com.brainx.ticket_tribe.presentation.screens.auth.signup.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -20,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
@@ -29,7 +35,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,7 +49,7 @@ import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_intents.Signu
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_state.SignupUiState
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthDescriptionText
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthTitleText
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleNameTextFieldWithErrorState
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimplePhoneTextFieldWithErrorState
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleUserNameTextFieldWithErrorState
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
@@ -50,8 +58,10 @@ import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.IconButton
 import com.brainx.ticket_tribe.presentation.ui_components.checkbox.CustomCheckbox
+import com.brainx.ticket_tribe.presentation.ui_components.dropdown_menu.UnderlineDropdownField
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
+import com.brainx.ticket_tribe.utils.enums.CountryCode
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
@@ -63,12 +73,12 @@ import kotlinx.coroutines.flow.StateFlow
 import tickettribecmp.composeapp.generated.resources.Res
 import tickettribecmp.composeapp.generated.resources.add_profile_image_optional
 import tickettribecmp.composeapp.generated.resources.agree_terms
-import tickettribecmp.composeapp.generated.resources.country_code
 import tickettribecmp.composeapp.generated.resources.ic_arrow
 import tickettribecmp.composeapp.generated.resources.ic_back
 import tickettribecmp.composeapp.generated.resources.ic_upload
 import tickettribecmp.composeapp.generated.resources.location
 import tickettribecmp.composeapp.generated.resources.phone_number
+import tickettribecmp.composeapp.generated.resources.select_a_country
 import tickettribecmp.composeapp.generated.resources.sign_up
 import tickettribecmp.composeapp.generated.resources.sign_up_heading
 import tickettribecmp.composeapp.generated.resources.user_name
@@ -139,12 +149,14 @@ private fun SignupProfileSetupScreenContent(
     }
 
     val userNameText = remember(dataState.userNameText) { dataState.userNameText }
-    val countryCodeText = remember(dataState.countryCode) { dataState.countryCode }
     val phoneText = remember(dataState.phoneText) { dataState.phoneText }
     val locationText = remember(dataState.locationText) { dataState.locationText }
     val isTermsChecked = remember(dataState.isTermsChecked) { dataState.isTermsChecked }
     val isFormValid = remember(dataState.isSignupProfileFormButtonValid) { dataState.isSignupProfileFormButtonValid }
     val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
+    val selectedCode = remember(dataState.selectedCountryCode) { dataState.selectedCountryCode }
+    var expanded by remember { mutableStateOf(false) }
+
 
 
     Scaffold(
@@ -168,7 +180,7 @@ private fun SignupProfileSetupScreenContent(
 
         ) {
             val (title, desc, back ,profileImage, addProfileTitle, username ,countryCode, phone, location, termCheckbox , signupBtn) = createRefs()
-            val centerGuideline = createGuidelineFromStart(0.35f)
+            val centerGuideline = createGuidelineFromStart(0.3f)
 
             AuthTitleText(
                 text = UiText.StringResourceText(text = Res.string.sign_up),
@@ -260,30 +272,35 @@ private fun SignupProfileSetupScreenContent(
             )
 
 
-            SimpleNameTextFieldWithErrorState(
-                text = countryCodeText,
-                modifier = Modifier
-                    .constrainAs(countryCode){
-                        top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
-                        start.linkTo(parent.start)
-                        end.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
-                        bottom.linkTo(phone.bottom)
-                        width = Dimension.fillToConstraints
-                    },
-                onValueChange = {
+            UnderlineDropdownField(
+                modifier = Modifier.constrainAs(countryCode){
+                    top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
+                    start.linkTo(parent.start)
+                    end.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
+                    width = Dimension.fillToConstraints
+                }.padding(end = AppDimens.Padding.padding16),
+                matchAnchorWidth = false,
+                dropdownWidth = 350.dp,
+                showLabel = false,
+                selected = selectedCode,
+                options = CountryCode.sortedByDialCode,
+                optionLabel = { "${it.flag} ${it.dialCode}" },
+                expanded = expanded,
+                onExpandedChange = { expanded = it },
+                onSelected = { onIntent(SignupUiIntents.TextFieldsIntent.OnCountryCodeSelected(it)) },
+                placeholder = UiText.StringResourceText(Res.string.select_a_country),
+                selectedContent = { code ->
+                    SelectedCodeContent(code)
                 },
-                label = Res.string.country_code,
-                imeAction = ImeAction.Next,
-                onKeyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Right)
-                    }
-                )
+                optionContent = { code ->
+                    DropDownMenuOptionContent(code)
+                }
             )
 
 
-            SimpleTextField(
+            SimplePhoneTextFieldWithErrorState(
                 text = phoneText,
+                countryCode = selectedCode,
                 modifier = Modifier
                     .constrainAs(phone){
                         top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
@@ -293,7 +310,7 @@ private fun SignupProfileSetupScreenContent(
                         width= Dimension.fillToConstraints
                     },
                 onValueChange = {
-                    onIntent(SignupUiIntents.TextFieldsIntent.OnLastNameTextUpdate(lastName = it))
+                    onIntent(SignupUiIntents.TextFieldsIntent.OnPhoneTextUpdate(phone = it))
                 },
                 label = Res.string.phone_number,
                 imeAction = ImeAction.Next,
@@ -363,6 +380,35 @@ private fun SignupProfileSetupScreenContent(
                 onIntent(SignupUiIntents.ButtonIntents.OnSignupButtonIntent)
             }
         }
+    }
+}
+
+@Composable
+private fun SelectedCodeContent(code: CountryCode){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.flag))
+        Spacer(Modifier.width(AppDimens.Padding.padding4))
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.dialCode))
+    }
+}
+
+@Composable
+private fun DropDownMenuOptionContent(code: CountryCode){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.flag))
+        Spacer(Modifier.width(AppDimens.Padding.padding8))
+        CustomText(
+            text = UiText.StringText("${code.dialCode}  •  ${code.countryName}"),
+            modifier = Modifier.weight(1f),
+            minLines = 1,
+            maxLines = 1,
+            textOverflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Start
+        )
     }
 }
 

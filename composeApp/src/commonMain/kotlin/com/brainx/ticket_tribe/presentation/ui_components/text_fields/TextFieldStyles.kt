@@ -15,7 +15,7 @@ import com.brainx.ticket_tribe.presentation.theme.colors.EditTextColors
 @Composable
 fun editTextStyle(
     fontSize: TextUnit = AppDimens.Fonts.font16,
-    textColor: Color = LocalAppTheme.current.editText.tertiaryWhiteTextColor,
+    textColor: Color = LocalAppTheme.current.editText.primaryBlackTextColor,
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
     textColor,

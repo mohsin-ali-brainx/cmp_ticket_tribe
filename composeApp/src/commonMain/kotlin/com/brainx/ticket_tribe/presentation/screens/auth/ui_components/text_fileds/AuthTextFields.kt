@@ -34,10 +34,12 @@ import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field.CustomBasicUnderlineTextField
+import com.brainx.ticket_tribe.utils.enums.CountryCode
 import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.ticket_tribe.utils.validators.NameValidator
 import com.brainx.ticket_tribe.utils.validators.PasswordValidator
+import com.brainx.ticket_tribe.utils.validators.PhoneNumberValidator
 import com.brainx.ticket_tribe.utils.validators.UsernameValidator
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.DrawableResource
@@ -371,6 +373,45 @@ fun SimpleUserNameTextFieldWithErrorState(
         keyboardActions = onKeyboardActions
     )
 }
+
+@Composable
+fun SimplePhoneTextFieldWithErrorState(
+    modifier: Modifier,
+    text: String,
+    countryCode: CountryCode,
+    label: StringResource,
+    imeAction: ImeAction=ImeAction.Next,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+    var errorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    CustomBasicUnderlineTextField(
+        text = text,
+        modifier = modifier
+            .onFocusChanged {
+                if (!it.hasFocus) {
+                    errorState = PhoneNumberValidator().invoke(text = text, countryCode = countryCode,ignoreEmpty = true)
+                }
+            }
+            .onFocusEvent {
+
+            },
+        onValueChange = {
+            errorState = FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            onValueChange(it)
+        },
+        isValid = errorState.isValid,
+        supportText = errorState.errorText,
+        singleLine = true,
+        label = label,
+        maxLength = countryCode.maxLength,
+        keyboardType = KeyboardType.Phone,
+        imeAction = imeAction,
+        keyboardActions = onKeyboardActions
+    )
+}
+
 
 
 @Preview(showBackground = true,backgroundColor = 0xFFFFFF)

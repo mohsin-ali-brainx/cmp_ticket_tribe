@@ -11,6 +11,8 @@ import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.ticket_tribe.utils.validators.NameValidator
 import com.brainx.ticket_tribe.utils.validators.PasswordValidator
+import com.brainx.ticket_tribe.utils.validators.PhoneNumberValidator
+import com.brainx.ticket_tribe.utils.validators.UsernameValidator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,16 +49,15 @@ class SignupViewModel (
                 && NameValidator().invoke(state.lastNameText, ignoreEmpty = true).isValid
                 && EmailValidator().invoke(state.emailText).isValid
                 && PasswordValidator().invoke(state.passwordText).isValid
-                && ConfirmPasswordValidator().invoke(
-            password = state.passwordText,
-            confirmPassword = state.confirmPasswordText
-        ).isValid
+                && ConfirmPasswordValidator().invoke(password = state.passwordText, confirmPassword = state.confirmPasswordText).isValid
 
     }
 
     private fun isProfileFormButtonValid(state: SignupUiState): Boolean {
 
-        return false
+        return UsernameValidator().invoke(state.userNameText).isValid
+                && PhoneNumberValidator().invoke(text = state.phoneText, countryCode = state.selectedCountryCode).isValid
+                && state.isTermsChecked
 
     }
 
@@ -71,37 +72,43 @@ class SignupViewModel (
             is SignupUiIntents.TextFieldsIntent.OnFirstNameTextUpdate -> {
                 _state.update {
                     val updated = it.copy(firstNameText = intent.firstName)
-                    updated.copy(isSignupFormButtonValid = isSignupFormButtonValid(updated))
+                    updated.copy(isNextFormButtonValid = isSignupFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnLastNameTextUpdate -> {
                 _state.update {
                     val updated = it.copy(lastNameText = intent.lastName)
-                    updated.copy(isSignupFormButtonValid = isSignupFormButtonValid(updated))
+                    updated.copy(isNextFormButtonValid = isSignupFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnEmailTextUpdate -> {
                 _state.update {
                     val updated = it.copy(emailText = intent.email)
-                    updated.copy(isSignupFormButtonValid = isSignupFormButtonValid(updated))
+                    updated.copy(isNextFormButtonValid = isSignupFormButtonValid(updated))
                 }
             }
 
             is SignupUiIntents.TextFieldsIntent.OnPasswordTextUpdate -> {
                 _state.update {
                     val updated = it.copy(passwordText = intent.password)
-                    updated.copy(isSignupFormButtonValid = isSignupFormButtonValid(updated))
+                    updated.copy(isNextFormButtonValid = isSignupFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnConfirmPasswordTextUpdate -> {
                 _state.update {
                     val updated = it.copy(confirmPasswordText = intent.confirmPassword)
-                    updated.copy(isSignupFormButtonValid = isSignupFormButtonValid(updated))
+                    updated.copy(isNextFormButtonValid = isSignupFormButtonValid(updated))
                 }
             }
             is SignupUiIntents.TextFieldsIntent.OnUserNameTextUpdate -> {
                 _state.update {
                     val updated = it.copy(userNameText = intent.username)
+                    updated.copy(isSignupProfileFormButtonValid = isProfileFormButtonValid(updated))
+                }
+            }
+            is SignupUiIntents.TextFieldsIntent.OnPhoneTextUpdate -> {
+                _state.update {
+                    val updated = it.copy(phoneText = intent.phone)
                     updated.copy(isSignupProfileFormButtonValid = isProfileFormButtonValid(updated))
                 }
             }
@@ -114,7 +121,13 @@ class SignupViewModel (
             is SignupUiIntents.CheckBoxIntent.OnTermsCheckboxIntent->{
                 _state.update {
                     val updated = it.copy(isTermsChecked = !it.isTermsChecked)
-                    updated.copy(isSignupFormButtonValid = isProfileFormButtonValid(updated))
+                    updated.copy(isSignupProfileFormButtonValid = isProfileFormButtonValid(updated))
+                }
+            }
+            is SignupUiIntents.TextFieldsIntent.OnCountryCodeSelected->{
+                _state.update {
+                    val updated = it.copy(selectedCountryCode = intent.countryCode)
+                    updated.copy(isSignupProfileFormButtonValid = isProfileFormButtonValid(updated))
                 }
             }
             else -> Unit

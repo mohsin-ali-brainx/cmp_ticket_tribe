@@ -65,7 +65,6 @@ import tickettribecmp.composeapp.generated.resources.log_in
 import tickettribecmp.composeapp.generated.resources.next
 import tickettribecmp.composeapp.generated.resources.sign_up
 import tickettribecmp.composeapp.generated.resources.sign_up_heading
-import tickettribecmp.composeapp.generated.resources.welcome_to_ticket_tribe
 
 @Composable
 fun SignupScreen(
@@ -136,7 +135,7 @@ private fun SignupScreenContent(
     val emailText = remember(dataState.emailText) { dataState.emailText }
     val passwordText = remember(dataState.passwordText) { dataState.passwordText }
     val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
-    val isFormValid = remember(dataState.isSignupFormButtonValid) { dataState.isSignupFormButtonValid }
+    val isFormValid = remember(dataState.isNextFormButtonValid) { dataState.isNextFormButtonValid }
 
 
     Scaffold(

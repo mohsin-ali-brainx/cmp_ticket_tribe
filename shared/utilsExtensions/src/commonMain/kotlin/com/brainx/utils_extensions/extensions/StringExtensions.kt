@@ -73,6 +73,8 @@ fun String.isValidPhoneNumber(
     return Regex(pattern).matches(this)
 }
 
+
+
 /**
  * Simple validation to check if string contains only letters
  */
