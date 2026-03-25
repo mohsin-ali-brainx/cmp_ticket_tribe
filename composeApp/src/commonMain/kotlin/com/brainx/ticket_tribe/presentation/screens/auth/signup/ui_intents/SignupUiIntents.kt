@@ -6,6 +6,8 @@ sealed interface SignupUiIntents {
     sealed interface ButtonIntents{
         data object OnLoginButtonIntent : SignupUiIntents
         data object OnSignupButtonIntent : SignupUiIntents
+        data object OnNextButtonIntent : SignupUiIntents
+
 
     }
     sealed interface TextFieldsIntent{
@@ -19,6 +21,15 @@ sealed interface SignupUiIntents {
         value class OnPasswordTextUpdate(val password:String) : SignupUiIntents
         @JvmInline
         value class OnConfirmPasswordTextUpdate(val confirmPassword:String) : SignupUiIntents
+        @JvmInline
+        value class OnUserNameTextUpdate(val username:String) : SignupUiIntents
+        @JvmInline
+        value class OnLocationTextUpdate(val location:String) : SignupUiIntents
+    }
+
+    sealed interface CheckBoxIntent{
+        data object OnTermsCheckboxIntent : SignupUiIntents
+
     }
 
 }

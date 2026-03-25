@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
+import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextHintStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextSupportStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextLabelStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextStyle
@@ -89,6 +90,7 @@ fun CustomBasicUnderlineTextField(
     minLines:Int= ExtConstants.IntegerConstants.ONE,
     maxLines:Int?=null,
     enabled:Boolean=true,
+    readOnly:Boolean=false,
     isValid:Boolean=true,
     showSuccess: Boolean=false,
     successIndicatorColor: Color? = null,
@@ -229,6 +231,7 @@ fun CustomBasicUnderlineTextField(
             modifier = textFieldModifier,
             value = textFieldValue,
             enabled = enabled,
+            readOnly = readOnly,
             onValueChange = { newTextFieldValueState ->
                 if (maxLength != null && newTextFieldValueState.text.length > maxLength) return@BasicTextField
                 textFieldValueState = newTextFieldValueState

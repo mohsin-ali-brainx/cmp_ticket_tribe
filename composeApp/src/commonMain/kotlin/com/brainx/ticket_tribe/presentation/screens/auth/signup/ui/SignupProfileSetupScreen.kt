@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -20,10 +22,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -34,19 +39,18 @@ import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginU
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_events.SignupUiEvents
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_intents.SignupUiIntents
 import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_state.SignupUiState
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.button.SSOButton
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthDescriptionText
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthTitleText
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.MoveToAuth
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.ConfirmPasswordTextField
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.EmailTextField
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.PasswordTextField
-import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextField
 import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleNameTextFieldWithErrorState
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextField
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleUserNameTextFieldWithErrorState
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
+import com.brainx.ticket_tribe.presentation.ui_components.button.IconButton
+import com.brainx.ticket_tribe.presentation.ui_components.checkbox.CustomCheckbox
+import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
@@ -57,24 +61,26 @@ import com.brainx.utils_extensions.constants.ExtConstants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import tickettribecmp.composeapp.generated.resources.Res
-import tickettribecmp.composeapp.generated.resources.already_have_an_account
-import tickettribecmp.composeapp.generated.resources.confirm_password
-import tickettribecmp.composeapp.generated.resources.first_name
-import tickettribecmp.composeapp.generated.resources.last_name
-import tickettribecmp.composeapp.generated.resources.log_in
-import tickettribecmp.composeapp.generated.resources.next
+import tickettribecmp.composeapp.generated.resources.add_profile_image_optional
+import tickettribecmp.composeapp.generated.resources.agree_terms
+import tickettribecmp.composeapp.generated.resources.country_code
+import tickettribecmp.composeapp.generated.resources.ic_arrow
+import tickettribecmp.composeapp.generated.resources.ic_back
+import tickettribecmp.composeapp.generated.resources.ic_upload
+import tickettribecmp.composeapp.generated.resources.location
+import tickettribecmp.composeapp.generated.resources.phone_number
 import tickettribecmp.composeapp.generated.resources.sign_up
 import tickettribecmp.composeapp.generated.resources.sign_up_heading
-import tickettribecmp.composeapp.generated.resources.welcome_to_ticket_tribe
+import tickettribecmp.composeapp.generated.resources.user_name
 
 @Composable
-fun SignupScreen(
+fun SignupProfileSetupScreen(
     dataState: StateFlow<SignupUiState>,
     uiEvents: Flow<SignupUiEvents>,
     onIntent: (SignupUiIntents) -> Unit,
     onNavigate: (AppRoutes, shouldClearBackStack: Boolean) -> Unit,
-    ) {
-
+    onBack:()-> Unit
+){
     val state by dataState.collectAsStateWithLifecycle()
 
     val toastManager by remember { mutableStateOf(ToastManager()) }
@@ -92,14 +98,13 @@ fun SignupScreen(
             is SignupUiEvents.Navigate.MoveToLogin -> {
                 onNavigate(AuthRoutes.Login,true)
             }
-            is SignupUiEvents.Navigate.MoveToProfileSetup -> {
-                onNavigate(AuthRoutes.ProfileSetup,false)
-            }
             else -> Unit
         }
     }
 
-    SignupScreenContent(state, onIntent = {
+    SignupProfileSetupScreenContent(state,
+        onBack=onBack,
+        onIntent = {
         when(it){
             is SignupUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnForgotButtonIntent ->{
                 keyboardController?.hide()
@@ -113,9 +118,11 @@ fun SignupScreen(
 }
 
 @Composable
-private fun SignupScreenContent(
+private fun SignupProfileSetupScreenContent(
     dataState: SignupUiState,
-    onIntent: (SignupUiIntents) -> Unit
+    onIntent: (SignupUiIntents) -> Unit,
+    onBack:()-> Unit
+
 ){
 
     val theme = LocalAppTheme.current
@@ -148,11 +155,11 @@ private fun SignupScreenContent(
                 .fillMaxSize()
                 .background(theme.background.whiteColor)
                 .padding(horizontal = AppDimens.Padding.padding16)
-                .verticalScroll(rememberScrollState())
-        ) {
+                .verticalScroll(rememberScrollState()),
 
-            val (title, desc, sso, firstName, lastName ,email, password, confirmPassword,loginBtn, nextBtn) = createRefs()
-            val centerGuideline = createGuidelineFromStart(0.5f)
+        ) {
+            val (title, desc, back ,profileImage, addProfileTitle, username ,countryCode, phone, location, termCheckbox , signupBtn) = createRefs()
+            val centerGuideline = createGuidelineFromStart(0.35f)
 
             AuthTitleText(
                 text = UiText.StringResourceText(text = Res.string.sign_up),
@@ -178,30 +185,87 @@ private fun SignupScreenContent(
                 }.fillMaxWidth(),
             )
 
-            SSOButton(
-                modifier = Modifier.fillMaxWidth().constrainAs(sso) {
-                    top.linkTo(desc.bottom, margin = AppDimens.Padding.padding32)
-                },
-                onGoogleClickAction = {},
-                onAppleClickAction = {}
+            IconButton(
+                modifier = Modifier
+                    .size(AppDimens.Button.backIconButton)
+                    .constrainAs(back){
+                        linkTo(top = title.top,bottom=desc.bottom)
+                        start.linkTo(parent.start) }
+                    .clickableSingleWithoutRipple{
+                        onBack()
+                    }
+                ,
+                icon = Res.drawable.ic_back
             )
 
-            val firstNameText = remember(dataState.firstNameText) { dataState.firstNameText }
+            IconButton(
+                modifier = Modifier
+                    .size(AppDimens.Images.profilePictureSize)
+                    .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                    .constrainAs(profileImage){
+                        top.linkTo(desc.bottom, margin = AppDimens.Padding.padding16)
+                        linkTo(
+                            start = parent.start,
+                            end = parent.end,
+
+                            )
+                    },
+                icon = Res.drawable.ic_upload
+            )
+
+
+            CustomText(
+                modifier = Modifier.constrainAs(addProfileTitle){
+                    top.linkTo(profileImage.bottom, margin = AppDimens.Padding.padding16)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                    )
+                },
+                text = UiText.StringResourceText(text = Res.string.add_profile_image_optional),
+                fontSize = AppDimens.Fonts.font16,
+                fontWeight = FontWeight.W400,
+                color = theme.textView.primaryBlackTextColor,
+                textAlign = TextAlign.Center
+            )
+
+
+            val userNameText = remember(dataState.userNameText) { dataState.userNameText }
+
+            SimpleUserNameTextFieldWithErrorState(
+                    text = userNameText,
+                    modifier = Modifier
+                        .fillMaxWidth().
+                        constrainAs(username){
+                        top.linkTo(addProfileTitle.bottom, margin = AppDimens.Padding.padding20)
+                    },
+                    onValueChange = {
+                        onIntent(SignupUiIntents.TextFieldsIntent.OnUserNameTextUpdate(username = it))
+                    },
+                    label = Res.string.user_name,
+                    imeAction = ImeAction.Next,
+                    onKeyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
+            )
+
+            val countryCodeText = remember(dataState.countryCode) { dataState.countryCode }
 
             SimpleNameTextFieldWithErrorState(
-                text = firstNameText,
+                text = countryCodeText,
                 modifier = Modifier
-                    .constrainAs(firstName){
-                        top.linkTo(sso.bottom, margin = AppDimens.Padding.padding20)
+                    .constrainAs(countryCode){
+                        top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
                         start.linkTo(parent.start)
-                        end.linkTo(centerGuideline, margin = AppDimens.Padding.padding8)
-                        bottom.linkTo(lastName.bottom)
+                        end.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
+                        bottom.linkTo(phone.bottom)
                         width = Dimension.fillToConstraints
                     },
                 onValueChange = {
-                    onIntent(SignupUiIntents.TextFieldsIntent.OnFirstNameTextUpdate(firstName = it))
                 },
-                label = Res.string.first_name,
+                label = Res.string.country_code,
                 imeAction = ImeAction.Next,
                 onKeyboardActions = KeyboardActions(
                     onNext = {
@@ -210,22 +274,22 @@ private fun SignupScreenContent(
                 )
             )
 
-            val lastNameText = remember(dataState.lastNameText) { dataState.lastNameText }
+            val phoneText = remember(dataState.phoneText) { dataState.phoneText }
 
             SimpleTextField(
-                text = lastNameText,
+                text = phoneText,
                 modifier = Modifier
-                    .constrainAs(lastName){
-                        top.linkTo(sso.bottom, margin = AppDimens.Padding.padding20)
+                    .constrainAs(phone){
+                        top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
                         end.linkTo(parent.end)
-                        start.linkTo(centerGuideline, margin = AppDimens.Padding.padding8)
-                        bottom.linkTo(firstName.bottom)
+                        start.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
+                        bottom.linkTo(countryCode.bottom)
                         width= Dimension.fillToConstraints
                     },
                 onValueChange = {
                     onIntent(SignupUiIntents.TextFieldsIntent.OnLastNameTextUpdate(lastName = it))
                 },
-                label = Res.string.last_name,
+                label = Res.string.phone_number,
                 imeAction = ImeAction.Next,
                 onKeyboardActions = KeyboardActions(
                     onNext = {
@@ -234,81 +298,55 @@ private fun SignupScreenContent(
                 )
             )
 
-            val emailText = remember(dataState.emailText) { dataState.emailText }
+            val locationText = remember(dataState.locationText) { dataState.locationText }
 
-            EmailTextField(
-                modifier = Modifier.fillMaxWidth().constrainAs(email) {
-                    top.linkTo(firstName.bottom, margin = AppDimens.Padding.padding20)
-                },
-                emailText = emailText,
-                focusManager = focusManager,
-                onValueChange = {
-                    onIntent(SignupUiIntents.TextFieldsIntent.OnEmailTextUpdate(email = it))
-                },
-            )
-
-            val passwordText = remember(dataState.passwordText) { dataState.passwordText }
-            PasswordTextField(
-                modifier = Modifier.fillMaxWidth().constrainAs(password) {
-                    top.linkTo(email.bottom, margin = AppDimens.Padding.padding20)
-                },
-                passwordText = passwordText,
-                imeAction = ImeAction.Next,
-                onKeyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Down)
+            SimpleTextField(
+                text = locationText,
+                modifier = Modifier
+                    .fillMaxWidth().
+                    constrainAs(location){
+                        top.linkTo(phone.bottom, margin = AppDimens.Padding.padding20)
                     }
-                ),
+                    .focusProperties{
+                        canFocus=false
+                    },
                 onValueChange = {
-                    onIntent(SignupUiIntents.TextFieldsIntent.OnPasswordTextUpdate(password = it))
-                }
+                    onIntent(SignupUiIntents.TextFieldsIntent.OnUserNameTextUpdate(username = it))
+                },
+                readOnly = true,
+                enabled = true,
+                label = Res.string.location,
+                imeAction = ImeAction.None,
+                trailingIcon = Res.drawable.ic_arrow,
             )
 
-
-            val confirmPasswordText = remember(dataState.confirmPasswordText) { dataState.confirmPasswordText }
-            ConfirmPasswordTextField(
-                modifier = Modifier.fillMaxWidth().constrainAs(confirmPassword) {
-                    linkTo(
-                        top = password.bottom,
-                        bottom = loginBtn.top,
-                        bias = ExtConstants.FloatConstants.ZERO,
-                        topMargin = AppDimens.Padding.padding20 ,
-                        bottomMargin = AppDimens.Padding.padding16
-                    )
-                },
-                label = Res.string.confirm_password,
-                passwordText = passwordText,
-                confirmPasswordText = confirmPasswordText,
-                imeAction = ImeAction.Done,
-                onKeyboardActions = KeyboardActions(
-                    onDone = {
-
+            val isTermsChecked = remember(dataState.isTermsChecked) { dataState.isTermsChecked }
+            CustomCheckbox(
+                checked = isTermsChecked,
+                label = UiText.StringResourceText(text = Res.string.agree_terms),
+                modifier = Modifier
+                    .clickableSingleWithoutRipple{
+                        onIntent(SignupUiIntents.CheckBoxIntent.OnTermsCheckboxIntent)
                     }
-                ),
-                onValueChange = {
-                    onIntent(SignupUiIntents.TextFieldsIntent.OnConfirmPasswordTextUpdate(confirmPassword = it))
-                }
+                    .padding(horizontal = AppDimens.Padding.padding8)
+                    .fillMaxWidth()
+                    .constrainAs(termCheckbox) {
+                        linkTo(
+                            top = location.bottom,
+                            bottom = signupBtn.top,
+                            bias = ExtConstants.FloatConstants.ZERO,
+                            topMargin = AppDimens.Padding.padding8,
+                        )
+                    }
+
+
             )
 
-            MoveToAuth(
-                modifier = Modifier.constrainAs(loginBtn) {
-                    bottom.linkTo(nextBtn.top, margin = AppDimens.Padding.padding16)
-                    linkTo(
-                        start = parent.start,
-                        end = parent.end,
-                        bias = ExtConstants.FloatConstants.ZERO
-                    )
-                },
-                text = arrayOf(Res.string.already_have_an_account,Res.string.log_in),
-                onClick = {
-                    onIntent(SignupUiIntents.ButtonIntents.OnLoginButtonIntent)
-                }
-            )
-
-            val isFormValid = remember(dataState.isSignupFormButtonValid) { dataState.isSignupFormButtonValid }
+            val isFormValid = remember(dataState.isSignupProfileFormButtonValid) { dataState.isSignupProfileFormButtonValid }
+            val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
 
             PrimaryBlackButton(
-                modifier = Modifier.constrainAs(nextBtn) {
+                modifier = Modifier.constrainAs(signupBtn) {
                     bottom.linkTo(parent.bottom, margin = AppDimens.Padding.padding8)
                     linkTo(
                         start = parent.start,
@@ -316,23 +354,20 @@ private fun SignupScreenContent(
                         bias = ExtConstants.FloatConstants.ZERO
                     )
                 },
-                buttonText = UiText.StringResourceText(text = Res.string.next),
-                isEnable = isFormValid
+                buttonText = UiText.StringResourceText(text = Res.string.sign_up),
+                isEnable = isFormValid,
+                isLoading = isLoading
             ) {
-                onIntent(SignupUiIntents.ButtonIntents.OnNextButtonIntent)
+                onIntent(SignupUiIntents.ButtonIntents.OnSignupButtonIntent)
             }
-
-
         }
     }
-
 }
-
 
 @Preview(showSystemUi = true)
 @Composable
 private fun SignupScreenPreview(){
     AppTheme{
-        SignupScreenContent(dataState = SignupUiState(), onIntent = {})
+        SignupProfileSetupScreenContent(dataState = SignupUiState(), onIntent = {}, onBack = {})
     }
 }

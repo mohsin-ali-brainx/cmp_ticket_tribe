@@ -38,11 +38,14 @@ import com.brainx.ticket_tribe.utils.validators.ConfirmPasswordValidator
 import com.brainx.ticket_tribe.utils.validators.EmailValidator
 import com.brainx.ticket_tribe.utils.validators.NameValidator
 import com.brainx.ticket_tribe.utils.validators.PasswordValidator
+import com.brainx.ticket_tribe.utils.validators.UsernameValidator
 import com.brainx.utils_extensions.constants.ExtConstants
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import tickettribecmp.composeapp.generated.resources.ic_hide_password
 import tickettribecmp.composeapp.generated.resources.ic_show_password
 import tickettribecmp.composeapp.generated.resources.please_enter_valid_name
+import tickettribecmp.composeapp.generated.resources.user_name
 
 @Composable
 fun EmailTextField(
@@ -264,7 +267,7 @@ fun ConfirmPasswordTextField(
 }
 
 @Composable
-fun SimpleTextFieldWithErrorState(
+fun SimpleNameTextFieldWithErrorState(
     modifier: Modifier,
     text: String,
     label: StringResource,
@@ -304,6 +307,9 @@ fun SimpleTextField(
     modifier: Modifier,
     text: String,
     label: StringResource,
+    readOnly:Boolean=false,
+    enabled:Boolean=true,
+    trailingIcon: DrawableResource?=null,
     imeAction: ImeAction=ImeAction.Next,
     onKeyboardActions: KeyboardActions=KeyboardActions.Default,
     onValueChange: (String) -> Unit,
@@ -315,6 +321,49 @@ fun SimpleTextField(
         onValueChange = {
             onValueChange(it)
         },
+        readOnly = readOnly,
+        enabled = enabled,
+        singleLine = true,
+        label = label,
+        keyboardType = KeyboardType.Text,
+        imeAction = imeAction,
+        trailingContent = {
+            if(trailingIcon!=null) {
+                Image(painter = painterResource(trailingIcon), contentDescription = null)
+            } else null
+        },
+        keyboardActions = onKeyboardActions
+    )
+}
+
+@Composable
+fun SimpleUserNameTextFieldWithErrorState(
+    modifier: Modifier,
+    text: String,
+    label: StringResource,
+    imeAction: ImeAction=ImeAction.Next,
+    onKeyboardActions: KeyboardActions=KeyboardActions.Default,
+    onValueChange: (String) -> Unit,
+) {
+    var errorState by remember { mutableStateOf(FormValidityState(true, errorText = UiText.StringText(text = ExtConstants.StringConstants.EMPTY)))}
+
+    CustomBasicUnderlineTextField(
+        text = text,
+        modifier = modifier
+            .onFocusChanged {
+                if (!it.hasFocus) {
+                    errorState = UsernameValidator().invoke(text = text,ignoreEmpty = true)
+                }
+            }
+            .onFocusEvent {
+
+            },
+        onValueChange = {
+            errorState = FormValidityState(true, UiText.StringText(text = ExtConstants.StringConstants.EMPTY))
+            onValueChange(it)
+        },
+        isValid = errorState.isValid,
+        supportText = errorState.errorText,
         singleLine = true,
         label = label,
         keyboardType = KeyboardType.Text,
@@ -404,6 +453,20 @@ private fun ConfirmPasswordTextFieldPreview(){
         passwordText = "Pass@1234",
         confirmPasswordText = "Pass@1234",
         modifier = Modifier.fillMaxWidth(),
+        onValueChange = {
+
+        }
+    )
+    }
+}
+
+@Preview(showBackground = true,backgroundColor = 0xFFFFFF)
+@Composable
+private fun UsernameTextFieldPreview(){
+    AppTheme { SimpleUserNameTextFieldWithErrorState(
+        text = "john123",
+        modifier = Modifier.fillMaxWidth(),
+        label = Res.string.user_name,
         onValueChange = {
 
         }

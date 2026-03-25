@@ -9,8 +9,12 @@ data class SignupUiState(
     val emailText:String= ExtConstants.StringConstants.EMPTY,
     val passwordText:String= ExtConstants.StringConstants.EMPTY,
     val confirmPasswordText:String= ExtConstants.StringConstants.EMPTY,
-    val isFormButtonValid:Boolean=false,
-    val isEmailValid: Pair<Boolean,StringResource>? = null,
-    val isPasswordValid: Pair<Boolean,StringResource>? = null,
+    val userNameText:String= ExtConstants.StringConstants.EMPTY,
+    val phoneText:String= ExtConstants.StringConstants.EMPTY,
+    val countryCode:String= ExtConstants.StringConstants.EMPTY,
+    val locationText:String= ExtConstants.StringConstants.EMPTY,
+    val isTermsChecked:Boolean=false,
+    val isSignupFormButtonValid:Boolean=false,
+    val isSignupProfileFormButtonValid:Boolean=false,
     val isSignUpLoading:Boolean=false
 )

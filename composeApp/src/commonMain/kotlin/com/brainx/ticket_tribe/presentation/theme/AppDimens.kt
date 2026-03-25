@@ -64,6 +64,7 @@ sealed interface AppDimens{
         val circularIconButtonSize = 80.0.dp
         val borderWidthHalf = 0.5.dp
         val disableButton = 0.5f
+        val backIconButton = 30.0.dp
 
     }
 

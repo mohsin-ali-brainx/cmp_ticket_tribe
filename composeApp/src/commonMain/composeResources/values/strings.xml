@@ -67,6 +67,8 @@
     <string name="error_capturing_image">Error capturing image</string>
     <string name="take_new_photo">Take a new photo</string>
     <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="add_profile_image_optional">Add Profile Image (Optional)</string>
+
 
     <string name="valid_username">Username can only contain letters, numbers, underscores, and periods.</string>
     <string name="suggestions">Suggestions</string>

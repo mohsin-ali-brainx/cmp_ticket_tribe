@@ -71,6 +71,8 @@ private class DarkBackgroundColors : BackgroundColors {
 private class DarkIconColors : IconColors {
     override val greyIconColor = Color(0xFF7E7E7E)
     override val greyIconColor2 = Color(0xFF494949)
+    override val blackIconColor =  Color(0xFF2B2B2B)
+
 }
 
 @Immutable

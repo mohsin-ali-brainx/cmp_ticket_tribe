@@ -6,6 +6,8 @@ import org.jetbrains.compose.resources.StringResource
 sealed interface SignupUiEvents {
     sealed interface Navigate {
         data object MoveToLogin : SignupUiEvents
+        data object MoveToProfileSetup : SignupUiEvents
+
     }
 
     sealed interface UIPrompts {
