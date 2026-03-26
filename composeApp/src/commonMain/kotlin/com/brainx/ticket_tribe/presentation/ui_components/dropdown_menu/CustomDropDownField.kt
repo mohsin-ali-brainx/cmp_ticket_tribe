@@ -89,7 +89,6 @@ fun <T : Enum<T>> BasicDropdownField(
             CustomTextField(
                 modifier =  Modifier
                     .fillMaxWidth()
-                    .menuAnchor()
                     .heightIn(min = textFieldHeight)
                     .focusProperties{ canFocus=false },
                 text = selected?.let(optionLabel).orEmpty(),

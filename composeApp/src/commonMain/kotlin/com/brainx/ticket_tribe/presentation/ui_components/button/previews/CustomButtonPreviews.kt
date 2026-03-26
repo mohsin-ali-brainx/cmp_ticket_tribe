@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tickettribecmp.composeapp.generated.resources.Res
@@ -17,6 +18,7 @@ import tickettribecmp.composeapp.generated.resources.ic_search
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.button.CustomButton
+import com.brainx.ticket_tribe.presentation.ui_components.button.ExpandedCustomButton
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultFullWidthButtonModifier
 import com.brainx.ticket_tribe.presentation.ui_components.button.defaultWrapContentButtonModifier
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
@@ -357,6 +359,35 @@ private fun Preview_CustomButton_CustomColor() {
                 buttonText = UiText.StringText("Play Video"),
                 buttonColor = Color(0xFF43A047),
                 textColor = Color.White,
+                onClickAction = { }
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "CustomButton — with border (full width), icon at end and text align to start")
+@Composable
+private fun Preview_CustomButton_WithBorder_TextLeftAlign_WithIcon() {
+    AppTheme(darkTheme = false, dynamicColor = false) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(PreviewPadding)
+        ) {
+            ExpandedCustomButton(
+                modifier = Modifier.defaultFullWidthButtonModifier(),
+                buttonText = UiText.StringText("Play Video"),
+                buttonColor = Color(0xFFE0E0E0),
+                textAlign = TextAlign.Start,
+                textModifier = Modifier.fillMaxWidth(1f),
+                textColor = Color.Black,
+                expandTextBetweenTrailingIcon = true,
+                trailingIcon = {
+                    Image(
+                        painter = painterResource(Res.drawable.ic_search),
+                        contentDescription = ExtConstants.StringConstants.EMPTY
+                    )
+                },
                 onClickAction = { }
             )
         }

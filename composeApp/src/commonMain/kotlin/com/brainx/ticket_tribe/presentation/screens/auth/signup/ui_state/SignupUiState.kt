@@ -13,7 +13,7 @@ data class SignupUiState(
     val phoneText:String= ExtConstants.StringConstants.EMPTY,
     val locationText:String= ExtConstants.StringConstants.EMPTY,
     val isTermsChecked:Boolean=false,
-    val isNextFormButtonValid:Boolean=true,
+    val isNextFormButtonValid:Boolean=false,
     val isSignupProfileFormButtonValid:Boolean=false,
     val isSignUpLoading:Boolean=false,
     val selectedCountryCode:CountryCode = CountryCode.US

@@ -2,6 +2,7 @@ package com.brainx.ticket_tribe.presentation.screens.auth.signup.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -56,6 +57,7 @@ import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.theme.AppTheme
 import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
 import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
+import com.brainx.ticket_tribe.presentation.ui_components.bottomsheets.ImagePickerBottomSheet
 import com.brainx.ticket_tribe.presentation.ui_components.button.IconButton
 import com.brainx.ticket_tribe.presentation.ui_components.checkbox.CustomCheckbox
 import com.brainx.ticket_tribe.presentation.ui_components.dropdown_menu.UnderlineDropdownField
@@ -156,7 +158,7 @@ private fun SignupProfileSetupScreenContent(
     val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
     val selectedCode = remember(dataState.selectedCountryCode) { dataState.selectedCountryCode }
     var expanded by remember { mutableStateOf(false) }
-
+    var showImagePickerBottomSheet by remember { mutableStateOf(false) }
 
 
     Scaffold(
@@ -219,20 +221,29 @@ private fun SignupProfileSetupScreenContent(
                 icon = Res.drawable.ic_back
             )
 
-            IconButton(
-                modifier = Modifier
-                    .size(AppDimens.Images.profilePictureSize)
-                    .background(color = theme.background.backgroundColor2, shape = CircleShape)
-                    .constrainAs(profileImage){
-                        top.linkTo(desc.bottom, margin = AppDimens.Padding.padding16)
-                        linkTo(
-                            start = parent.start,
-                            end = parent.end,
+            Box(modifier = Modifier
+                .wrapContentSize()
+                .constrainAs(profileImage){
+                    top.linkTo(desc.bottom, margin = AppDimens.Padding.padding16)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
 
-                            )
-                    },
-                icon = Res.drawable.ic_upload
-            )
+                        )
+                }
+                .clickableSingleWithoutRipple {
+                showImagePickerBottomSheet = true
+                }) {
+                IconButton(
+                    modifier = Modifier
+                        .size(AppDimens.Images.profilePictureSize)
+                        .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                    ,
+                    icon = Res.drawable.ic_upload
+                )
+            }
+
+
 
 
             CustomText(
@@ -380,6 +391,17 @@ private fun SignupProfileSetupScreenContent(
                 onIntent(SignupUiIntents.ButtonIntents.OnSignupButtonIntent)
             }
         }
+
+        ImagePickerBottomSheet(
+            showSheet = showImagePickerBottomSheet,
+            onDismiss = {
+                showImagePickerBottomSheet = false
+            },
+            onOptionSelected = {
+
+            }
+        )
+
     }
 }
 
@@ -411,6 +433,8 @@ private fun DropDownMenuOptionContent(code: CountryCode){
         )
     }
 }
+
+
 
 @Preview(showSystemUi = true)
 @Composable
