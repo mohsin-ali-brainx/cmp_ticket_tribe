@@ -20,7 +20,7 @@ import com.brainx.utils_extensions.shared_viewmodel.sharedKoinViewModel
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation<AppRoutes.Auth>(
-        startDestination = AuthRoutes.Login,
+        startDestination = AuthRoutes.ProfileSetup,
     ) {
         horizontallyAnimatedComposable<AuthRoutes.Login> {
             val viewModel = koinViewModel<LoginViewModel>()

@@ -86,6 +86,9 @@ kotlin {
             implementation(libs.calf.permissions.camera)
             implementation(libs.calf.permissions.location)
             implementation(libs.calf.permissions.gallery)
+            implementation("com.mohamedrejeb.calf:calf-file-picker:0.10.0")
+            implementation("com.mohamedrejeb.calf:calf-camera-picker:0.10.0")
+
 
 
         }

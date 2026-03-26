@@ -1,6 +1,7 @@
 package com.brainx.ticket_tribe.presentation.screens.auth.signup.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -25,11 +26,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -43,6 +47,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import com.brainx.ticket_tribe.getPlatform
 import com.brainx.ticket_tribe.presentation.navigation.AppRoutes
 import com.brainx.ticket_tribe.presentation.navigation.AuthRoutes
@@ -67,6 +72,7 @@ import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.utils.enums.CountryCode
 import com.brainx.ticket_tribe.utils.enums.ImagePickerOptions
+import com.brainx.ticket_tribe.utils.helper_methods.requestPermission
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
 import com.brainx.utils_extensions.compose_ui_utils.ComposableLifecycle
@@ -74,8 +80,10 @@ import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
 import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
 import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWithoutRipple
 import com.brainx.utils_extensions.constants.ExtConstants
+import com.mohamedrejeb.calf.core.LocalPlatformContext
 import com.mohamedrejeb.calf.permissions.Camera
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
+import com.mohamedrejeb.calf.permissions.Gallery
 import com.mohamedrejeb.calf.permissions.Permission
 import com.mohamedrejeb.calf.permissions.PermissionState
 import com.mohamedrejeb.calf.permissions.isDenied
@@ -95,6 +103,13 @@ import tickettribecmp.composeapp.generated.resources.select_a_country
 import tickettribecmp.composeapp.generated.resources.sign_up
 import tickettribecmp.composeapp.generated.resources.sign_up_heading
 import tickettribecmp.composeapp.generated.resources.user_name
+import com.mohamedrejeb.calf.io.KmpFile
+import com.mohamedrejeb.calf.io.getPath
+import com.mohamedrejeb.calf.permissions.isGranted
+import com.mohamedrejeb.calf.picker.FilePickerFileType
+import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
+import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
+import com.mohamedrejeb.calf.camerapicker.rememberCameraPickerLauncher
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -106,6 +121,8 @@ fun SignupProfileSetupScreen(
     onBack:()-> Unit
 ){
     val state by dataState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    val context = LocalPlatformContext.current
 
     val toastManager by remember { mutableStateOf(ToastManager()) }
 
@@ -114,22 +131,6 @@ fun SignupProfileSetupScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    val cameraPermissionState = rememberPermissionState(
-        permission = Permission.Camera,
-        onPermissionResult = { isGranted->
-            if(isGranted){
-            }
-        }
-    )
-
-    ComposableLifecycle { _, event ->
-        when (event) {
-            Lifecycle.Event.ON_RESUME -> {
-
-            }
-            else -> Unit
-        }
-    }
 
     ConsumeUIEffects(uiEvents){event, scope ->
         when (event) {
@@ -145,7 +146,6 @@ fun SignupProfileSetupScreen(
 
     SignupProfileSetupScreenContent(state,
         onBack=onBack,
-        cameraPermissionState = cameraPermissionState,
         onIntent = {
         when(it){
             is SignupUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnForgotButtonIntent ->{
@@ -163,11 +163,11 @@ fun SignupProfileSetupScreen(
 @Composable
 private fun SignupProfileSetupScreenContent(
     dataState: SignupUiState,
-    cameraPermissionState: PermissionState,
     onIntent: (SignupUiIntents) -> Unit,
     onBack:()-> Unit
 
 ){
+    val context = LocalPlatformContext.current
 
     val theme = LocalAppTheme.current
 
@@ -178,9 +178,6 @@ private fun SignupProfileSetupScreenContent(
 
     val keyboardHeight = WindowInsets.ime.getBottom(density = LocalDensity.current)
 
-    LaunchedEffect(key1 = keyboardHeight) {
-        isKeyboardVisible = keyboardHeight > 0
-    }
 
     val userNameText = remember(dataState.userNameText) { dataState.userNameText }
     val phoneText = remember(dataState.phoneText) { dataState.phoneText }
@@ -191,9 +188,66 @@ private fun SignupProfileSetupScreenContent(
     val selectedCode = remember(dataState.selectedCountryCode) { dataState.selectedCountryCode }
     var expanded by remember { mutableStateOf(false) }
     var showImagePickerBottomSheet by remember { mutableStateOf(false) }
+    var pendingGalleryLaunch by remember { mutableStateOf(false) }
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
 
 
 
+    var fileName by remember { mutableStateOf("") }
+
+    val cameraPickerLauncher = rememberCameraPickerLauncher(
+        onResult = { file ->
+            fileName = file.getPath(context).orEmpty()
+        },
+    )
+
+    val imagePickerLauncher = rememberFilePickerLauncher(
+        type = FilePickerFileType.Image,
+        selectionMode = FilePickerSelectionMode.Single,
+        onResult = { fileName = it.first().getPath(context).orEmpty() },)
+
+    val cameraPermissionState = rememberPermissionState(
+        permission = Permission.Camera,
+        onPermissionResult = { isGranted->
+            if(isGranted) pendingCameraLaunch = true
+        }
+    )
+
+    val galleryPermissionState = rememberPermissionState(
+        permission = Permission.Gallery ,
+        onPermissionResult = { isGranted->
+            if(isGranted){
+                if (isGranted) pendingGalleryLaunch = true
+            }
+        }
+    )
+
+    LaunchedEffect(key1 = keyboardHeight) {
+        isKeyboardVisible = keyboardHeight > 0
+    }
+
+    LaunchedEffect(pendingGalleryLaunch) {
+        if (pendingGalleryLaunch) {
+            pendingGalleryLaunch = false
+            imagePickerLauncher.launch() // now on main/UI thread
+        }
+    }
+
+    LaunchedEffect(pendingCameraLaunch) {
+        if (pendingCameraLaunch) {
+            pendingCameraLaunch = false
+            cameraPickerLauncher.launch() // now on main/UI thread
+        }
+    }
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+
+            }
+            else -> Unit
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -256,7 +310,9 @@ private fun SignupProfileSetupScreenContent(
             )
 
             Box(modifier = Modifier
-                .wrapContentSize()
+                .size(AppDimens.Images.profilePictureSize)
+                .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                .border(width = AppDimens.Images.borderWidth, color = theme.background.backgroundColor2.copy(alpha = 0.5f), shape = CircleShape)
                 .constrainAs(profileImage){
                     top.linkTo(desc.bottom, margin = AppDimens.Padding.padding16)
                     linkTo(
@@ -265,16 +321,27 @@ private fun SignupProfileSetupScreenContent(
 
                         )
                 }
-                .clickableSingleWithoutRipple {
-                showImagePickerBottomSheet = true
-                }) {
-                IconButton(
-                    modifier = Modifier
-                        .size(AppDimens.Images.profilePictureSize)
-                        .background(color = theme.background.backgroundColor2, shape = CircleShape)
-                    ,
-                    icon = Res.drawable.ic_upload
-                )
+                .clickableSingleWithoutRipple { showImagePickerBottomSheet = true })
+            {
+                if(fileName.isBlank()){
+                    IconButton(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                        ,
+                        icon = Res.drawable.ic_upload
+                    )
+                }else{
+                    AsyncImage(
+                        model = fileName,
+                        contentDescription = "Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape),
+                    )
+                }
+
             }
 
 
@@ -434,9 +501,18 @@ private fun SignupProfileSetupScreenContent(
             onOptionSelected = {
                 when(it){
                     ImagePickerOptions.Gallery ->{
+                        if(galleryPermissionState.status.isGranted){
+                            imagePickerLauncher.launch()
+                        }else{
+                            requestPermission(galleryPermissionState)
+                        }
                     }
                     ImagePickerOptions.Camera ->{
-                        requestCameraPermission(cameraPermissionState)
+                        if(cameraPermissionState.status.isGranted){
+                            cameraPickerLauncher.launch()
+                        }else{
+                            requestPermission(cameraPermissionState)
+                        }
                     }
                 }
             }
@@ -475,35 +551,12 @@ private fun DropDownMenuOptionContent(code: CountryCode){
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
-private fun requestCameraPermission(permissionState: PermissionState){
-    permissionState.apply {
-        if (status.isDenied){
-            if (status.shouldShowRationale){
-                // show move to setting dialog and on confirm openAppSettings
-                openAppSettings()
-            }else{
-                launchPermissionRequest()
-            }
-        }
-    }
-}
-
-
-@OptIn(ExperimentalPermissionsApi::class)
 @Preview(showSystemUi = true)
 @Composable
 private fun SignupScreenPreview(){
     AppTheme{
-        val cameraPermissionState = rememberPermissionState(
-            permission = Permission.Camera,
-            onPermissionResult = { isGranted->
-                if(isGranted){
-                }
-            }
-        )
         SignupProfileSetupScreenContent(
             dataState = SignupUiState(),
-            cameraPermissionState = cameraPermissionState ,
             onIntent = {},
             onBack = {})
     }

@@ -15,5 +15,8 @@
     <key>NSCameraUsageDescription</key>
     <string>App requires Camera permission to take user profile image and upload photos</string>
 
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>App requires Photo Library permission to upload user profile image and upload photos</string>
+
 </dict>
 </plist>

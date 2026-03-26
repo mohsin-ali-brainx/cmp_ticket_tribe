@@ -164,6 +164,8 @@ sealed interface AppDimens{
         val settingsProfileAvatar = 60.0.dp
         val profilePictureSize = 80.0.dp
         val categoryCircularImageSize = 65.0.dp
+        val borderWidth = 1.0.dp
+
     }
 
     data object ListItems:AppDimens {
