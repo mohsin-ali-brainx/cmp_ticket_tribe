@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -57,15 +58,21 @@ private fun ImagePickerBottomSheetContent(
 ){
     val theme = LocalAppTheme.current
     LazyColumn(modifier = Modifier.padding(top = AppDimens.Padding.padding20)) {
-        items(ImagePickerOptions.entries.size){ index->
-            val item = ImagePickerOptions.entries[index]
-            TertiaryWhiteButtonWithTrailingIcon(
-                modifier = Modifier.padding(vertical = AppDimens.Padding.padding4, horizontal = AppDimens.Padding.padding20),
-                buttonText = UiText.StringResourceText(text = item.textToDisplay),
-                onClickAction = {
-                    onOptionSelected(item)
-                }
-            )
+        itemsIndexed(
+            ImagePickerOptions.entries,
+            key = { index, item ->
+                "${item.name}_${item.ordinal}"
+            }) { index, item ->
+                TertiaryWhiteButtonWithTrailingIcon(
+                    modifier = Modifier.padding(
+                        vertical = AppDimens.Padding.padding4,
+                        horizontal = AppDimens.Padding.padding20
+                    ),
+                    buttonText = UiText.StringResourceText(text = item.textToDisplay),
+                    onClickAction = {
+                        onOptionSelected(item)
+                    }
+                )
         }
     }
 }

@@ -41,7 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.brainx.ticket_tribe.getPlatform
 import com.brainx.ticket_tribe.presentation.navigation.AppRoutes
 import com.brainx.ticket_tribe.presentation.navigation.AuthRoutes
 import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginUiIntents
@@ -64,12 +66,21 @@ import com.brainx.ticket_tribe.presentation.ui_components.dropdown_menu.Underlin
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
 import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
 import com.brainx.ticket_tribe.utils.enums.CountryCode
+import com.brainx.ticket_tribe.utils.enums.ImagePickerOptions
 import com.brainx.utils_extensions.ToastDurationType
 import com.brainx.utils_extensions.ToastManager
+import com.brainx.utils_extensions.compose_ui_utils.ComposableLifecycle
 import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
 import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
 import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWithoutRipple
 import com.brainx.utils_extensions.constants.ExtConstants
+import com.mohamedrejeb.calf.permissions.Camera
+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
+import com.mohamedrejeb.calf.permissions.Permission
+import com.mohamedrejeb.calf.permissions.PermissionState
+import com.mohamedrejeb.calf.permissions.isDenied
+import com.mohamedrejeb.calf.permissions.rememberPermissionState
+import com.mohamedrejeb.calf.permissions.shouldShowRationale
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import tickettribecmp.composeapp.generated.resources.Res
@@ -85,6 +96,7 @@ import tickettribecmp.composeapp.generated.resources.sign_up
 import tickettribecmp.composeapp.generated.resources.sign_up_heading
 import tickettribecmp.composeapp.generated.resources.user_name
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun SignupProfileSetupScreen(
     dataState: StateFlow<SignupUiState>,
@@ -102,6 +114,23 @@ fun SignupProfileSetupScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
+    val cameraPermissionState = rememberPermissionState(
+        permission = Permission.Camera,
+        onPermissionResult = { isGranted->
+            if(isGranted){
+            }
+        }
+    )
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+
+            }
+            else -> Unit
+        }
+    }
+
     ConsumeUIEffects(uiEvents){event, scope ->
         when (event) {
             is SignupUiEvents.UIPrompts.ShowToastMessage -> {
@@ -116,6 +145,7 @@ fun SignupProfileSetupScreen(
 
     SignupProfileSetupScreenContent(state,
         onBack=onBack,
+        cameraPermissionState = cameraPermissionState,
         onIntent = {
         when(it){
             is SignupUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnForgotButtonIntent ->{
@@ -129,9 +159,11 @@ fun SignupProfileSetupScreen(
 
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun SignupProfileSetupScreenContent(
     dataState: SignupUiState,
+    cameraPermissionState: PermissionState,
     onIntent: (SignupUiIntents) -> Unit,
     onBack:()-> Unit
 
@@ -159,6 +191,8 @@ private fun SignupProfileSetupScreenContent(
     val selectedCode = remember(dataState.selectedCountryCode) { dataState.selectedCountryCode }
     var expanded by remember { mutableStateOf(false) }
     var showImagePickerBottomSheet by remember { mutableStateOf(false) }
+
+
 
 
     Scaffold(
@@ -398,7 +432,13 @@ private fun SignupProfileSetupScreenContent(
                 showImagePickerBottomSheet = false
             },
             onOptionSelected = {
-
+                when(it){
+                    ImagePickerOptions.Gallery ->{
+                    }
+                    ImagePickerOptions.Camera ->{
+                        requestCameraPermission(cameraPermissionState)
+                    }
+                }
             }
         )
 
@@ -434,12 +474,37 @@ private fun DropDownMenuOptionContent(code: CountryCode){
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
+private fun requestCameraPermission(permissionState: PermissionState){
+    permissionState.apply {
+        if (status.isDenied){
+            if (status.shouldShowRationale){
+                // show move to setting dialog and on confirm openAppSettings
+                openAppSettings()
+            }else{
+                launchPermissionRequest()
+            }
+        }
+    }
+}
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Preview(showSystemUi = true)
 @Composable
 private fun SignupScreenPreview(){
     AppTheme{
-        SignupProfileSetupScreenContent(dataState = SignupUiState(), onIntent = {}, onBack = {})
+        val cameraPermissionState = rememberPermissionState(
+            permission = Permission.Camera,
+            onPermissionResult = { isGranted->
+                if(isGranted){
+                }
+            }
+        )
+        SignupProfileSetupScreenContent(
+            dataState = SignupUiState(),
+            cameraPermissionState = cameraPermissionState ,
+            onIntent = {},
+            onBack = {})
     }
 }

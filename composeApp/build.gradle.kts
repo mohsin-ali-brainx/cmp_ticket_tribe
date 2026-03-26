@@ -82,6 +82,11 @@ kotlin {
 
             api(libs.calf.ui)
 
+            implementation(libs.calf.permissions.core)
+            implementation(libs.calf.permissions.camera)
+            implementation(libs.calf.permissions.location)
+            implementation(libs.calf.permissions.gallery)
+
 
         }
 
