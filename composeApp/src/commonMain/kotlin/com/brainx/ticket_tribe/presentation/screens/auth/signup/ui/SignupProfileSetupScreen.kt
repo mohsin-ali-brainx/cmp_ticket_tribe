@@ -1,0 +1,563 @@
+package com.brainx.ticket_tribe.presentation.screens.auth.signup.ui
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
+import com.brainx.ticket_tribe.getPlatform
+import com.brainx.ticket_tribe.presentation.navigation.AppRoutes
+import com.brainx.ticket_tribe.presentation.navigation.AuthRoutes
+import com.brainx.ticket_tribe.presentation.screens.auth.login.ui_intents.LoginUiIntents
+import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_events.SignupUiEvents
+import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_intents.SignupUiIntents
+import com.brainx.ticket_tribe.presentation.screens.auth.signup.ui_state.SignupUiState
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthDescriptionText
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text.AuthTitleText
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimplePhoneTextFieldWithErrorState
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleTextField
+import com.brainx.ticket_tribe.presentation.screens.auth.ui_components.text_fileds.SimpleUserNameTextFieldWithErrorState
+import com.brainx.ticket_tribe.presentation.theme.AppDimens
+import com.brainx.ticket_tribe.presentation.theme.AppTheme
+import com.brainx.ticket_tribe.presentation.theme.colors.LocalAppTheme
+import com.brainx.ticket_tribe.presentation.ui_components.app_buttons.PrimaryBlackButton
+import com.brainx.ticket_tribe.presentation.ui_components.bottomsheets.ImagePickerBottomSheet
+import com.brainx.ticket_tribe.presentation.ui_components.button.IconButton
+import com.brainx.ticket_tribe.presentation.ui_components.checkbox.CustomCheckbox
+import com.brainx.ticket_tribe.presentation.ui_components.dropdown_menu.UnderlineDropdownField
+import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
+import com.brainx.ticket_tribe.utils.enums.CountryCode
+import com.brainx.ticket_tribe.utils.enums.ImagePickerOptions
+import com.brainx.ticket_tribe.utils.helper_methods.requestPermission
+import com.brainx.utils_extensions.ToastDurationType
+import com.brainx.utils_extensions.ToastManager
+import com.brainx.utils_extensions.compose_ui_utils.ComposableLifecycle
+import com.brainx.utils_extensions.compose_ui_utils.ConsumeUIEffects
+import com.brainx.utils_extensions.compose_ui_utils.modifiers.customNavigationBarsPadding
+import com.brainx.utils_extensions.compose_ui_utils.safe_click.clickableSingleWithoutRipple
+import com.brainx.utils_extensions.constants.ExtConstants
+import com.mohamedrejeb.calf.core.LocalPlatformContext
+import com.mohamedrejeb.calf.permissions.Camera
+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
+import com.mohamedrejeb.calf.permissions.Gallery
+import com.mohamedrejeb.calf.permissions.Permission
+import com.mohamedrejeb.calf.permissions.PermissionState
+import com.mohamedrejeb.calf.permissions.isDenied
+import com.mohamedrejeb.calf.permissions.rememberPermissionState
+import com.mohamedrejeb.calf.permissions.shouldShowRationale
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.add_profile_image_optional
+import tickettribecmp.composeapp.generated.resources.agree_terms
+import tickettribecmp.composeapp.generated.resources.ic_arrow
+import tickettribecmp.composeapp.generated.resources.ic_back
+import tickettribecmp.composeapp.generated.resources.ic_upload
+import tickettribecmp.composeapp.generated.resources.location
+import tickettribecmp.composeapp.generated.resources.phone_number
+import tickettribecmp.composeapp.generated.resources.select_a_country
+import tickettribecmp.composeapp.generated.resources.sign_up
+import tickettribecmp.composeapp.generated.resources.sign_up_heading
+import tickettribecmp.composeapp.generated.resources.user_name
+import com.mohamedrejeb.calf.io.KmpFile
+import com.mohamedrejeb.calf.io.getPath
+import com.mohamedrejeb.calf.permissions.isGranted
+import com.mohamedrejeb.calf.picker.FilePickerFileType
+import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
+import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
+import com.mohamedrejeb.calf.camerapicker.rememberCameraPickerLauncher
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun SignupProfileSetupScreen(
+    dataState: StateFlow<SignupUiState>,
+    uiEvents: Flow<SignupUiEvents>,
+    onIntent: (SignupUiIntents) -> Unit,
+    onNavigate: (AppRoutes, shouldClearBackStack: Boolean) -> Unit,
+    onBack:()-> Unit
+){
+    val state by dataState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    val context = LocalPlatformContext.current
+
+    val toastManager by remember { mutableStateOf(ToastManager()) }
+
+    val theme = LocalAppTheme.current
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+
+    ConsumeUIEffects(uiEvents){event, scope ->
+        when (event) {
+            is SignupUiEvents.UIPrompts.ShowToastMessage -> {
+                toastManager.showToast(message = event.message, ToastDurationType.SHORT)
+            }
+            is SignupUiEvents.Navigate.MoveToLogin -> {
+                onNavigate(AuthRoutes.Login,true)
+            }
+            else -> Unit
+        }
+    }
+
+    SignupProfileSetupScreenContent(state,
+        onBack=onBack,
+        onIntent = {
+        when(it){
+            is SignupUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnLoginButtonIntent, LoginUiIntents.ButtonIntents.OnForgotButtonIntent ->{
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            }
+            else -> Unit
+        }
+        onIntent(it)
+    })
+
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun SignupProfileSetupScreenContent(
+    dataState: SignupUiState,
+    onIntent: (SignupUiIntents) -> Unit,
+    onBack:()-> Unit
+
+){
+    val context = LocalPlatformContext.current
+
+    val theme = LocalAppTheme.current
+
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var isKeyboardVisible by remember { mutableStateOf(false) }
+
+    val keyboardHeight = WindowInsets.ime.getBottom(density = LocalDensity.current)
+
+
+    val userNameText = remember(dataState.userNameText) { dataState.userNameText }
+    val phoneText = remember(dataState.phoneText) { dataState.phoneText }
+    val locationText = remember(dataState.locationText) { dataState.locationText }
+    val isTermsChecked = remember(dataState.isTermsChecked) { dataState.isTermsChecked }
+    val isFormValid = remember(dataState.isSignupProfileFormButtonValid) { dataState.isSignupProfileFormButtonValid }
+    val isLoading = remember(dataState.isSignUpLoading) { dataState.isSignUpLoading }
+    val selectedCode = remember(dataState.selectedCountryCode) { dataState.selectedCountryCode }
+    var expanded by remember { mutableStateOf(false) }
+    var showImagePickerBottomSheet by remember { mutableStateOf(false) }
+    var pendingGalleryLaunch by remember { mutableStateOf(false) }
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
+
+
+
+    var fileName by remember { mutableStateOf("") }
+
+    val cameraPickerLauncher = rememberCameraPickerLauncher(
+        onResult = { file ->
+            fileName = file.getPath(context).orEmpty()
+        },
+    )
+
+    val imagePickerLauncher = rememberFilePickerLauncher(
+        type = FilePickerFileType.Image,
+        selectionMode = FilePickerSelectionMode.Single,
+        onResult = { fileName = it.first().getPath(context).orEmpty() },)
+
+    val cameraPermissionState = rememberPermissionState(
+        permission = Permission.Camera,
+        onPermissionResult = { isGranted->
+            if(isGranted) pendingCameraLaunch = true
+        }
+    )
+
+    val galleryPermissionState = rememberPermissionState(
+        permission = Permission.Gallery ,
+        onPermissionResult = { isGranted->
+            if(isGranted){
+                if (isGranted) pendingGalleryLaunch = true
+            }
+        }
+    )
+
+    LaunchedEffect(key1 = keyboardHeight) {
+        isKeyboardVisible = keyboardHeight > 0
+    }
+
+    LaunchedEffect(pendingGalleryLaunch) {
+        if (pendingGalleryLaunch) {
+            pendingGalleryLaunch = false
+            imagePickerLauncher.launch() // now on main/UI thread
+        }
+    }
+
+    LaunchedEffect(pendingCameraLaunch) {
+        if (pendingCameraLaunch) {
+            pendingCameraLaunch = false
+            cameraPickerLauncher.launch() // now on main/UI thread
+        }
+    }
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+
+            }
+            else -> Unit
+        }
+    }
+
+    Scaffold(
+        modifier = Modifier
+            .background(theme.background.whiteColor)
+            .fillMaxSize()
+            .customNavigationBarsPadding()
+            .statusBarsPadding()
+            .imePadding()
+            .clickableSingleWithoutRipple {
+                focusManager.clearFocus(force = true)
+                keyboardController?.hide()
+            }
+    ) { paddingValues ->
+        ConstraintLayout(
+            Modifier
+                .fillMaxSize()
+                .background(theme.background.whiteColor)
+                .padding(horizontal = AppDimens.Padding.padding16)
+                .verticalScroll(rememberScrollState()),
+
+        ) {
+            val (title, desc, back ,profileImage, addProfileTitle, username ,countryCode, phone, location, termCheckbox , signupBtn) = createRefs()
+            val centerGuideline = createGuidelineFromStart(0.3f)
+
+            AuthTitleText(
+                text = UiText.StringResourceText(text = Res.string.sign_up),
+                modifier = Modifier.constrainAs(title) {
+                    top.linkTo(parent.top, margin = AppDimens.Padding.padding16)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                        bias = ExtConstants.FloatConstants.ZERO
+                    )
+                }.fillMaxWidth(),
+            )
+
+            AuthDescriptionText(
+                text = UiText.StringResourceText(text = Res.string.sign_up_heading),
+                modifier = Modifier.constrainAs(desc) {
+                    top.linkTo(title.bottom, margin = AppDimens.Padding.padding12)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                        bias = ExtConstants.FloatConstants.ZERO
+                    )
+                }.fillMaxWidth(),
+            )
+
+            IconButton(
+                modifier = Modifier
+                    .size(AppDimens.Button.backIconButton)
+                    .constrainAs(back){
+                        linkTo(top = title.top,bottom=desc.bottom)
+                        start.linkTo(parent.start) }
+                    .clickableSingleWithoutRipple{
+                        onBack()
+                    }
+                ,
+                icon = Res.drawable.ic_back
+            )
+
+            Box(modifier = Modifier
+                .size(AppDimens.Images.profilePictureSize)
+                .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                .border(width = AppDimens.Images.borderWidth, color = theme.background.backgroundColor2.copy(alpha = 0.5f), shape = CircleShape)
+                .constrainAs(profileImage){
+                    top.linkTo(desc.bottom, margin = AppDimens.Padding.padding16)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+
+                        )
+                }
+                .clickableSingleWithoutRipple { showImagePickerBottomSheet = true })
+            {
+                if(fileName.isBlank()){
+                    IconButton(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = theme.background.backgroundColor2, shape = CircleShape)
+                        ,
+                        icon = Res.drawable.ic_upload
+                    )
+                }else{
+                    AsyncImage(
+                        model = fileName,
+                        contentDescription = "Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape),
+                    )
+                }
+
+            }
+
+
+
+
+            CustomText(
+                modifier = Modifier.constrainAs(addProfileTitle){
+                    top.linkTo(profileImage.bottom, margin = AppDimens.Padding.padding16)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                    )
+                },
+                text = UiText.StringResourceText(text = Res.string.add_profile_image_optional),
+                fontSize = AppDimens.Fonts.font16,
+                fontWeight = FontWeight.W400,
+                color = theme.textView.primaryBlackTextColor,
+                textAlign = TextAlign.Center
+            )
+
+
+
+            SimpleUserNameTextFieldWithErrorState(
+                    text = userNameText,
+                    modifier = Modifier
+                        .fillMaxWidth().
+                        constrainAs(username){
+                        top.linkTo(addProfileTitle.bottom, margin = AppDimens.Padding.padding20)
+                    },
+                    onValueChange = {
+                        onIntent(SignupUiIntents.TextFieldsIntent.OnUserNameTextUpdate(username = it))
+                    },
+                    label = Res.string.user_name,
+                    imeAction = ImeAction.Next,
+                    onKeyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
+            )
+
+
+            UnderlineDropdownField(
+                modifier = Modifier.constrainAs(countryCode){
+                    top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
+                    start.linkTo(parent.start)
+                    end.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
+                    width = Dimension.fillToConstraints
+                }.padding(end = AppDimens.Padding.padding16),
+                matchAnchorWidth = false,
+                dropdownWidth = 350.dp,
+                showLabel = false,
+                selected = selectedCode,
+                options = CountryCode.sortedByDialCode,
+                optionLabel = { "${it.flag} ${it.dialCode}" },
+                expanded = expanded,
+                onExpandedChange = { expanded = it },
+                onSelected = { onIntent(SignupUiIntents.TextFieldsIntent.OnCountryCodeSelected(it)) },
+                placeholder = UiText.StringResourceText(Res.string.select_a_country),
+                selectedContent = { code ->
+                    SelectedCodeContent(code)
+                },
+                optionContent = { code ->
+                    DropDownMenuOptionContent(code)
+                }
+            )
+
+
+            SimplePhoneTextFieldWithErrorState(
+                text = phoneText,
+                countryCode = selectedCode,
+                modifier = Modifier
+                    .constrainAs(phone){
+                        top.linkTo(username.bottom, margin = AppDimens.Padding.padding20)
+                        end.linkTo(parent.end)
+                        start.linkTo(centerGuideline, margin = AppDimens.Padding.padding4)
+                        bottom.linkTo(countryCode.bottom)
+                        width= Dimension.fillToConstraints
+                    },
+                onValueChange = {
+                    onIntent(SignupUiIntents.TextFieldsIntent.OnPhoneTextUpdate(phone = it))
+                },
+                label = Res.string.phone_number,
+                imeAction = ImeAction.Next,
+                onKeyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Down)
+                    }
+                )
+            )
+
+
+            SimpleTextField(
+                text = locationText,
+                modifier = Modifier
+                    .fillMaxWidth().
+                    constrainAs(location){
+                        top.linkTo(phone.bottom, margin = AppDimens.Padding.padding20)
+                    }
+                    .focusProperties{
+                        canFocus=false
+                    },
+                onValueChange = {
+                    onIntent(SignupUiIntents.TextFieldsIntent.OnUserNameTextUpdate(username = it))
+                },
+                readOnly = true,
+                enabled = true,
+                label = Res.string.location,
+                imeAction = ImeAction.None,
+                trailingIcon = Res.drawable.ic_arrow,
+            )
+
+            CustomCheckbox(
+                checked = isTermsChecked,
+                label = UiText.StringResourceText(text = Res.string.agree_terms),
+                modifier = Modifier
+                    .clickableSingleWithoutRipple{
+                        onIntent(SignupUiIntents.CheckBoxIntent.OnTermsCheckboxIntent)
+                    }
+                    .padding(horizontal = AppDimens.Padding.padding8)
+                    .fillMaxWidth()
+                    .constrainAs(termCheckbox) {
+                        linkTo(
+                            top = location.bottom,
+                            bottom = signupBtn.top,
+                            bias = ExtConstants.FloatConstants.ZERO,
+                            topMargin = AppDimens.Padding.padding8,
+                        )
+                    }
+
+
+            )
+
+
+            PrimaryBlackButton(
+                modifier = Modifier.constrainAs(signupBtn) {
+                    bottom.linkTo(parent.bottom, margin = AppDimens.Padding.padding8)
+                    linkTo(
+                        start = parent.start,
+                        end = parent.end,
+                        bias = ExtConstants.FloatConstants.ZERO
+                    )
+                },
+                buttonText = UiText.StringResourceText(text = Res.string.sign_up),
+                isEnable = isFormValid,
+                isLoading = isLoading
+            ) {
+                onIntent(SignupUiIntents.ButtonIntents.OnSignupButtonIntent)
+            }
+        }
+
+        ImagePickerBottomSheet(
+            showSheet = showImagePickerBottomSheet,
+            onDismiss = {
+                showImagePickerBottomSheet = false
+            },
+            onOptionSelected = {
+                when(it){
+                    ImagePickerOptions.Gallery ->{
+                        if(galleryPermissionState.status.isGranted){
+                            imagePickerLauncher.launch()
+                        }else{
+                            requestPermission(galleryPermissionState)
+                        }
+                    }
+                    ImagePickerOptions.Camera ->{
+                        if(cameraPermissionState.status.isGranted){
+                            cameraPickerLauncher.launch()
+                        }else{
+                            requestPermission(cameraPermissionState)
+                        }
+                    }
+                }
+            }
+        )
+
+    }
+}
+
+@Composable
+private fun SelectedCodeContent(code: CountryCode){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.flag))
+        Spacer(Modifier.width(AppDimens.Padding.padding4))
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.dialCode))
+    }
+}
+
+@Composable
+private fun DropDownMenuOptionContent(code: CountryCode){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        CustomText(modifier = Modifier.wrapContentSize(),text = UiText.StringText(code.flag))
+        Spacer(Modifier.width(AppDimens.Padding.padding8))
+        CustomText(
+            text = UiText.StringText("${code.dialCode}  •  ${code.countryName}"),
+            modifier = Modifier.weight(1f),
+            minLines = 1,
+            maxLines = 1,
+            textOverflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Start
+        )
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Preview(showSystemUi = true)
+@Composable
+private fun SignupScreenPreview(){
+    AppTheme{
+        SignupProfileSetupScreenContent(
+            dataState = SignupUiState(),
+            onIntent = {},
+            onBack = {})
+    }
+}

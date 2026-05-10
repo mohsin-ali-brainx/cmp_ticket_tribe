@@ -6,49 +6,35 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import tickettribecmp.composeapp.generated.resources.Res
 import org.jetbrains.compose.resources.Font
-import tickettribecmp.composeapp.generated.resources.inter_tight_bold
-import tickettribecmp.composeapp.generated.resources.inter_tight_extra_bold
-import tickettribecmp.composeapp.generated.resources.inter_tight_light
-import tickettribecmp.composeapp.generated.resources.inter_tight_medium
-import tickettribecmp.composeapp.generated.resources.inter_tight_regular
-import tickettribecmp.composeapp.generated.resources.inter_tight_semi_bold
-import tickettribecmp.composeapp.generated.resources.inter_tight_thin
-import tickettribecmp.composeapp.generated.resources.ubuntu_bold
-import tickettribecmp.composeapp.generated.resources.ubuntu_bold_italic
-import tickettribecmp.composeapp.generated.resources.ubuntu_italic
-import tickettribecmp.composeapp.generated.resources.ubuntu_light
-import tickettribecmp.composeapp.generated.resources.ubuntu_light_italic
-import tickettribecmp.composeapp.generated.resources.ubuntu_medium
-import tickettribecmp.composeapp.generated.resources.ubuntu_medium_italic
-import tickettribecmp.composeapp.generated.resources.ubuntu_regular
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_black
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_black_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_bold
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_bold_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_heavy
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_heavy_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_light
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_medium
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_medium_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_roman
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_thin
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_thin_italic
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_ultra_light
+import tickettribecmp.composeapp.generated.resources.helvetica_neue_ultra_light_italic
 
 
 @Composable
-private fun InterFontFamily() = FontFamily(
-    Font(Res.font.inter_tight_regular),
-    Font(Res.font.inter_tight_bold),
-    Font(Res.font.inter_tight_light),
-    Font(Res.font.inter_tight_medium),
-    Font(Res.font.inter_tight_semi_bold),
-    Font(Res.font.inter_tight_extra_bold),
-    Font(Res.font.inter_tight_thin),
-    Font(Res.font.ubuntu_bold),
-    Font(Res.font.ubuntu_bold_italic),
-    Font(Res.font.ubuntu_italic),
-    Font(Res.font.ubuntu_light),
-    Font(Res.font.ubuntu_light_italic),
-    Font(Res.font.ubuntu_medium),
-    Font(Res.font.ubuntu_medium_italic),
-    Font(Res.font.ubuntu_regular),
+private fun appFontFamily() = FontFamily(
+    Font(Res.font.helvetica_neue_medium),
 )
 
 @Composable
-fun appPrimaryFontFamily() = InterFontFamily()
+fun appPrimaryFontFamily() = appFontFamily()
 
 @Composable
-fun InterTypography() =
+fun appTypography() =
     Typography().run {
         val fontFamily = appPrimaryFontFamily()
         copy(

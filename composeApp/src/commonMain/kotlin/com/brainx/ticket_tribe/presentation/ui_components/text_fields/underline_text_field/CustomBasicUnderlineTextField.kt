@@ -1,11 +1,14 @@
 package com.brainx.ticket_tribe.presentation.ui_components.text_fields.underline_text_field
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -25,10 +28,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextRange
@@ -43,14 +48,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.brainx.ticket_tribe.presentation.theme.AppDimens
 import com.brainx.ticket_tribe.presentation.ui_components.text.CustomText
-import com.brainx.ticket_tribe.presentation.ui_components.text.CustomTextToDisplay
+import com.brainx.ticket_tribe.presentation.ui_components.text.UiText
+import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextHintStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.basicEditTextSupportStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextLabelStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.defaultEditTextStyle
 import com.brainx.ticket_tribe.presentation.ui_components.text_fields.formTextFieldColor
 import com.brainx.utils_extensions.constants.ExtConstants
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import tickettribecmp.composeapp.generated.resources.Res
+import tickettribecmp.composeapp.generated.resources.ic_info
 
 /**
  *
@@ -70,7 +79,7 @@ fun CustomBasicUnderlineTextField(
     textFieldModifier: Modifier = Modifier.fillMaxWidth(),
     text: String,
     label:StringResource,
-    supportText: CustomTextToDisplay?=null,
+    supportText: UiText?=null,
     cursorBrush: Color = Color.Black,
     textStyle: TextStyle = defaultEditTextStyle(),
     labelStyle: TextStyle = defaultEditTextLabelStyle(),
@@ -81,7 +90,10 @@ fun CustomBasicUnderlineTextField(
     minLines:Int= ExtConstants.IntegerConstants.ONE,
     maxLines:Int?=null,
     enabled:Boolean=true,
+    readOnly:Boolean=false,
     isValid:Boolean=true,
+    showSuccess: Boolean=false,
+    successIndicatorColor: Color? = null,
     textFieldColor: TextFieldColors= formTextFieldColor(),
     leadingContent: (@Composable (() -> Unit))? = null,
     trailingContent: (@Composable (() -> Unit))? = null,
@@ -110,20 +122,29 @@ fun CustomBasicUnderlineTextField(
 
     val invalidInputErrorColor = Color.Red
 
-    val textFieldColors by remember(isTextFieldValid) {
+    val textFieldColorsState = remember(isTextFieldValid, showSuccess, successIndicatorColor) {
         derivedStateOf {
-            if (isTextFieldValid)
-                mutableStateOf(textFieldColor)
-            else
-                mutableStateOf(textFieldColor.copy(
+            when {
+                !isTextFieldValid -> textFieldColor.copy(
                     focusedIndicatorColor = invalidInputErrorColor,
                     unfocusedIndicatorColor = invalidInputErrorColor,
                     disabledIndicatorColor = invalidInputErrorColor,
-                    errorIndicatorColor = invalidInputErrorColor
-                ))
+                    errorIndicatorColor = invalidInputErrorColor,
+                    focusedLabelColor = invalidInputErrorColor,
+                    unfocusedLabelColor = invalidInputErrorColor,
+                    errorLabelColor = invalidInputErrorColor
+                )
+                showSuccess && successIndicatorColor != null -> textFieldColor.copy(
+                    focusedIndicatorColor = successIndicatorColor,
+                    unfocusedIndicatorColor = successIndicatorColor,
+                    disabledIndicatorColor = successIndicatorColor,
+                    errorIndicatorColor = successIndicatorColor
+                )
+                else -> textFieldColor
+            }
         }
-
     }
+    val textFieldColors = textFieldColorsState.value
 
     // Holds the latest internal TextFieldValue state. We need to keep it to have the correct value
     // of the composition.
@@ -183,9 +204,9 @@ fun CustomBasicUnderlineTextField(
         .then(
             when {
                 hasBorder && containerShape != null && borderBrush != null ->
-                    Modifier.border(BorderStroke(borderWidth!!, borderBrush), containerShape)
+                    Modifier.border(BorderStroke(borderWidth, borderBrush), containerShape)
                 hasBorder && containerShape != null && borderColor != null ->
-                    Modifier.border(borderWidth!!, borderColor, containerShape)
+                    Modifier.border(borderWidth, borderColor, containerShape)
                 else -> Modifier
             }
         )
@@ -197,7 +218,8 @@ fun CustomBasicUnderlineTextField(
             end = contentPaddingEnd,
             top = contentPaddingTop,
             bottom = contentPaddingBottom
-        )
+        ),
+        horizontalAlignment = Alignment.Start
     ) {
         CompositionLocalProvider(
             LocalTextSelectionColors provides TextSelectionColors(
@@ -209,6 +231,7 @@ fun CustomBasicUnderlineTextField(
             modifier = textFieldModifier,
             value = textFieldValue,
             enabled = enabled,
+            readOnly = readOnly,
             onValueChange = { newTextFieldValueState ->
                 if (maxLength != null && newTextFieldValueState.text.length > maxLength) return@BasicTextField
                 textFieldValueState = newTextFieldValueState
@@ -221,7 +244,6 @@ fun CustomBasicUnderlineTextField(
                 }
                 if (onCursorPositionChange != null)
                     onCursorPositionChange(newTextFieldValueState.selection.start)
-                isTextFieldValid = true
             },
             singleLine = singleLine,
             textStyle = textStyle,
@@ -252,18 +274,19 @@ fun CustomBasicUnderlineTextField(
                         end = AppDimens.Padding.zero
                     ),
                     label = {
-                        Text(text = stringResource(label), fontWeight = FontWeight.W400, style = labelStyle)
+                        val effectiveLabelStyle = if (isTextFieldValid) labelStyle else labelStyle.copy(color = invalidInputErrorColor)
+                        Text(text = stringResource(label), fontWeight = FontWeight.W200, style = effectiveLabelStyle)
                     },
                     leadingIcon = leadingContent,
                     trailingIcon = trailingContent,
                     isError = isTextFieldValid.not(),
-                    colors = textFieldColors.value ,
+                    colors = textFieldColors,
                     container = {
                         TextFieldDefaults.Container(
                             enabled=enabled,
                             isError = isTextFieldValid.not(),
                             interactionSource = interactionSource,
-                            colors = textFieldColors.value,
+                            colors = textFieldColors,
                             shape = TextFieldDefaults.shape,
                             focusedIndicatorLineThickness = AppDimens.EditText.borderWidth,
                             unfocusedIndicatorLineThickness = AppDimens.EditText.borderWidth
@@ -275,14 +298,22 @@ fun CustomBasicUnderlineTextField(
         )
         }
         if (supportText!=null){
-            if ((supportText is CustomTextToDisplay.StringText && supportText.text.isBlank() )
-                ||(supportText is CustomTextToDisplay.StringResourceText && stringResource(supportText.text).isBlank())
-                ||(supportText is CustomTextToDisplay.AnnotatedStringText && supportText.text.isBlank())
+            if ((supportText is UiText.StringText && supportText.text.isBlank() )
+                ||(supportText is UiText.StringResourceText && stringResource(supportText.text).isBlank())
+                ||(supportText is UiText.AnnotatedStringText && supportText.text.isBlank())
                 ) return
-            CustomText(Modifier.padding(top = AppDimens.Padding.padding8),
-                text= supportText,
-                textStyle = supportTextStyle
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = AppDimens.Padding.padding4),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+            ){
+                Image(painter = painterResource(Res.drawable.ic_info), colorFilter = ColorFilter.tint(supportTextStyle.color) ,contentDescription = ExtConstants.StringConstants.EMPTY)
+                CustomText(Modifier.padding(start = AppDimens.Padding.padding4),
+                    text= supportText,
+                    textStyle = supportTextStyle,
+                    textAlign = supportTextStyle.textAlign
+                )
+            }
         }
     }
 }

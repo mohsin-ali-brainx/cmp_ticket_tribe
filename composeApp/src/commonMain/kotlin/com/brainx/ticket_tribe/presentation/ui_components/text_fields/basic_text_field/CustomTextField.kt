@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -54,6 +55,7 @@ private fun CustomBasicTextField(
     singleLine:Boolean=true,
     minLines:Int?=null,
     maxLines:Int?=null,
+    readOnly: Boolean = false,
     enabled:Boolean=true,
     hintTextAlignment: Alignment = Alignment.Center,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -99,6 +101,7 @@ private fun CustomBasicTextField(
         value = textFieldValue,
         cursorBrush = SolidColor(cursorBrush),
         enabled = enabled,
+        readOnly = readOnly,
         onValueChange = { newTextFieldValueState ->
             if (maxLength!=null && newTextFieldValueState.text.length>maxLength) return@BasicTextField
             textFieldValueState = newTextFieldValueState
@@ -156,6 +159,9 @@ fun CustomTextField(
     hintTextStyle: TextStyle = editTextStyle(
         textColor = hintTextColor ?: Color.Gray
     ),
+    readOnly: Boolean = false,
+    enabled:Boolean=true,
+    canFocusField: Boolean=true,
     maxLength:Int?=null,
     singleLine:Boolean=true,
     minLines:Int?=null,
@@ -209,9 +215,9 @@ fun CustomTextField(
         .then(
             when {
                 hasBorder && containerShape != null && borderBrush != null ->
-                    Modifier.border(BorderStroke(borderWidth!!, borderBrush), containerShape)
+                    Modifier.border(BorderStroke(borderWidth, borderBrush), containerShape)
                 hasBorder && containerShape != null && borderColor != null ->
-                    Modifier.border(borderWidth!!, borderColor, containerShape)
+                    Modifier.border(borderWidth, borderColor, containerShape)
                 else -> Modifier
             }
         )
@@ -256,6 +262,8 @@ fun CustomTextField(
                     placeHolderText = placeHolderText,
                     hintTextColor = hintTextColor,
                     maxLength = maxLength,
+                    readOnly = readOnly,
+                    enabled = enabled,
                     keyboardType = keyboardType,
                     singleLine = singleLine,
                     minLines = minLines,

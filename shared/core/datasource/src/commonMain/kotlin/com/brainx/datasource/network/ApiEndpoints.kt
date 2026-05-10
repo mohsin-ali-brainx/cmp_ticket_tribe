@@ -3,8 +3,8 @@ package com.brainx.datasource.network
 internal object ApiEndpoints {
 
     private object BaseUrl {
-        const val SERVER_URL = "https://api.themoviedb.org"
-        const val BASE_URL = "$SERVER_URL/3"
+        const val SERVER_URL = "https://ticket-tribe-prod.brainxdemo.com"
+        const val BASE_URL = "$SERVER_URL/api/v1/"
 
     }
 
@@ -21,11 +21,5 @@ internal object ApiEndpoints {
 
     }
 
-    internal object Videos {
-        const val SearchMulti = "${BaseUrl.BASE_URL}/search/multi"
-        const val MovieVideo = "${BaseUrl.BASE_URL}/movie"
-        const val TvVideo = "${BaseUrl.BASE_URL}/tv"
-        const val Videos = "videos"
-    }
 
 }

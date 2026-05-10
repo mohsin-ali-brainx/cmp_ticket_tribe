@@ -11,26 +11,26 @@ sealed interface AppRoutes {
 
 sealed interface SplashRoutes {
     @Serializable
-    data object Splash: SplashRoutes
+    data object Splash: AppRoutes
     @Serializable
-    data object Onboarding: SplashRoutes
+    data object Onboarding: AppRoutes
 }
 
 sealed interface AuthRoutes {
     @Serializable
-    data object Login: AuthRoutes
+    data object Login: AppRoutes
     @Serializable
-    data object SignUp: AuthRoutes
+    data object SignUp: AppRoutes
     @Serializable
-    data object ForgotPassword: AuthRoutes
+    data object ForgotPassword: AppRoutes
     @Serializable
-    data object ResetPassword: AuthRoutes
+    data object ResetPassword: AppRoutes
     @Serializable
-    data object SetPassword: AuthRoutes
+    data object SetPassword: AppRoutes
     @Serializable
-    data object ProfileSetup: AuthRoutes
+    data object ProfileSetup: AppRoutes
     @Serializable
-    data object OTP: AuthRoutes
+    data object OTP: AppRoutes
     @Serializable
-    data object AccountCreated: AuthRoutes
+    data object AccountCreated: AppRoutes
 }

@@ -70,6 +70,7 @@ interface BackgroundColors {
 interface IconColors {
     val greyIconColor: Color
     val greyIconColor2: Color
+    val blackIconColor:Color
 }
 
 @Immutable

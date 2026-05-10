@@ -2,6 +2,8 @@ package com.brainx.utils_extensions.extensions
 
 import com.brainx.utils_extensions.constants.ExtConstants
 
+fun String?.orEmpty(defaultValue:String=ExtConstants.StringConstants.EMPTY): String = this ?: defaultValue
+
 
 fun String.trimExtraSpaces(): String = replace("\\s+".toRegex(), " ").trim()
 
@@ -70,6 +72,8 @@ fun String.isValidPhoneNumber(
     val pattern = "^\\d{$minLength,$maxLength}\$"
     return Regex(pattern).matches(this)
 }
+
+
 
 /**
  * Simple validation to check if string contains only letters

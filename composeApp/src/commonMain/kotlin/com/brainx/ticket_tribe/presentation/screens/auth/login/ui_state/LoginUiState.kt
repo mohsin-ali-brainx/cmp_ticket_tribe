@@ -1,0 +1,14 @@
+package com.brainx.ticket_tribe.presentation.screens.auth.login.ui_state
+
+import com.brainx.utils_extensions.constants.ExtConstants
+import org.jetbrains.compose.resources.StringResource
+
+
+data class LoginUiState(
+    val emailText:String= "john.doe@example.com",
+    val passwordText:String= "Password123",
+    val isFormButtonValid:Boolean=true,
+    val isEmailValid: Pair<Boolean,StringResource>? = null,
+    val isPasswordValid: Pair<Boolean,StringResource>? = null,
+    val isLoginLoading:Boolean=false
+)

@@ -18,16 +18,16 @@ import com.brainx.ticket_tribe.presentation.theme.appPrimaryFontFamily
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-sealed interface CustomTextToDisplay{
-    data class StringResourceText(val text: StringResource):CustomTextToDisplay
-    data class StringText(val text:String):CustomTextToDisplay
-    data class AnnotatedStringText(val text: AnnotatedString):CustomTextToDisplay
+sealed interface UiText{
+    data class StringResourceText(val text: StringResource):UiText
+    data class StringText(val text:String):UiText
+    data class AnnotatedStringText(val text: AnnotatedString):UiText
 }
 
 @Composable
 fun CustomText(
     modifier: Modifier,
-    text: CustomTextToDisplay,
+    text: UiText,
     fontSize: TextUnit = AppDimens.Fonts.font16,
     textAlign: TextAlign = TextAlign.Center,
     color: Color = Color.Black,
@@ -50,7 +50,7 @@ fun CustomText(
     )
     val defaultStyle = textStyle ?: if (brush != null) baseStyle.copy(brush = brush) else baseStyle
     when(text){
-        is CustomTextToDisplay.StringResourceText->{
+        is UiText.StringResourceText->{
             Text(
                 modifier =modifier,
                 text =  stringResource(text.text),
@@ -62,7 +62,7 @@ fun CustomText(
                 textDecoration = textDecoration,
             )
         }
-        is CustomTextToDisplay.AnnotatedStringText->{
+        is UiText.AnnotatedStringText->{
             Text(
                 modifier =modifier,
                 text =  text.text,
@@ -74,7 +74,7 @@ fun CustomText(
                 textDecoration = textDecoration
             )
         }
-        is CustomTextToDisplay.StringText->{
+        is UiText.StringText->{
             Text(
                 modifier =modifier,
                 text =  text.text,

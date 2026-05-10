@@ -11,6 +11,8 @@ val datastoreModulesProvider = listOf(
 
     repositoryModule,
 
-    appConfigModule
+    appConfigModule,
+
+    databaseRepositoryModule
 
 ) + provideRoomDatabaseModule + ktorModuleProvider + datastoreModuleProvider

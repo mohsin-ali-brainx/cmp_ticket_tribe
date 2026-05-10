@@ -15,11 +15,11 @@ import com.brainx.ticket_tribe.presentation.theme.colors.EditTextColors
 @Composable
 fun editTextStyle(
     fontSize: TextUnit = AppDimens.Fonts.font16,
-    textColor: Color = LocalAppTheme.current.editText.tertiaryWhiteTextColor,
+    textColor: Color = LocalAppTheme.current.editText.primaryBlackTextColor,
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
     textColor,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign)
@@ -55,7 +55,7 @@ fun defaultEditTextLabelStyle(
     textColor: Color = LocalAppTheme.current.editText.primaryBlackTextColor,
     textAlign: TextAlign = TextAlign.Start
 )= TextStyle(
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.W100,
     fontSize = fontSize,
     fontFamily = appPrimaryFontFamily(),
     textAlign = textAlign)

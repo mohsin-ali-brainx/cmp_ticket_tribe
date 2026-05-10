@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.lint)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 kotlin {
@@ -56,9 +57,14 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
                 implementation(libs.koin.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.cryptography.core)
+                implementation(libs.cryptography.provider.base)
 
                 api(libs.datastore)
                 api(libs.datastore.preferences)
+
+
             }
         }
 
@@ -88,6 +94,8 @@ kotlin {
 
         iosMain {
             dependencies {
+                implementation(libs.cryptography.provider.cryptokit)
+
                 // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
                 // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
                 // part of KMP’s default source set hierarchy. Note that this source set depends
