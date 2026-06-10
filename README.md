@@ -1,4 +1,4 @@
-# BrainX Movie App (KMP)
+# Ticket Tribe (KMP)
 
 A **Kotlin Multiplatform (KMP)** movie app built with **Compose Multiplatform**, sharing UI and business logic across **Android** and **iOS**. The app uses TMDB-style search and detail flows with a clear layered architecture.
 
